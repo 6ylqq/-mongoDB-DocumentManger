@@ -25,6 +25,7 @@ public class AuditMessage implements Serializable {
 
     /**
      * 审核意见id
+     * 主键
      * */
     private Integer AuditId;
 
