@@ -23,6 +23,7 @@ public class Document {
 
     /**
      * 公文id
+     * 将标题和撰稿人作复合哈希后存入
      * */
     private Integer documentId;
 
@@ -75,7 +76,7 @@ public class Document {
      * 3 公文发布
      * 4 公文删除
      */
-    private Integer articlestate;
+    private Integer articleStatus;
 
     /**
      * 审核信息
