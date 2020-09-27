@@ -4,6 +4,9 @@ import com.ylqq.document.pojo.Function;
 import com.ylqq.document.service.FunctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +21,8 @@ public class FunctionServiceImpl implements FunctionService {
     private MongoTemplate mongoTemplate;
 
     /**
-     * 自增部分放在controller实现。。。想不到怎么做nosql的自增了
+     * 自增部分放在controller实现
+     * 此时默认生成的record的序号是排好序的
      * @param record
      * @return
      */
@@ -39,7 +43,8 @@ public class FunctionServiceImpl implements FunctionService {
      */
     @Override
     public Function selectByPrimaryKey(Integer funid) {
-        return null;
+        Query query=Query.query(Criteria.where("funid").is(funid));
+        return mongoTemplate.findOne(query,Function.class,"function");
     }
 
     /**
@@ -61,17 +66,26 @@ public class FunctionServiceImpl implements FunctionService {
      */
     @Override
     public List<Function> selectByFunname(Function function) {
-        return null;
+        Query query=Query.query(Criteria.where("funname").is(function.getFunName()));
+        return mongoTemplate.find(query,Function.class,"function");
     }
 
     /**
-     * 选择性按主键更新，不更新的字段设空就行
+     * 选择性按主键更新，不更新的字段保持原状就行
      *
      * @param record
      * @return
      */
     @Override
     public int updateByPrimaryKeySelective(Function record) {
-        return 0;
+        Query query=Query.query(Criteria.where("funid").is(record.getFunId()));
+        Update update1=Update.update("funname",record.getFunName());
+        Update update2=Update.update("funstatus",record.getFunStatus());
+        if (mongoTemplate.updateFirst(query,update1,"institution")!=null||
+                mongoTemplate.updateFirst(query,update2,"instution")!=null){
+            return 1;
+        }else {
+            return 0;
+        }
     }
 }

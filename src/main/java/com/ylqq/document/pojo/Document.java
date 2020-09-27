@@ -80,6 +80,8 @@ public class Document {
 
     /**
      * 审核信息
+     * 一个公文可能经过多次驳回和审核
+     * 做一个List来存储审核信息
      */
     private List<AuditMessage> auditMessages;
 
