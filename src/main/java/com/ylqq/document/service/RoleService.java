@@ -25,27 +25,6 @@ public interface RoleService {
     Role selectByPrimaryKey(Integer roleid);
 
     /**
-     * 按主键查询（级联）
-     * @param roleid
-     * @return
-     */
-    Role selectByPrimaryKeyCascade(Integer roleid);
-
-    /**
-     * 非级联模糊查询
-     * @param role
-     * @return
-     */
-    List<Role> selectByKeyword(Role role);
-
-    /**
-     * 级联模糊查询
-     * @param role
-     * @return
-     */
-    List<Role> selectByKeywordCascade(Role role);
-
-    /**
      * 判断是否有相同名称的角色
      * @param roleid
      * @param rolename
