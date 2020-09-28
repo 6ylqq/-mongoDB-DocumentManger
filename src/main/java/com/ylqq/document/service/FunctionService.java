@@ -25,10 +25,10 @@ public interface FunctionService {
 
     /**
      * 模糊查询
-     * @param function
+     * @param roleid
      * @return
      */
-    List<Function> selectByKeyWord(Function function);
+    List<Function> selectByKeyRoleId(int roleid);
 
     /**
      * 按功能名称查询（查重）

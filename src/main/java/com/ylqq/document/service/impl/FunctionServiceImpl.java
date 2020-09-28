@@ -1,6 +1,8 @@
 package com.ylqq.document.service.impl;
 
 import com.ylqq.document.pojo.Function;
+import com.ylqq.document.pojo.Role;
+import com.ylqq.document.pojo.mappingTable.RoleRight;
 import com.ylqq.document.service.FunctionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -48,14 +50,23 @@ public class FunctionServiceImpl implements FunctionService {
     }
 
     /**
-     * 模糊查询
+     * 按照用户id查询功能
      *
-     * @param function
+     * @param roleid
      * @return
      */
     @Override
-    public List<Function> selectByKeyWord(Function function) {
-        return null;
+    public List<Function> selectByKeyRoleId(int roleid) {
+        //不能级联只能一个个来查，变相级联
+        Query query=Query.query(Criteria.where("roleid").is(roleid));
+        List<RoleRight> roleRights=mongoTemplate.find(query, RoleRight.class,"roleright");
+        List<Function> functions = null;
+        for (RoleRight roleRight : roleRights) {
+            Query query1=Query.query(Criteria.where("funid").is(roleRight.getFun_id()));
+            assert false;
+            functions.add(mongoTemplate.findOne(query1,Function.class,"function"));
+        }
+        return functions;
     }
 
     /**
