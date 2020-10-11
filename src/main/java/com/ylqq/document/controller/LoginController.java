@@ -4,9 +4,11 @@ import com.ylqq.document.pojo.Function;
 import com.ylqq.document.pojo.Role;
 import com.ylqq.document.pojo.User;
 import com.ylqq.document.service.DocumentService;
+import com.ylqq.document.service.FunctionService;
 import com.ylqq.document.service.RoleService;
 import com.ylqq.document.service.UserService;
 import com.ylqq.document.service.impl.DocumentServiceImpl;
+import com.ylqq.document.service.impl.FunctionServiceImpl;
 import com.ylqq.document.service.impl.RoleServiceImpl;
 import com.ylqq.document.service.impl.UserServiceImpl;
 import com.ylqq.document.util.MD5Util;
@@ -43,6 +45,11 @@ public class LoginController {
     @Autowired
     private DocumentServiceImpl documentService;
 
+    /**
+     * 功能service
+     * */
+    @Autowired
+    private FunctionServiceImpl functionService;
     /**
      * 用户注销
      * @param session
@@ -111,10 +118,10 @@ public class LoginController {
         User user = (User) session.getAttribute("user");
 
         //2.通过用户信息找到用户的角色信息
-        Role role = user.getRole();
+        Role role = roleService.selectByPrimaryKey(user.getRoleId());
 
         //3.通过角色信息查出角色下面的功能
-        List<Function> functions = roleService.selectByPrimaryKey(role.getRoleId()).getFunctionList();
+        List<Function> functions = functionService.selectByKeyRoleId(role.getRoleId());
         map.put("functionList", functions);
 
         return "index";

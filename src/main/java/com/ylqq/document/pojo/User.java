@@ -31,6 +31,5 @@ public class User implements Serializable {
     private String email;
     private Integer instId;
     private Integer roleId;
-    private Role role;
     private Integer userStatus;
 }
