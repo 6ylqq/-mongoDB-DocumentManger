@@ -21,4 +21,5 @@ public class Role implements Serializable {
     private Integer roleId;
     private String roleName;
     private String roleDescription;
+    private List<Function> functions;
 }

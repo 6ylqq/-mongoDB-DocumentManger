@@ -3,10 +3,7 @@ package com.ylqq.document.controller;
 import com.ylqq.document.pojo.Function;
 import com.ylqq.document.pojo.Role;
 import com.ylqq.document.pojo.User;
-import com.ylqq.document.service.DocumentService;
-import com.ylqq.document.service.FunctionService;
-import com.ylqq.document.service.RoleService;
-import com.ylqq.document.service.UserService;
+import com.ylqq.document.service.*;
 import com.ylqq.document.service.impl.DocumentServiceImpl;
 import com.ylqq.document.service.impl.FunctionServiceImpl;
 import com.ylqq.document.service.impl.RoleServiceImpl;
@@ -50,6 +47,7 @@ public class LoginController {
      * */
     @Autowired
     private FunctionServiceImpl functionService;
+
     /**
      * 用户注销
      * @param session
@@ -81,7 +79,7 @@ public class LoginController {
     @RequestMapping("/login")
     public String userLogin(Map<String, Object> map, HttpSession session,
                             String loginname, String password, String code){
-        //1.首先检查登录名、密码和验证码用户是否都填写了，如果有一样没填写就直接打回去
+        //1.首先检查登录名、密码和验证码用户是否都填写了，如果有一样没填写就直接打回
 
         if (!StringUtils.hasText(loginname) || !StringUtils.hasText(password)
                 || !StringUtils.hasText(code)) {

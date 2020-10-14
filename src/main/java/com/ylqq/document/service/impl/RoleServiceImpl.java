@@ -3,7 +3,6 @@ package com.ylqq.document.service.impl;
 
 import com.mongodb.client.*;
 import com.ylqq.document.pojo.Role;
-import com.ylqq.document.pojo.mappingTable.RoleRight;
 import com.ylqq.document.service.RoleService;
 import org.bson.Document;
 import com.mongodb.client.model.Filters;
@@ -122,32 +121,6 @@ public class RoleServiceImpl implements RoleService {
             return 0;
         }
 
-    }
-
-    /**
-     * 为某个角色设置权限
-     * 注意要做重复排查，保证roleright的文档唯一性
-     *
-     * @param roleid 角色id
-     * @param funid  功能id
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public int insertNewRoleRightInfo(Integer roleid, Integer funid) {
-        RoleRight roleRight=new RoleRight(roleid,funid);
-        Query query=Query.query(Criteria.where("roleid").is(roleid).and("funid").is(funid));
-        try {
-            if (mongoTemplate.findOne(query,RoleRight.class,"roleright")!=null){
-                throw new Exception();
-            }else {
-                mongoTemplate.insert(roleRight, "roleright");
-                return 1;
-            }
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return 0;
-        }
     }
 
     /**

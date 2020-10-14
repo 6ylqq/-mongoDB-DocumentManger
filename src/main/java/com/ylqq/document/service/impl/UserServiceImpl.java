@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private MongoTemplate mongoTemplate;
 
     /**
-     * 检查用户名是否重复
+     * 检查登录名和用户id是否重复
      *
      * @param userid    用户id
      * @param loginName 登录名

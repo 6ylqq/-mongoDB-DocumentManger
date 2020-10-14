@@ -46,12 +46,4 @@ public interface RoleService {
      */
     int deleteOldRoleRights(Integer roleid);
 
-    /**
-     * 为某个角色设置权限
-     * @param roleid 角色id
-     * @param funid 功能id
-     * @return
-     */
-    int insertNewRoleRightInfo(@Param("roleid") Integer roleid, @Param("funid") Integer funid);
-
 }
