@@ -23,6 +23,7 @@ import java.util.Map;
  * @author ylqq
  */
 @RestController
+@RequestMapping("/login")
 public class LoginController {
     /**
      * 用户业务
@@ -73,19 +74,17 @@ public class LoginController {
      * @param session 存取用户信息
      * @param loginname 提交的登录名
      * @param password 提交的密码
-     * @param code 提交的验证码
      * @return
      * */
     @RequestMapping("/login")
     public String userLogin(Map<String, Object> map, HttpSession session,
-                            String loginname, String password, String code){
+                            String loginname, String password){
         //1.首先检查登录名、密码和验证码用户是否都填写了，如果有一样没填写就直接打回
 
-        if (!StringUtils.hasText(loginname) || !StringUtils.hasText(password)
-                || !StringUtils.hasText(code)) {
+        if (!StringUtils.hasText(loginname) || !StringUtils.hasText(password)) {
 
             //1.1 告诉用户登陆失败，这三个字段都是必填项
-            map.put("msg", "登录名、密码和验证码都是必填项！");
+            map.put("msg", "登录名、密码都是必填项！");
             map.put("result", false);
 
             //1.2 直接跳回登录界面
@@ -102,11 +101,11 @@ public class LoginController {
         //检查能不能找到
         if (user!=null){
             session.setAttribute("user",user);
-            return "forward:/toIndex";
+            return "forward:/index.html";
         }else {
             map.put("mas","登录名或密码错误！");
             map.put("resulet",false);
-            return "forward:/login.jsp";
+            return "forward:/login.html";
         }
     }
 

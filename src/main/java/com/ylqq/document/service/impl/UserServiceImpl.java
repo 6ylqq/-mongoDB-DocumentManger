@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -47,18 +48,6 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 按条件模糊查询
-     *
-     * @param user
-     * @return
-     */
-    @Override
-    public List<User> selectByKeyWord(User user) {
-
-        return null;
-    }
-
-    /**
      * 按主键查找
      *
      * @param userid
@@ -71,29 +60,46 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * 动态插入记录
+     * 插入记录
      *
      * @param record
      * @return
      */
     @Override
     public int insertSelective(User record) {
-        if ((mongoTemplate.insert(record,"user")==null) ) {
-            return 0;
-        }else {
-            return 1;
-        }
+        mongoTemplate.insert(record, "user");
+        return 1;
     }
 
     /**
-     * 动态更新记录
+     * 修改密码
      *
-     * @param record
-     * @return 受影响行数
+     * @param update 修改的函数
+     * @return
      */
     @Override
-    public int updateByPrimaryKeySelective(User record) {
+    public boolean updatePassword(Update update,Query query) {
+        mongoTemplate.updateFirst(query, update, "user");
+        return true;
+    }
 
-        return 0;
+    /**
+     * 更新用户资料，除密码外的
+     *
+     * @param user 新的用户数据
+     * @return 修改结果
+     */
+    @Override
+    public boolean updateById(User user) {
+        //机构id和角色id不能用户自己修改
+        Update update=new Update()
+                .set("username",user.getUserName())
+                .set("job",user.getJob())
+                .set("phone",user.getPhone())
+                .set("email",user.getEmail())
+                .set("userStatus",user.getUserStatus());
+        Query query=Query.query(Criteria.where("userid").is(user.getUserid()));
+        mongoTemplate.updateFirst(query,update,"user");
+        return true;
     }
 }

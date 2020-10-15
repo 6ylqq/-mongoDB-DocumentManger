@@ -3,8 +3,16 @@ package com.ylqq.document.controller;
 import com.ylqq.document.pojo.User;
 import com.ylqq.document.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author ylqq
@@ -45,8 +53,12 @@ public class UserController {
     @RequestMapping("/addUser")
     public String addUser(User user){
         try {
-            userRepository.insert(user);
-            return "forward:/login.html";
+            if (!userRepository.existsById(user.getUserid())&&!userRepository.findByLoginName(user.getLoginName())){
+                userRepository.insert(user);
+                return "forward:/login.html";
+            }else {
+                return "用户id或者loginName已存在！";
+            }
         } catch (Exception exception) {
             exception.printStackTrace();
             return "forward:/addUser.html";
@@ -59,7 +71,7 @@ public class UserController {
     @RequestMapping("/modifyUser")
     public String modifyUser(User user){
         try {
-            userService.updateByPrimaryKeySelective(user);
+            userService.updateById(user);
             return "/home.html";
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -68,12 +80,21 @@ public class UserController {
     }
 
     /**
-     * 修改秘密
+     * 修改密码
      * */
     @RequestMapping("/modifyPassword")
-    public String modifyPasw(){
-        return null;
+    public String modifyPassword(Map<String, Object> map, HttpSession session,String newPassword,String oldPassword){
+        User sessionUser=(User) session.getAttribute("user");
+        //从数据库中取出用户信息,注意，取出来的密码是加密后的
+        Optional<User> user=userRepository.findById(sessionUser.getUserid());
+        String md5pass= DigestUtils.md5DigestAsHex(oldPassword.getBytes());
+        //如果两者加密后相等，即输入的密码正确
+        if (md5pass.equals(user.get().getUserid())){
+            Update update=new Update().set("password",DigestUtils.md5DigestAsHex(newPassword.getBytes()));
+            Query query=Query.query(Criteria.where("userid").is(user.get().getUserid()));
+            userService.updatePassword(update,query);
+        }
+        return "redirect:/home.html";
     }
-
 
 }

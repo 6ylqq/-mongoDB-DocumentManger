@@ -3,6 +3,8 @@ package com.ylqq.document.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ylqq.document.pojo.User;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.List;
 
@@ -12,7 +14,8 @@ import java.util.List;
 public interface UserService {
     /**
      * 检查用户名是否重复
-     * @param userid 用户id
+     *
+     * @param userid    用户id
      * @param loginName 登录名
      * @return
      */
@@ -21,22 +24,18 @@ public interface UserService {
 
     /**
      * 登录检查
+     *
      * @param loginName 登录名
-     * @param password 密码
+     * @param password  密码
      * @return 符合用户名密码组合的用户记录
      */
     User loginValidate(@Param("loginName") String loginName,
                        @Param("password") String password);
 
-    /**
-     * 按条件模糊查询
-     * @param user
-     * @return
-     */
-    List<User> selectByKeyWord(User user);
 
     /**
      * 按主键查找
+     *
      * @param userid
      * @return
      */
@@ -44,16 +43,26 @@ public interface UserService {
 
     /**
      * 动态插入记录
+     *
      * @param record
      * @return
      */
     int insertSelective(User record);
 
     /**
-     * 动态更新记录
-     * @param record
-     * @return 受影响行数
+     * 修改密码
+     *
+     * @param update 修改的函数
+     * @return 修改结果
      */
-    int updateByPrimaryKeySelective(User record);
+    boolean updatePassword(Update update, Query query);
+
+    /**
+     * 更新用户资料，除密码外的
+     *
+     * @param user 新的用户数据
+     * @return 修改结果
+     */
+    boolean updateById(User user);
 
 }
