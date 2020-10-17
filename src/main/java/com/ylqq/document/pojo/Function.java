@@ -18,21 +18,21 @@ import java.io.Serializable;
 public class Function implements Serializable {
     /**
      * 序列化id
-     * */
+     */
     public static final long serialVersionUID = 1L;
 
     /**
      * 功能id
-     * */
+     */
     private Integer funId;
 
     /**
      * 功能名称
-     * */
+     */
     private String funName;
 
     /**
      * 功能状态，0禁用，1可用
-     * */
+     */
     private Integer funStatus;
 }

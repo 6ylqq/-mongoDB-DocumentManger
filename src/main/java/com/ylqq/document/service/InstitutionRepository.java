@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 /**
  * @author ylqq
  */
-public interface InstitutionRepository extends MongoRepository<Institution,Integer> {
+public interface InstitutionRepository extends MongoRepository<Institution, Integer> {
 }

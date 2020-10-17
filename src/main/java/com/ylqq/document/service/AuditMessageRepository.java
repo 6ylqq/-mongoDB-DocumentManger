@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 /**
  * @author ylqq
  */
-public interface AuditMessageRepository extends MongoRepository<AuditMessage,Integer> {
+public interface AuditMessageRepository extends MongoRepository<AuditMessage, Integer> {
 }

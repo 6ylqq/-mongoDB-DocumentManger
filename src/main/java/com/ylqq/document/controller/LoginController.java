@@ -3,12 +3,10 @@ package com.ylqq.document.controller;
 import com.ylqq.document.pojo.Function;
 import com.ylqq.document.pojo.Role;
 import com.ylqq.document.pojo.User;
-import com.ylqq.document.service.*;
 import com.ylqq.document.service.impl.DocumentServiceImpl;
 import com.ylqq.document.service.impl.FunctionServiceImpl;
 import com.ylqq.document.service.impl.RoleServiceImpl;
 import com.ylqq.document.service.impl.UserServiceImpl;
-import com.ylqq.document.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
@@ -45,12 +43,13 @@ public class LoginController {
 
     /**
      * 功能service
-     * */
+     */
     @Autowired
     private FunctionServiceImpl functionService;
 
     /**
      * 用户注销
+     *
      * @param session
      * @return
      */
@@ -70,15 +69,16 @@ public class LoginController {
 
     /**
      * 用户登陆
-     * @param map 保存结果集
-     * @param session 存取用户信息
+     *
+     * @param map       保存结果集
+     * @param session   存取用户信息
      * @param loginname 提交的登录名
-     * @param password 提交的密码
+     * @param password  提交的密码
      * @return
-     * */
+     */
     @RequestMapping("/login")
     public String userLogin(Map<String, Object> map, HttpSession session,
-                            String loginname, String password){
+                            String loginname, String password) {
         //1.首先检查登录名、密码和验证码用户是否都填写了，如果有一样没填写就直接打回
 
         if (!StringUtils.hasText(loginname) || !StringUtils.hasText(password)) {
@@ -95,22 +95,22 @@ public class LoginController {
 
         //去数据库查询用户名和密码
         //先来加密一下
-        String md5pass= DigestUtils.md5DigestAsHex(password.getBytes());
-        User user=userService.loginValidate(loginname,md5pass);
+        String md5pass = DigestUtils.md5DigestAsHex(password.getBytes());
+        User user = userService.loginValidate(loginname, md5pass);
 
         //检查能不能找到
-        if (user!=null){
-            session.setAttribute("user",user);
+        if (user != null) {
+            session.setAttribute("user", user);
             return "forward:/index.html";
-        }else {
-            map.put("mas","登录名或密码错误！");
-            map.put("resulet",false);
+        } else {
+            map.put("mas", "登录名或密码错误！");
+            map.put("resulet", false);
             return "forward:/login.html";
         }
     }
 
     @RequestMapping("/toIndex")
-    public String toIndex(Map<String, Object> map, HttpSession session){
+    public String toIndex(Map<String, Object> map, HttpSession session) {
         //1.从Session中加载出用户的信息
         User user = (User) session.getAttribute("user");
 
@@ -125,8 +125,7 @@ public class LoginController {
     }
 
     /**
-     *访问欢迎页
-     *
+     * 访问欢迎页
      */
     @RequestMapping("/toWelcome")
     public String toWelcome(Map<String, Object> map, HttpSession session) {

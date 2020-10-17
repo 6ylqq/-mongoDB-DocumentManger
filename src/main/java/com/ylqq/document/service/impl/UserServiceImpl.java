@@ -2,7 +2,6 @@ package com.ylqq.document.service.impl;
 
 import com.ylqq.document.pojo.User;
 import com.ylqq.document.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -30,8 +29,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> loginNameValidate(Integer userid, String loginName) {
-        Query query=Query.query(Criteria.where("loginName").is(loginName).and("userId").is(userid));
-       return mongoTemplate.find(query,User.class);
+        Query query = Query.query(Criteria.where("loginName").is(loginName).and("userId").is(userid));
+        return mongoTemplate.find(query, User.class);
     }
 
     /**
@@ -43,8 +42,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User loginValidate(String loginName, String password) {
-        Query query=Query.query(Criteria.where("loginName").is(loginName).and("password").is(password));
-        return (User) mongoTemplate.find(query,User.class,"user");
+        Query query = Query.query(Criteria.where("loginName").is(loginName).and("password").is(password));
+        return (User) mongoTemplate.find(query, User.class, "user");
     }
 
     /**
@@ -55,8 +54,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User selectByPrimaryKey(Integer userid) {
-        Query query=Query.query(Criteria.where("userId").is(userid));
-        return mongoTemplate.findOne(query,User.class);
+        Query query = Query.query(Criteria.where("userId").is(userid));
+        return mongoTemplate.findOne(query, User.class);
     }
 
     /**
@@ -78,7 +77,7 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public boolean updatePassword(Update update,Query query) {
+    public boolean updatePassword(Update update, Query query) {
         mongoTemplate.updateFirst(query, update, "user");
         return true;
     }
@@ -92,14 +91,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateById(User user) {
         //机构id和角色id不能用户自己修改
-        Update update=new Update()
-                .set("username",user.getUserName())
-                .set("job",user.getJob())
-                .set("phone",user.getPhone())
-                .set("email",user.getEmail())
-                .set("userStatus",user.getUserStatus());
-        Query query=Query.query(Criteria.where("userid").is(user.getUserid()));
-        mongoTemplate.updateFirst(query,update,"user");
+        Update update = new Update()
+                .set("username", user.getUserName())
+                .set("job", user.getJob())
+                .set("phone", user.getPhone())
+                .set("email", user.getEmail())
+                .set("userStatus", user.getUserStatus());
+        Query query = Query.query(Criteria.where("userid").is(user.getUserid()));
+        mongoTemplate.updateFirst(query, update, "user");
         return true;
     }
 }

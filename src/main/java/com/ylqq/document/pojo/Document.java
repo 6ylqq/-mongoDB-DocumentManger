@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * 公文
+ *
  * @author ylqq
  */
 @Data
@@ -24,7 +25,7 @@ public class Document {
     /**
      * 公文id
      * 将标题和撰稿人作复合哈希后存入
-     * */
+     */
     private Integer documentId;
 
 
@@ -32,6 +33,11 @@ public class Document {
      * 公文标题
      */
     private String title;
+
+    /**
+     * 公文
+     * */
+    private String document;
 
     /**
      * 发布时间
@@ -44,7 +50,7 @@ public class Document {
     private Integer writerId;
 
     /**
-     * 存放查询出来的撰稿人信息（数据库没字段对应）
+     * 存放查询出来的撰稿人信息
      */
     private User copywriter;
 
@@ -54,7 +60,7 @@ public class Document {
     private Integer auditorId;
 
     /**
-     * 存放查询出来的审稿人信息（数据库没字段对应）
+     * 存放查询出来的审稿人信息
      */
     private User auditor;
 
@@ -64,7 +70,7 @@ public class Document {
     private Integer instId;
 
     /**
-     * 存放级联查询出来的发布机构信息（数据库没字段对应）
+     * 存放级联查询出来的发布机构信息
      */
     private Institution institution;
 

@@ -1,6 +1,5 @@
 package com.ylqq.document.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.ylqq.document.pojo.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.mongodb.core.query.Query;

@@ -2,8 +2,6 @@ package com.ylqq.document.controller;
 
 import com.ylqq.document.pojo.Function;
 import com.ylqq.document.pojo.Role;
-import com.ylqq.document.service.FunctionService;
-import com.ylqq.document.service.RoleService;
 import com.ylqq.document.service.impl.FunctionServiceImpl;
 import com.ylqq.document.service.impl.RoleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +34,7 @@ public class RoleController {
 
     /**
      * 更新权限
+     *
      * @param map
      * @param roleid 角色id
      * @param funids 用户选中的权限id
@@ -61,6 +60,7 @@ public class RoleController {
 
     /**
      * 进入权限页面
+     *
      * @return
      */
     @RequestMapping("/toRoleRight")
@@ -79,6 +79,7 @@ public class RoleController {
 
     /**
      * 进入修改页面
+     *
      * @return
      */
     @RequestMapping("/toModify")
@@ -92,6 +93,7 @@ public class RoleController {
 
     /**
      * 进入添加页面
+     *
      * @return
      */
     @RequestMapping("/toAdd")
@@ -101,13 +103,14 @@ public class RoleController {
 
     /**
      * 修改角色
+     *
      * @return
      */
     @RequestMapping("/modifyRole")
     public String modifyRole(Map<String, Object> map, @Valid Role role, BindingResult bindingResult) {
 
         //检查校验是否出错
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             List<ObjectError> list = bindingResult.getAllErrors();
             ObjectError oe = list.get(0);
 
@@ -116,13 +119,13 @@ public class RoleController {
             map.put("msg", oe.getDefaultMessage() + "修改角色[" + role.getRoleName() + "]失败！");
         } else {
             //功能名称查重
-            boolean hasSame = roleService.hasSameRole(role.getRoleId(), role.getRoleName()).size()>0;
+            boolean hasSame = roleService.hasSameRole(role.getRoleId(), role.getRoleName()).size() > 0;
 
             if (hasSame == false) {
                 //功能名称不重复
 
                 //保存功能信息，拿到修改操作的结果
-                boolean result = roleService.updateByPrimaryKeySelective(role)>0;
+                boolean result = roleService.updateByPrimaryKeySelective(role) > 0;
                 map.put("result", result);
 
                 //根据操作结果生成提示信息
@@ -147,13 +150,14 @@ public class RoleController {
 
     /**
      * 添加角色
+     *
      * @return
      */
     @RequestMapping("/addRole")
     public String addRole(Map<String, Object> map, @Valid Role role, BindingResult bindingResult) {
 
         //检查校验是否出错
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             List<ObjectError> list = bindingResult.getAllErrors();
             ObjectError oe = list.get(0);
 
@@ -162,12 +166,12 @@ public class RoleController {
             map.put("msg", oe.getDefaultMessage() + "添加角色[" + role.getRoleName() + "]失败！");
         } else {
             //功能名称查重
-            boolean hasSame = roleService.hasSameRole(null, role.getRoleName()).size()>0;
+            boolean hasSame = roleService.hasSameRole(null, role.getRoleName()).size() > 0;
 
             if (hasSame == false) { //功能名称不重复
 
                 //保存功能信息，拿到添加操作的结果
-                boolean result = roleService.insertSelective(role)>0;
+                boolean result = roleService.insertSelective(role) > 0;
                 map.put("result", result);
 
                 //根据操作结果生成提示信息
@@ -189,6 +193,6 @@ public class RoleController {
 
     }
 
-/*分页函数*/
+    /*分页函数*/
 
 }

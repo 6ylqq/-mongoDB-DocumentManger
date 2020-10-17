@@ -6,5 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 /**
  * @author ylqq
  */
-public interface FunctionRepository extends MongoRepository<Function,Integer> {
+public interface FunctionRepository extends MongoRepository<Function, Integer> {
+    boolean findAllById(Integer funId);
 }

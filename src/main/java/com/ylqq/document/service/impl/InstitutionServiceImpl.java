@@ -20,6 +20,7 @@ public class InstitutionServiceImpl implements InstitutionService {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
     /**
      * 动态插入
      *
@@ -28,9 +29,9 @@ public class InstitutionServiceImpl implements InstitutionService {
      */
     @Override
     public int insertSelective(Institution record) {
-        if (mongoTemplate.insert(record,"institution")==null){
+        if (mongoTemplate.insert(record, "institution") == null) {
             return 0;
-        }else {
+        } else {
             return 1;
         }
     }
@@ -43,8 +44,8 @@ public class InstitutionServiceImpl implements InstitutionService {
      */
     @Override
     public Institution selectByPrimaryKey(Integer instid) {
-        Query query=Query.query(Criteria.where("instid").is(instid));
-        return mongoTemplate.findOne(query,Institution.class,"institution");
+        Query query = Query.query(Criteria.where("instid").is(instid));
+        return mongoTemplate.findOne(query, Institution.class, "institution");
     }
 
     /**
@@ -67,8 +68,8 @@ public class InstitutionServiceImpl implements InstitutionService {
      */
     @Override
     public List<Institution> hasSameInstitution(Integer instid, String instname) {
-        Query query=Query.query(Criteria.where("instid").is(instid).and("instname").is(instname));
-        return mongoTemplate.find(query,Institution.class,"institution");
+        Query query = Query.query(Criteria.where("instid").is(instid).and("instname").is(instname));
+        return mongoTemplate.find(query, Institution.class, "institution");
     }
 
     /**
@@ -78,14 +79,14 @@ public class InstitutionServiceImpl implements InstitutionService {
      */
     @Override
     public List<Institution> selectInstitutionNoUserUnder() {
-        List<User> users=mongoTemplate.findAll(User.class,"user");
-        List<Institution> institutionList=mongoTemplate.findAll(Institution.class,"institution");
+        List<User> users = mongoTemplate.findAll(User.class, "user");
+        List<Institution> institutionList = mongoTemplate.findAll(Institution.class, "institution");
         List<Institution> result = null;
-        for (Institution o:institutionList){
-            for (int i=0;i<users.size()-1;i++){
-                if (users.get(i).getInstId().equals(o.getInstId())){
+        for (Institution o : institutionList) {
+            for (int i = 0; i < users.size() - 1; i++) {
+                if (users.get(i).getInstId().equals(o.getInstId())) {
                     break;
-                }else if (i==users.size()-1){
+                } else if (i == users.size() - 1) {
                     result.add(o);
                 }
             }
@@ -101,13 +102,13 @@ public class InstitutionServiceImpl implements InstitutionService {
      */
     @Override
     public List<Institution> selectInstitutionHasUserUnderAndValid() {
-        List<User> users=mongoTemplate.findAll(User.class,"user");
-        List<Institution> institutionList=mongoTemplate.findAll(Institution.class,"institution");
+        List<User> users = mongoTemplate.findAll(User.class, "user");
+        List<Institution> institutionList = mongoTemplate.findAll(Institution.class, "institution");
         List<Institution> result = null;
-        for (Institution o:institutionList){
-            for (User p:users){
+        for (Institution o : institutionList) {
+            for (User p : users) {
                 /*重复问题?*/
-                if (p.getInstId().equals(o.getInstId())){
+                if (p.getInstId().equals(o.getInstId())) {
                     result.add(o);
                     break;
                 }
@@ -125,15 +126,15 @@ public class InstitutionServiceImpl implements InstitutionService {
      */
     @Override
     public int updateByPrimaryKeySelective(Institution record) {
-        Query query=Query.query(Criteria.where("instid").is(record.getInstId()));
-        Update update1=Update.update("instname",record.getInstName());
-        Update update2=Update.update("instaddress",record.getInstAddress());
-        Update update3=Update.update("inststatus",record.getInstStatus());
-        if (mongoTemplate.updateFirst(query,update1,"institution")!=null||
-                mongoTemplate.updateFirst(query,update2,"instution")!=null||
-                mongoTemplate.updateFirst(query,update3,"instution")!=null){
+        Query query = Query.query(Criteria.where("instid").is(record.getInstId()));
+        Update update1 = Update.update("instname", record.getInstName());
+        Update update2 = Update.update("instaddress", record.getInstAddress());
+        Update update3 = Update.update("inststatus", record.getInstStatus());
+        if (mongoTemplate.updateFirst(query, update1, "institution") != null ||
+                mongoTemplate.updateFirst(query, update2, "instution") != null ||
+                mongoTemplate.updateFirst(query, update3, "instution") != null) {
             return 1;
-        }else {
+        } else {
             return 0;
         }
     }
@@ -146,10 +147,10 @@ public class InstitutionServiceImpl implements InstitutionService {
      */
     @Override
     public long isInstitutionHasUser(Integer instid) {
-        Query query=Query.query(Criteria.where("instid").is(instid));
-        if (mongoTemplate.find(query, User.class,"user")==null){
+        Query query = Query.query(Criteria.where("instid").is(instid));
+        if (mongoTemplate.find(query, User.class, "user") == null) {
             return 0;
-        }else {
+        } else {
             return 1;
         }
 

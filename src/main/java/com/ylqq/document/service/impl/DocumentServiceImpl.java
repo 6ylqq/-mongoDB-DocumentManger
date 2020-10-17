@@ -186,7 +186,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public Long selectMyCountReceiver(Integer userId) {
         List<Document> documents = mongoTemplate.findAll(Document.class, "document");
-        long i=0;
+        long i = 0;
         for (Document p : documents) {
             for (User o : p.getReceivers()) {
                 if (o.getUserid().equals(userId)) {
@@ -206,10 +206,10 @@ public class DocumentServiceImpl implements DocumentService {
      */
     @Override
     public Integer deleteById(Integer documentid) {
-        Query query=Query.query(Criteria.where("documentid").is(documentid));
-        if (mongoTemplate.remove(query,"ducoment")!=null){
+        Query query = Query.query(Criteria.where("documentid").is(documentid));
+        if (mongoTemplate.remove(query, "ducoment") != null) {
             return 1;
-        }else {
+        } else {
             return 0;
         }
     }
@@ -222,10 +222,10 @@ public class DocumentServiceImpl implements DocumentService {
      */
     @Override
     public Long validateTitle(String title) {
-        Query query=Query.query(Criteria.where("title").is(title));
-        if (mongoTemplate.findOne(query,Document.class,"document")==null){
+        Query query = Query.query(Criteria.where("title").is(title));
+        if (mongoTemplate.findOne(query, Document.class, "document") == null) {
             return Long.valueOf(0);
-        }else {
+        } else {
             return Long.valueOf(1);
         }
     }

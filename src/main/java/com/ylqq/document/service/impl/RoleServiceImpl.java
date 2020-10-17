@@ -1,11 +1,14 @@
 package com.ylqq.document.service.impl;
 
 
-import com.mongodb.client.*;
+import com.mongodb.client.ClientSession;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
 import com.ylqq.document.pojo.Role;
 import com.ylqq.document.service.RoleService;
 import org.bson.Document;
-import com.mongodb.client.model.Filters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -59,9 +62,9 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role selectByPrimaryKey(Integer roleid) {
         try {
-            Query query=Query.query(Criteria.where("roleId").is(roleid));
-            return mongoTemplate.findOne(query,Role.class);
-        }catch (Exception exception){
+            Query query = Query.query(Criteria.where("roleId").is(roleid));
+            return mongoTemplate.findOne(query, Role.class);
+        } catch (Exception exception) {
             exception.printStackTrace();
             return null;
         }
@@ -77,9 +80,9 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> hasSameRole(Integer roleid, String rolename) {
         try {
-            Query query=Query.query(Criteria.where("roleid").is(roleid));
-            return mongoTemplate.find(query,Role.class,"role");
-        }catch (Exception exception){
+            Query query = Query.query(Criteria.where("roleid").is(roleid));
+            return mongoTemplate.find(query, Role.class, "role");
+        } catch (Exception exception) {
             exception.printStackTrace();
             return null;
         }
@@ -93,11 +96,11 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public int updateByPrimaryKeySelective(Role record) {
-        Query query=Query.query(Criteria.where("roleid").is(record.getRoleId()));
-        if (mongoTemplate.findAndReplace(query,record,"roleright")==null){
+        Query query = Query.query(Criteria.where("roleid").is(record.getRoleId()));
+        if (mongoTemplate.findAndReplace(query, record, "roleright") == null) {
             //找不到
             return 0;
-        }else {
+        } else {
             //找到了
             return 1;
         }
@@ -113,7 +116,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public int deleteOldRoleRights(Integer roleid) {
         try {
-            Query query=Query.query(Criteria.where("roleid").is(roleid));
+            Query query = Query.query(Criteria.where("roleid").is(roleid));
             mongoTemplate.remove(query, "roleright");
             return 1;
         } catch (Exception exception) {
@@ -125,21 +128,22 @@ public class RoleServiceImpl implements RoleService {
 
     /**
      * 更新权限
+     *
      * @param roleid 角色id
      * @param funids 功能id列表
-     * */
+     */
     @Transactional(rollbackFor = Exception.class)
-    public boolean updateRoleright(Integer roleid,Integer[] funids){
+    public boolean updateRoleright(Integer roleid, Integer[] funids) {
 
         //使用mongoCollection绑定集合
-        MongoCollection<Document> mongoCollection=mongoTemplate.getCollection("roleright");
+        MongoCollection<Document> mongoCollection = mongoTemplate.getCollection("roleright");
 
         //这里注意，List要用Document作为实体对象，然后将数据实体化插入
-        List<Document> roleRights=null;
+        List<Document> roleRights = null;
         for (Integer funid : funids) {
             assert false;
             //注意要作为一个整体存入list中
-            Document document=new Document("roleid",roleid).append("funid",funid);
+            Document document = new Document("roleid", roleid).append("funid", funid);
             roleRights.add(document);
         }
 
@@ -148,18 +152,20 @@ public class RoleServiceImpl implements RoleService {
         try {
             clientSession.startTransaction();
             //删除指定的roleid角色权限
-            mongoCollection.deleteMany(clientSession, Filters.eq("roleid",roleid));
+            mongoCollection.deleteMany(clientSession, Filters.eq("roleid", roleid));
             assert false;
-            mongoCollection.insertMany(clientSession,roleRights);
-        }catch (Exception e){
+            mongoCollection.insertMany(clientSession, roleRights);
+        } catch (Exception e) {
             //回滚
             clientSession.abortTransaction();
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
             return false;
         }
         //提交
         clientSession.commitTransaction();
         return true;
-    };
+    }
+
+    ;
 
 }

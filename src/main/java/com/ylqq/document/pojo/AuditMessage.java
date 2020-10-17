@@ -8,6 +8,7 @@ import java.util.Date;
 
 /**
  * 审核意见
+ *
  * @author ylqq
  */
 @Data
@@ -20,32 +21,32 @@ import java.util.Date;
 public class AuditMessage implements Serializable {
     /**
      * 序列化id
-     * */
+     */
     public static final long serialVersionUID = 1L;
 
     /**
      * 审核意见id
      * 主键
-     * */
+     */
     private Integer AuditId;
 
     /**
      * 公文id
-     * */
+     */
     private Integer documentId;
 
     /**
      * 审核时间
-     * */
+     */
     private Date AuditTime;
 
     /**
      * 审核意见
-     * */
+     */
     private String AuditAdvice;
 
     /**
      * 审核结果
-     * */
+     */
     private Integer AuditResult;
 }

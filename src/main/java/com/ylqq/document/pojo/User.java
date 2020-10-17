@@ -18,7 +18,7 @@ import java.io.Serializable;
 public class User implements Serializable {
     /**
      * 序列化id
-     * */
+     */
     public static final long serialVersionUID = 1L;
 
     private Integer userid;

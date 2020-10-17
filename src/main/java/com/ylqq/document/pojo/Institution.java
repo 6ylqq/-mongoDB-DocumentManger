@@ -23,22 +23,22 @@ public class Institution implements Serializable {
 
     /**
      * 机构id
-     * */
+     */
     private Integer instId;
 
     /**
      * 机构名称
-     * */
+     */
     private String instName;
 
     /**
      * 机构地址
-     * */
+     */
     private String instAddress;
 
     /**
      * 机构状态
-     * */
+     */
     private String instStatus;
 
 }

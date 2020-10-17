@@ -49,14 +49,14 @@ public class UserController {
 
     /**
      * 注册新用户
-     * */
+     */
     @RequestMapping("/addUser")
-    public String addUser(User user){
+    public String addUser(User user) {
         try {
-            if (!userRepository.existsById(user.getUserid())&&!userRepository.findByLoginName(user.getLoginName())){
+            if (!userRepository.existsById(user.getUserid()) && !userRepository.findByLoginName(user.getLoginName())) {
                 userRepository.insert(user);
                 return "forward:/login.html";
-            }else {
+            } else {
                 return "用户id或者loginName已存在！";
             }
         } catch (Exception exception) {
@@ -67,9 +67,9 @@ public class UserController {
 
     /**
      * 修改个人资料
-     * */
+     */
     @RequestMapping("/modifyUser")
-    public String modifyUser(User user){
+    public String modifyUser(User user) {
         try {
             userService.updateById(user);
             return "/home.html";
@@ -81,18 +81,18 @@ public class UserController {
 
     /**
      * 修改密码
-     * */
+     */
     @RequestMapping("/modifyPassword")
-    public String modifyPassword(Map<String, Object> map, HttpSession session,String newPassword,String oldPassword){
-        User sessionUser=(User) session.getAttribute("user");
+    public String modifyPassword(Map<String, Object> map, HttpSession session, String newPassword, String oldPassword) {
+        User sessionUser = (User) session.getAttribute("user");
         //从数据库中取出用户信息,注意，取出来的密码是加密后的
-        Optional<User> user=userRepository.findById(sessionUser.getUserid());
-        String md5pass= DigestUtils.md5DigestAsHex(oldPassword.getBytes());
+        Optional<User> user = userRepository.findById(sessionUser.getUserid());
+        String md5pass = DigestUtils.md5DigestAsHex(oldPassword.getBytes());
         //如果两者加密后相等，即输入的密码正确
-        if (md5pass.equals(user.get().getUserid())){
-            Update update=new Update().set("password",DigestUtils.md5DigestAsHex(newPassword.getBytes()));
-            Query query=Query.query(Criteria.where("userid").is(user.get().getUserid()));
-            userService.updatePassword(update,query);
+        if (md5pass.equals(user.get().getUserid())) {
+            Update update = new Update().set("password", DigestUtils.md5DigestAsHex(newPassword.getBytes()));
+            Query query = Query.query(Criteria.where("userid").is(user.get().getUserid()));
+            userService.updatePassword(update, query);
         }
         return "redirect:/home.html";
     }

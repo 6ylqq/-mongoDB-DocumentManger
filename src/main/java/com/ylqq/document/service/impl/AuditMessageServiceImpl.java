@@ -14,6 +14,7 @@ public class AuditMessageServiceImpl implements AuditMessageService {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
     /**
      * 添加一条公文审核记录
      *
@@ -22,9 +23,9 @@ public class AuditMessageServiceImpl implements AuditMessageService {
      */
     @Override
     public int insertSelective(AuditMessage record) {
-        if (mongoTemplate.insert(record,"auditmessgae")!=null){
+        if (mongoTemplate.insert(record, "auditmessgae") != null) {
             return 1;
-        }else {
+        } else {
             return 0;
         }
     }

@@ -1,6 +1,5 @@
 package com.ylqq.document.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.ylqq.document.pojo.Role;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,6 +11,7 @@ import java.util.List;
 public interface RoleService {
     /**
      * 添加角色（选择性）
+     *
      * @param record
      * @return
      */
@@ -19,6 +19,7 @@ public interface RoleService {
 
     /**
      * 按主键查询（不级联）
+     *
      * @param roleid
      * @return
      */
@@ -26,6 +27,7 @@ public interface RoleService {
 
     /**
      * 判断是否有相同名称的角色
+     *
      * @param roleid
      * @param rolename
      * @return
@@ -34,6 +36,7 @@ public interface RoleService {
 
     /**
      * 按主键选择性更新
+     *
      * @param record
      * @return
      */
@@ -41,6 +44,7 @@ public interface RoleService {
 
     /**
      * 删除某个角色的全部权限信息（更新权限设置用）
+     *
      * @param roleid
      * @return
      */

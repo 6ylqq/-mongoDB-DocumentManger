@@ -6,12 +6,12 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 /**
  * @author ylqq
  */
-public interface UserRepository extends MongoRepository<User,Integer> {
+public interface UserRepository extends MongoRepository<User, Integer> {
     /**
      * 通过loginName查用户
      *
      * @param LoginName 登陆名
      * @return
-     * */
+     */
     public Boolean findByLoginName(String LoginName);
 }
