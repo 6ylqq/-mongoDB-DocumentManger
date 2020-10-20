@@ -1,5 +1,6 @@
 package com.ylqq.document.service;
 
+import com.ylqq.document.pojo.Function;
 import com.ylqq.document.pojo.Role;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,6 +10,15 @@ import java.util.List;
  * @author ylqq
  */
 public interface RoleService {
+
+    /**
+     * 更新权限
+     *
+     * @param roleid 角色id
+     * @param functions 功能列表
+     */
+    boolean updateRoleright(Integer roleid, List<Function> functions);
+
     /**
      * 添加角色（选择性）
      *

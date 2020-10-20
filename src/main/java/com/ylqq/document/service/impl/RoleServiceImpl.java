@@ -6,6 +6,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import com.ylqq.document.pojo.Function;
 import com.ylqq.document.pojo.Role;
 import com.ylqq.document.service.RoleService;
 import org.bson.Document;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,15 +26,6 @@ import java.util.List;
  */
 @Service
 public class RoleServiceImpl implements RoleService {
-
-    final static String URI = "mongodb://mongos0.example.com:27017,mongos1.example.com:27017:27017/admin";
-    final MongoClient client = MongoClients.create(URI);
-    /*TransactionOptions txnOptions = TransactionOptions.builder()
-            .readPreference(ReadPreference.primary())
-            .readConcern(ReadConcern.LOCAL)
-            .writeConcern(WriteConcern.MAJORITY)
-            .build();*/
-
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -130,42 +123,13 @@ public class RoleServiceImpl implements RoleService {
      * 更新权限
      *
      * @param roleid 角色id
-     * @param funids 功能id列表
+     * @param functions 功能列表
      */
+    @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean updateRoleright(Integer roleid, Integer[] funids) {
-
-        //使用mongoCollection绑定集合
-        MongoCollection<Document> mongoCollection = mongoTemplate.getCollection("roleright");
-
-        //这里注意，List要用Document作为实体对象，然后将数据实体化插入
-        List<Document> roleRights = null;
-        for (Integer funid : funids) {
-            assert false;
-            //注意要作为一个整体存入list中
-            Document document = new Document("roleid", roleid).append("funid", funid);
-            roleRights.add(document);
-        }
-
-        //使用clientSession开启mongodb的事务管理，进行权限的统一删除，统一增加，以此来达到修改的目的！
-        ClientSession clientSession = client.startSession();
-        try {
-            clientSession.startTransaction();
-            //删除指定的roleid角色权限
-            mongoCollection.deleteMany(clientSession, Filters.eq("roleid", roleid));
-            assert false;
-            mongoCollection.insertMany(clientSession, roleRights);
-        } catch (Exception e) {
-            //回滚
-            clientSession.abortTransaction();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            return false;
-        }
-        //提交
-        clientSession.commitTransaction();
-        return true;
+    public boolean updateRoleright(Integer roleid, List<Function> functions) {
+        Query query=Query.query(Criteria.where("roleid").is(roleid));
+        Update update=new Update().set("functions",functions);
+        return mongoTemplate.findAndModify(query, update, Role.class, "role") != null;
     }
-
-    ;
-
 }
