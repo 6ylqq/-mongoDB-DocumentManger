@@ -2,6 +2,7 @@ package com.ylqq.document.controller;
 
 import com.ylqq.document.pojo.User;
 import com.ylqq.document.service.*;
+import com.ylqq.document.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -24,28 +24,10 @@ public class UserController {
      * 用户Service
      */
     @Autowired
-    private UserService userService;
-
-    /**
-     * 角色Service
-     */
-    @Autowired
-    private RoleService roleService;
-
-    /**
-     * 机构service
-     */
-    @Autowired
-    private InstitutionService institutionService;
+    private UserServiceImpl userService;
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private InstitutionRepository institutionRepository;
 
     /**
      * 注册新用户
@@ -83,16 +65,18 @@ public class UserController {
      * 修改密码
      */
     @RequestMapping("/modifyPassword")
-    public String modifyPassword(Map<String, Object> map, HttpSession session, String newPassword, String oldPassword) {
+    public String modifyPassword(HttpSession session, String newPassword, String oldPassword) {
         User sessionUser = (User) session.getAttribute("user");
         //从数据库中取出用户信息,注意，取出来的密码是加密后的
         Optional<User> user = userRepository.findById(sessionUser.getUserid());
         String md5pass = DigestUtils.md5DigestAsHex(oldPassword.getBytes());
         //如果两者加密后相等，即输入的密码正确
-        if (md5pass.equals(user.get().getUserid())) {
-            Update update = new Update().set("password", DigestUtils.md5DigestAsHex(newPassword.getBytes()));
-            Query query = Query.query(Criteria.where("userid").is(user.get().getUserid()));
-            userService.updatePassword(update, query);
+        if (user.isPresent()) {
+            if (Integer.parseInt(md5pass) == user.get().getUserid()) {
+                Update update = new Update().set("password", DigestUtils.md5DigestAsHex(newPassword.getBytes()));
+                Query query = Query.query(Criteria.where("userid").is(user.get().getUserid()));
+                userService.updatePassword(update, query);
+            }
         }
         return "redirect:/home.html";
     }
