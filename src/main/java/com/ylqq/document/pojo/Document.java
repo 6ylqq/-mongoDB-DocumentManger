@@ -36,7 +36,7 @@ public class Document {
 
     /**
      * 公文
-     * */
+     */
     private String document;
 
     /**

@@ -7,6 +7,7 @@ import com.ylqq.document.service.impl.DocumentServiceImpl;
 import com.ylqq.document.service.impl.FunctionServiceImpl;
 import com.ylqq.document.service.impl.RoleServiceImpl;
 import com.ylqq.document.service.impl.UserServiceImpl;
+import com.ylqq.document.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
@@ -95,6 +96,7 @@ public class LoginController {
 
         //去数据库查询用户名和密码
         //先来加密一下
+        String mad5pass1= MD5Util.getMD5(password);
         String md5pass = DigestUtils.md5DigestAsHex(password.getBytes());
         User user = userService.loginValidate(loginname, md5pass);
 

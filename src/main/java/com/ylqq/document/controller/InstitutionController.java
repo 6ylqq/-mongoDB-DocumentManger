@@ -17,17 +17,17 @@ public class InstitutionController {
     private InstitutionRepository institutionRepository;
 
     @RequestMapping("allInst")
-    public List<Institution> allInst(){
+    public List<Institution> allInst() {
         return institutionRepository.findAll();
     }
 
     @RequestMapping("addInst")
-    public String addInst(Institution institution){
+    public String addInst(Institution institution) {
         //记得查重id
         if (institutionRepository.findById(institution.getInstId()).isEmpty()) {
             institutionRepository.insert(institution);
             return "forward:/institution/institutions";
-        }else {
+        } else {
             return "id重复！";
         }
     }

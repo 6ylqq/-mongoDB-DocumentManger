@@ -17,11 +17,6 @@ import java.io.Serializable;
 @Document(collation = "function")
 public class Function implements Serializable {
     /**
-     * 序列化id
-     */
-    public static final long serialVersionUID = 1L;
-
-    /**
      * 功能id
      */
     private Integer funId;

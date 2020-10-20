@@ -3,29 +3,29 @@
 <head>
     <meta charset="utf-8">
     <title>公文列表</title>
-    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <link href="./layui/css/layui.css" media="all" rel="stylesheet">
 </head>
 <body>
 
 <table id="demo" lay-filter="test"></table>
 
-<script src="/layui/layui.js"></script>
+<script src="./layui/layui.js"></script>
 <script>
-    layui.use('table', function(){
+    layui.use('table', function () {
         var table = layui.table;
         table.render({
             elem: '#demo'
-            ,height: 312
-            ,url: '/allDoc' //数据接口
-            ,page: true //开启分页
-            ,cols: [[ //表头
-                {field: 'documentId', title: '公文编号', width:80, sort: true, fixed: 'left'}
-                ,{field: 'title', title: '公文标题', width:80}
-                ,{field: 'publishTime', title: '发布时间', width:80, sort: true}
-                ,{field: 'copywriter', title: '撰稿人姓名', width:80}
-                ,{field: 'auditor', title: '审稿人姓名', width: 177}
-                ,{field: 'institution', title: '发布机构', width: 80, sort: true}
-                ,{field: 'articleStatus', title: '公文状态', width: 80, sort: true}
+            , height: 312
+            , url: '/allDoc' //数据接口
+            , page: true //开启分页
+            , cols: [[ //表头
+                {field: 'documentId', title: '公文编号', width: 160, sort: true, fixed: 'left'}
+                , {field: 'title', title: '公文标题', width: 160}
+                , {field: 'publishTime', title: '发布时间', width: 160, sort: true}
+                , {field: 'copywriter', title: '撰稿人姓名', width: 160}
+                , {field: 'auditor', title: '审稿人姓名', width: 177}
+                , {field: 'institution', title: '发布机构', width: 160, sort: true}
+                , {field: 'articleStatus', title: '公文状态', width: 160, sort: true}
             ]]
         });
     });
