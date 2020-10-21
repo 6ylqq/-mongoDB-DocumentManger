@@ -1,15 +1,9 @@
 package com.ylqq.document.service.impl;
 
 
-import com.mongodb.client.ClientSession;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.model.Filters;
 import com.ylqq.document.pojo.Function;
 import com.ylqq.document.pojo.Role;
 import com.ylqq.document.service.RoleService;
-import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -126,7 +120,6 @@ public class RoleServiceImpl implements RoleService {
      * @param functions 功能列表
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
     public boolean updateRoleright(Integer roleid, List<Function> functions) {
         Query query=Query.query(Criteria.where("roleid").is(roleid));
         Update update=new Update().set("functions",functions);
