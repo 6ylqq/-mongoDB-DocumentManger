@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
     <title>订单管理系统</title>
-    <link href="layui/css/layui.css" rel="stylesheet">
+    <link href="../static/layui/css/layui.css" rel="stylesheet">
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -14,7 +14,7 @@
 
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;">
+                <a href="javascript:">
                     公文管理系统
                 </a>
             </li>
@@ -27,11 +27,11 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
                 <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">公文管理</a>
+                    <a class="" href="javascript:">公文管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="docList.html" target="container">公文列表</a></dd>
-                        <dd><a href="addArticle.html" target="container">公文添加</a></dd>
-                        <dd><a href="home.html" target="container">个人资料</a></dd>
+                        <dd><a href="/allDoc" target="container">公文列表</a></dd>
+                        <dd><a href="/toAddDoc" target="container">公文添加</a></dd>
+                        <dd><a href="/home" target="container">个人资料</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -40,7 +40,7 @@
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <iframe height="100%" name="container" src="addArticle.html" width="100%"></iframe>
+        <iframe height="100%" name="container" src="doc/addArticle.html" width="100%"></iframe>
     </div>
 
 
@@ -49,8 +49,8 @@
         ylqq yes!
     </div>
 </div>
-<script src="layui/layui.js"></script>
-<script src="./js/jquery-3.5.1.min.js"></script>
+<script src="../static/layui/layui.js"></script>
+<script src="../static/js/jquery-3.5.1.min.js"></script>
 <!--<script src="layui/main.js"></script>-->
 <script>
     // JavaScript代码区域
