@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +18,7 @@ import java.util.Optional;
 /**
  * @author ylqq
  */
-@RestController
-@RequestMapping("/user")
+@Controller
 public class UserController {
     /**
      * 用户Service
@@ -29,6 +29,19 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private HttpSession session;
+
+    @RequestMapping("/home")
+    public String home(){
+        return "user/home";
+    }
+
+    @RequestMapping("/toModifyUser")
+    public String totoModifyUser(){
+        return "/user/toModify";
+    }
+
     /**
      * 注册新用户
      */
@@ -37,13 +50,13 @@ public class UserController {
         try {
             if (!userRepository.existsById(user.getUserid()) && !userRepository.findByLoginName(user.getLoginName())) {
                 userRepository.insert(user);
-                return "forward:/login.html";
+                return "login";
             } else {
                 return "用户id或者loginName已存在！";
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            return "forward:/addUser.html";
+            return "/user/addUser";
         }
     }
 
@@ -54,10 +67,10 @@ public class UserController {
     public String modifyUser(User user) {
         try {
             userService.updateById(user);
-            return "/home.html";
+            return "user/home";
         } catch (Exception exception) {
             exception.printStackTrace();
-            return "/toModify.html";
+            return "user/toModify";
         }
     }
 
@@ -65,7 +78,7 @@ public class UserController {
      * 修改密码
      */
     @RequestMapping("/modifyPassword")
-    public String modifyPassword(HttpSession session, String newPassword, String oldPassword) {
+    public String modifyPassword(String newPassword, @org.jetbrains.annotations.NotNull String oldPassword) {
         User sessionUser = (User) session.getAttribute("user");
         //从数据库中取出用户信息,注意，取出来的密码是加密后的
         Optional<User> user = userRepository.findById(sessionUser.getUserid());
@@ -78,7 +91,6 @@ public class UserController {
                 userService.updatePassword(update, query);
             }
         }
-        return "redirect:/home.html";
+        return "redirect:home";
     }
-
 }

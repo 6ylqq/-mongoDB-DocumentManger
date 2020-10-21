@@ -6,17 +6,19 @@ import com.ylqq.document.service.DocumentRepository;
 import com.ylqq.document.service.InstitutionRepository;
 import com.ylqq.document.service.impl.DocumentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.security.PublicKey;
 import java.util.Date;
 
 /**
  * @author ylqq
  */
-@RestController
+@Controller
 public class DocumentController {
     @Autowired
     private DocumentRepository documentRepository;
@@ -26,6 +28,12 @@ public class DocumentController {
 
     @Autowired
     private DocumentServiceImpl documentService;
+
+    @RequestMapping("toAddDoc")
+    public String toAddDoc(){
+        return "doc/addArticle";
+    }
+
 
     @PostMapping("addDoc")
     public String addDocument(Document document, HttpSession httpSession) {
@@ -49,31 +57,31 @@ public class DocumentController {
              * 记得要在表格中增加接收者*/
 
             documentRepository.insert(document);
-            return "/docList";
+            return "/doc/docList";
         }
     }
 
     @RequestMapping("deleteDoc")
     public String deleteDocument(Integer docId) {
         documentRepository.deleteById(docId);
-        return "forward:/docList";
+        return "/doc/docList";
     }
 
     @RequestMapping("allDoc")
     public String findAllDoc(HttpSession session) {
         session.setAttribute("docs", documentRepository.findAll());
-        return "forward:/docList";
+        return "doc/docList";
     }
 
     @RequestMapping("updateDoc")
     public String updateDoc(Document document) {
         documentService.updateByPrimaryKeySelective(document);
-        return "forward:/docList";
+        return "doc/docList";
     }
 
-    @PostMapping("toUpdateDoc")
+    @RequestMapping("toUpdateDoc")
     public String toUpdateDoc() {
-        return "forward:/docUpdate";
+        return "doc/docUpdate";
     }
 
 }

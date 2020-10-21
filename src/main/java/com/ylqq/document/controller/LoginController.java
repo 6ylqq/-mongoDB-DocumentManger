@@ -7,10 +7,11 @@ import com.ylqq.document.service.impl.DocumentServiceImpl;
 import com.ylqq.document.service.impl.FunctionServiceImpl;
 import com.ylqq.document.service.impl.RoleServiceImpl;
 import com.ylqq.document.service.impl.UserServiceImpl;
-import com.ylqq.document.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,32 +22,31 @@ import java.util.Map;
 /**
  * @author ylqq
  */
-@RestController
-@RequestMapping("/login")
+@Controller
 public class LoginController {
-    /**
-     * 用户业务
-     */
     @Autowired
     private UserServiceImpl userService;
-
-    /**
-     * 角色业务
-     */
     @Autowired
     private RoleServiceImpl roleService;
-
-    /**
-     * 公文Service
-     */
     @Autowired
     private DocumentServiceImpl documentService;
-
-    /**
-     * 功能service
-     */
     @Autowired
     private FunctionServiceImpl functionService;
+
+    @GetMapping("/toLogin")
+    public String toLogin(){
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public String toRegister(){
+        return "register";
+    }
+
+    @GetMapping({"/","/index"})
+    public String index(){
+        return "index";
+    }
 
     /**
      * 用户注销
@@ -64,7 +64,7 @@ public class LoginController {
         session.invalidate();
 
         //返回登录界面
-        return "redirect:/login.jsp";
+        return "redirect:/login.html";
     }
 
 
@@ -73,41 +73,40 @@ public class LoginController {
      *
      * @param map       保存结果集
      * @param session   存取用户信息
-     * @param loginname 提交的登录名
+     * @param loginName 提交的登录名
      * @param password  提交的密码
      * @return
      */
-    @RequestMapping("/login")
+    @RequestMapping("login")
     public String userLogin(Map<String, Object> map, HttpSession session,
-                            String loginname, String password) {
+                            String loginName, String password) {
         //1.首先检查登录名、密码和验证码用户是否都填写了，如果有一样没填写就直接打回
 
-        if (!StringUtils.hasText(loginname) || !StringUtils.hasText(password)) {
+        if (!StringUtils.hasText(loginName) || !StringUtils.hasText(password)) {
 
             //1.1 告诉用户登陆失败，这三个字段都是必填项
             map.put("msg", "登录名、密码都是必填项！");
             map.put("result", false);
 
             //1.2 直接跳回登录界面
-            return "forward:/login.jsp";
+            return "index";
         }
 
         //检查用户输入的账号是否正确
 
         //去数据库查询用户名和密码
         //先来加密一下
-        String mad5pass1= MD5Util.getMD5(password);
         String md5pass = DigestUtils.md5DigestAsHex(password.getBytes());
-        User user = userService.loginValidate(loginname, md5pass);
+        User user = userService.loginValidate(loginName, md5pass);
 
         //检查能不能找到
         if (user != null) {
             session.setAttribute("user", user);
-            return "forward:/index.html";
+            return "index";
         } else {
             map.put("mas", "登录名或密码错误！");
-            map.put("resulet", false);
-            return "forward:/login.html";
+            map.put("result", false);
+            return "login";
         }
     }
 
@@ -161,7 +160,7 @@ public class LoginController {
         map.put("waitcount", waitcount);
 
         //4.返回首页
-        return "home";
+        return "/user/home";
     }
 
 
