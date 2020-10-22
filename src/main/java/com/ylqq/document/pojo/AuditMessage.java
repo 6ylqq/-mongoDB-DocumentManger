@@ -17,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-@Document(collation = "auditMessage")
+@Document("auditMessage")
 public class AuditMessage implements Serializable {
     /**
      * 序列化id

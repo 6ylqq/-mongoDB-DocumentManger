@@ -13,16 +13,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label">登陆名</label>
         <div class="layui-input-inline">
-            <label>
-                <input autocomplete="off" class="layui-input" lay-verify="required" name="loginName" placeholder="请输入"
+                <input autocomplete="off" class="layui-input" lay-verify="loginName" name="loginName" placeholder="请输入登录名"
                        type="text">
-            </label>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">密码</label>
         <div class="layui-input-inline">
-            <input autocomplete="off" class="layui-input" name="password" placeholder="请输入密码" type="password">
+                <input autocomplete="off" class="layui-input" lay-verify="password" name="password" placeholder="请输入密码" type="password" >
         </div>
         <div class="layui-form-mid layui-word-aux">请务必填写用户名</div>
     </div>
@@ -35,11 +33,11 @@
 <script charset="utf-8" src="../static/layui/layui.js"></script>
 <script>
     layui.use('form'), function () {
-        const form = layui.form;
+        let form = layui.form;
         form.verify({
             loginName: function (value) {
                 if (value.length < 5) {
-                    return '用户名要5个字符';
+                    return '用户名至少要5个字符';
                 }
             }
             , password: [

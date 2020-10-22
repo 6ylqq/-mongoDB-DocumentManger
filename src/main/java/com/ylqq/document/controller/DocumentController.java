@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.security.PublicKey;
@@ -36,13 +37,17 @@ public class DocumentController {
 
 
     @PostMapping("addDoc")
-    public String addDocument(Document document, HttpSession httpSession) {
+    public String addDocument(Document document, HttpSession httpSession, ModelAndView modelAndView) {
         //先判断编号是否可用
         if (documentRepository.existsById(document.getDocumentId())) {
             return "编号重复";
         } else {
             //先取到user,表格不能填完所有doc数据
             User user = (User) httpSession.getAttribute("user");
+            if (user==null){
+                modelAndView.addObject("msg","请先登陆系统！");
+                return "/login";
+            }
             document.setPublishTime(new Date());
             document.setWriterId(user.getUserid());
             document.setCopywriter(user);

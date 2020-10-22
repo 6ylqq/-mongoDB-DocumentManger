@@ -48,7 +48,7 @@ public class UserController {
     @RequestMapping("/addUser")
     public String addUser(User user) {
         try {
-            if (!userRepository.existsById(user.getUserid()) && !userRepository.findByLoginName(user.getLoginName())) {
+            if (!userRepository.existsById(user.getUserid()) && userRepository.findByLoginName(user.getLoginName())==null) {
                 userRepository.insert(user);
                 return "login";
             } else {

@@ -13,5 +13,5 @@ public interface UserRepository extends MongoRepository<User, Integer> {
      * @param LoginName 登陆名
      * @return
      */
-    public Boolean findByLoginName(String LoginName);
+    User findByLoginName(String LoginName);
 }

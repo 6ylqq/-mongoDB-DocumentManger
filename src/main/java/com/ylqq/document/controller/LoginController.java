@@ -3,6 +3,7 @@ package com.ylqq.document.controller;
 import com.ylqq.document.pojo.Function;
 import com.ylqq.document.pojo.Role;
 import com.ylqq.document.pojo.User;
+import com.ylqq.document.service.UserRepository;
 import com.ylqq.document.service.impl.DocumentServiceImpl;
 import com.ylqq.document.service.impl.FunctionServiceImpl;
 import com.ylqq.document.service.impl.RoleServiceImpl;
@@ -14,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -26,6 +28,8 @@ import java.util.Map;
 public class LoginController {
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private RoleServiceImpl roleService;
     @Autowired
@@ -71,22 +75,21 @@ public class LoginController {
     /**
      * 用户登陆
      *
-     * @param map       保存结果集
+     * @param modelAndView       保存结果集
      * @param session   存取用户信息
      * @param loginName 提交的登录名
      * @param password  提交的密码
      * @return
      */
     @RequestMapping("login")
-    public String userLogin(Map<String, Object> map, HttpSession session,
-                            String loginName, String password) {
+    public String userLogin(HttpSession session,String loginName, String password, ModelAndView modelAndView) {
         //1.首先检查登录名、密码和验证码用户是否都填写了，如果有一样没填写就直接打回
 
         if (!StringUtils.hasText(loginName) || !StringUtils.hasText(password)) {
 
             //1.1 告诉用户登陆失败，这三个字段都是必填项
-            map.put("msg", "登录名、密码都是必填项！");
-            map.put("result", false);
+            modelAndView.addObject("msg", "登录名、密码都是必填项！");
+            modelAndView.addObject("result", false);
 
             //1.2 直接跳回登录界面
             return "index";
@@ -97,15 +100,15 @@ public class LoginController {
         //去数据库查询用户名和密码
         //先来加密一下
         String md5pass = DigestUtils.md5DigestAsHex(password.getBytes());
-        User user = userService.loginValidate(loginName, md5pass);
+        User user=userRepository.findByLoginName(loginName);
 
         //检查能不能找到
-        if (user != null) {
+        if (user!=null&&user.getPassword().equals(md5pass)) {
             session.setAttribute("user", user);
             return "index";
         } else {
-            map.put("mas", "登录名或密码错误！");
-            map.put("result", false);
+            modelAndView.addObject("mas", "登录名或密码错误！");
+            modelAndView.addObject("result", false);
             return "login";
         }
     }

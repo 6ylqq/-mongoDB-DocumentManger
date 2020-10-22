@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-@Document(collation = "role")
+@Document("role")
 public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer roleId;

@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-@org.springframework.data.mongodb.core.mapping.Document(collation = "document")
+@org.springframework.data.mongodb.core.mapping.Document("document")
 public class Document {
     /**
      * 序列化id

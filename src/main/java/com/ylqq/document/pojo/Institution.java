@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-@Document(collation = "institution")
+@Document("institution")
 public class Institution implements Serializable {
     /**
      * 序列化id

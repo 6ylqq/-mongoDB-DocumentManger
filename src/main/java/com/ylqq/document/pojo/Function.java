@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-@Document(collation = "function")
+@Document("function")
 public class Function implements Serializable {
     /**
      * 功能id
