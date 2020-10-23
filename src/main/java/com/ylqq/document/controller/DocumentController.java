@@ -40,7 +40,8 @@ public class DocumentController {
     public String addDocument(Document document, HttpSession httpSession, ModelAndView modelAndView) {
         //先判断编号是否可用
         if (documentRepository.existsById(document.getDocumentId())) {
-            return "编号重复";
+            modelAndView.addObject("repeat_error","编号重复");
+            return "doc/addArticle";
         } else {
             //先取到user,表格不能填完所有doc数据
             User user = (User) httpSession.getAttribute("user");
@@ -55,14 +56,15 @@ public class DocumentController {
             if (institutionRepository.findById(user.getInstId()).isPresent()) {
                 document.setInstitution(institutionRepository.findById(user.getInstId()).get());
             } else {
-                return "无此机构！";
+                modelAndView.addObject("noInst_error","无此机构！");
+                return "doc/addArticle";
             }
             document.setArticleStatus(0);
             /*
              * 记得要在表格中增加接收者*/
 
             documentRepository.insert(document);
-            return "/doc/docList";
+            return "forward:/allDoc";
         }
     }
 
@@ -73,8 +75,8 @@ public class DocumentController {
     }
 
     @RequestMapping("allDoc")
-    public String findAllDoc(HttpSession session) {
-        session.setAttribute("docs", documentRepository.findAll());
+    public String findAllDoc(ModelAndView modelAndView) {
+        modelAndView.addObject("docs", documentRepository.findAll());
         return "doc/docList";
     }
 

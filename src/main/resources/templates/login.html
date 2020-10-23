@@ -13,8 +13,10 @@
     <div class="layui-form-item">
         <label class="layui-form-label">登陆名</label>
         <div class="layui-input-inline">
+            <label>
                 <input autocomplete="off" class="layui-input" lay-verify="loginName" name="loginName" placeholder="请输入登录名"
                        type="text">
+            </label>
         </div>
     </div>
     <div class="layui-form-item">
@@ -28,6 +30,14 @@
         <div class="layui-input-block">
             <button class="layui-btn" lay-filter="formDemo" lay-submit>登录</button>
         </div>
+    </div>
+    <div class="layui-form-item" style="margin-bottom: 20px;">
+        <input type="checkbox" name="remenber" lay-skin="primary" title="记住密码">
+        <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+            <span>记住密码</span>
+            <i class="layui-icon layui-icon-ok">::before</i>
+        </div>
+
     </div>
 </form>
 <script charset="utf-8" src="../static/layui/layui.js"></script>

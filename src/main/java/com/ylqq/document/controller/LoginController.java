@@ -27,8 +27,6 @@ import java.util.Map;
 @Controller
 public class LoginController {
     @Autowired
-    private UserServiceImpl userService;
-    @Autowired
     private UserRepository userRepository;
     @Autowired
     private RoleServiceImpl roleService;
@@ -68,7 +66,7 @@ public class LoginController {
         session.invalidate();
 
         //返回登录界面
-        return "redirect:/login.html";
+        return "redirect:/toLogin";
     }
 
 
@@ -105,7 +103,7 @@ public class LoginController {
         //检查能不能找到
         if (user!=null&&user.getPassword().equals(md5pass)) {
             session.setAttribute("user", user);
-            return "index";
+            return "redirect:/toWelcome";
         } else {
             modelAndView.addObject("mas", "登录名或密码错误！");
             modelAndView.addObject("result", false);

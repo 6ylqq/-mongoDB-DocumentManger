@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
@@ -46,13 +47,14 @@ public class UserController {
      * 注册新用户
      */
     @RequestMapping("/addUser")
-    public String addUser(User user) {
+    public String addUser(User user, ModelAndView modelAndView) {
         try {
             if (!userRepository.existsById(user.getUserid()) && userRepository.findByLoginName(user.getLoginName())==null) {
                 userRepository.insert(user);
                 return "login";
             } else {
-                return "用户id或者loginName已存在！";
+                modelAndView.addObject("error","用户id或者loginName已存在！");
+                return "/user/addUser";
             }
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -91,6 +93,6 @@ public class UserController {
                 userService.updatePassword(update, query);
             }
         }
-        return "redirect:home";
+        return "redirect:toLogin";
     }
 }
