@@ -89,4 +89,14 @@ public class DocumentController {
         return "docAudit";
     }
 
+    @RequestMapping("docOfMe")
+    public Layui docOfMe(HttpSession session){
+       User user= (User) session.getAttribute("user");
+       if (user==null){
+           return Layui.data("用户未登录或登录信息失效",0,null);
+       }else {
+           return Layui.data("",documentRepository.countByAuditorId(user.getUserid()),documentRepository.findDocumentsByAuditorIdOrderByPublishTime(user.getUserid()));
+       }
+    }
+
 }
