@@ -28,7 +28,7 @@ public class AuditMessage implements Serializable {
      * 审核意见id
      * 主键
      */
-    private Integer AuditId;
+    private Integer auditId;
 
     /**
      * 公文id
@@ -38,15 +38,15 @@ public class AuditMessage implements Serializable {
     /**
      * 审核时间
      */
-    private Date AuditTime;
+    private Date auditTime;
 
     /**
      * 审核意见
      */
-    private String AuditAdvice;
+    private String auditAdvice;
 
     /**
      * 审核结果
      */
-    private Integer AuditResult;
+    private Integer auditResult;
 }
