@@ -86,7 +86,7 @@ public class DocumentController {
 
     @RequestMapping("toUpdateDoc")
     public String toUpdateDoc() {
-        return "doc/docUpdate";
+        return "docAudit";
     }
 
 }

@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
 /**
  * @author ylqq
  */
@@ -21,7 +19,7 @@ public class FunctionController {
 
     @RequestMapping
     public String toAllFunc(){
-        return "sysManager/funcList";
+        return "/main/resources/templates/sysManager/function/funcList.html";
     }
 
     @RequestMapping("allFunc")
@@ -36,7 +34,7 @@ public class FunctionController {
         } else {
             modelAndView.addObject("msg","添加失败");
         }
-        return "sysManager/funcList";
+        return "/main/resources/templates/sysManager/function/funcList.html";
     }
 
     @RequestMapping("removeFunction")
@@ -46,7 +44,7 @@ public class FunctionController {
         } else {
             modelAndView.addObject("error","删除失败");
         }
-        return "sysManager/funcList";
+        return "/main/resources/templates/sysManager/function/funcList.html";
     }
 
 }

@@ -19,7 +19,7 @@ public class InstitutionController {
 
     @RequestMapping("toAllInst")
     public String toAllInst(){
-        return "sysManager/inst";
+        return "instList.html";
     }
 
     @RequestMapping("allInst")

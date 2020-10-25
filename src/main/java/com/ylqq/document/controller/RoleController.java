@@ -9,7 +9,6 @@ import com.ylqq.document.service.impl.RoleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -35,7 +34,7 @@ public class RoleController {
 
     @RequestMapping
     public String toAllRole(){
-        return "sysManager/roleList";
+        return "/main/resources/templates/sysManager/role/roleList.html";
     }
 
     /**
@@ -63,7 +62,7 @@ public class RoleController {
                 map.put("msg", "修改角色[" + role.get().getRoleName() + "]的权限信息失败！");
             }
         }
-        return "sysManager/roleList";
+        return "/main/resources/templates/sysManager/role/roleList.html";
     }
 
     /**
@@ -114,6 +113,6 @@ public class RoleController {
     @RequestMapping("/addRole")
     public String addRole(@Valid Role role) {
         roleRepository.insert(role);
-        return "sysManager/roleList";
+        return "/main/resources/templates/sysManager/role/roleList.html";
     }
 }

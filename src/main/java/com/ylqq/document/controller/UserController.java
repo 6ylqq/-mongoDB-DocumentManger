@@ -10,7 +10,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -40,7 +39,7 @@ public class UserController {
 
     @RequestMapping("/toModifyUser")
     public String totoModifyUser(){
-        return "/user/toModify";
+        return "modifyMyself";
     }
 
     @RequestMapping("/toRegister")
@@ -57,11 +56,11 @@ public class UserController {
                 return "login";
             } else {
                 modelAndView.addObject("error","用户id或者loginName已存在！");
-                return "/user/addUser";
+                return "/main/resources/templates/addUser.html";
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            return "/user/addUser";
+            return "/main/resources/templates/addUser.html";
         }
     }
 
@@ -75,7 +74,7 @@ public class UserController {
             return "user/home";
         } catch (Exception exception) {
             exception.printStackTrace();
-            return "user/toModify";
+            return "modifyMyself";
         }
     }
 
