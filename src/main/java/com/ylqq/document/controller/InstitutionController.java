@@ -2,13 +2,12 @@ package com.ylqq.document.controller;
 
 import com.ylqq.document.pojo.Institution;
 import com.ylqq.document.service.InstitutionRepository;
+import com.ylqq.document.util.Layui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 
 /**
  * @author ylqq
@@ -24,8 +23,8 @@ public class InstitutionController {
     }
 
     @RequestMapping("allInst")
-    public List<Institution> allInst() {
-        return institutionRepository.findAll();
+    public Layui allInst() {
+        return Layui.data("", (int) institutionRepository.count(),institutionRepository.findAll());
     }
 
     @RequestMapping("addInst")

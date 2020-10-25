@@ -43,6 +43,9 @@ public class UserController {
         return "/user/toModify";
     }
 
+    @RequestMapping("/toRegister")
+    public String toRegister(){return "register";}
+
     /**
      * 注册新用户
      */

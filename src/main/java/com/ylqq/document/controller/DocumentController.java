@@ -5,15 +5,14 @@ import com.ylqq.document.pojo.User;
 import com.ylqq.document.service.DocumentRepository;
 import com.ylqq.document.service.InstitutionRepository;
 import com.ylqq.document.service.impl.DocumentServiceImpl;
+import com.ylqq.document.util.Layui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.security.PublicKey;
 import java.util.Date;
 
 /**
@@ -75,9 +74,8 @@ public class DocumentController {
     }
 
     @RequestMapping("allDoc")
-    public String findAllDoc(ModelAndView modelAndView) {
-        modelAndView.addObject("docs", documentRepository.findAll());
-        return "doc/docList";
+    public Layui findAllDoc() {
+        return Layui.data("",(int) documentRepository.count(), documentRepository.findAll());
     }
 
     @RequestMapping("updateDoc")

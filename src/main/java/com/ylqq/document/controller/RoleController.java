@@ -33,6 +33,10 @@ public class RoleController {
     @Autowired
     private FunctionRepository functionRepository;
 
+    @RequestMapping
+    public String toAllRole(){
+        return "sysManager/roleList";
+    }
 
     /**
      * 更新权限
@@ -59,7 +63,7 @@ public class RoleController {
                 map.put("msg", "修改角色[" + role.get().getRoleName() + "]的权限信息失败！");
             }
         }
-        return "forward:/role/roles";
+        return "sysManager/roleList";
     }
 
     /**
@@ -108,8 +112,8 @@ public class RoleController {
      * @return
      */
     @RequestMapping("/addRole")
-    public String addRole(Map<String, Object> map, @Valid Role role) {
+    public String addRole(@Valid Role role) {
         roleRepository.insert(role);
-        return "forward:/role/roles";
+        return "sysManager/roleList";
     }
 }
