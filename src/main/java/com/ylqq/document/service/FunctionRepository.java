@@ -15,4 +15,6 @@ public interface FunctionRepository extends MongoRepository<Function, Integer> {
      * @return 是否存在相同id
      * */
     boolean findAllByFunId(Integer funId);
+
+
 }
