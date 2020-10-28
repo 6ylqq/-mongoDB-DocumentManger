@@ -3,8 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="../../static/layui/css/layui.css" media="all">
 </head>
-<body>
-
+<body class="layui-layout-body">
+    <div class="layui-body">
+        <div class="layui-show">
+            <div class="layui-fluid">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md12">
+                        <div class="layui-card">
+                            <div class="layui-card-header">
+                                设置我的资料
+                            </div>
+                            <div class="layui-card-body">
+                                   <div class="layui-form">
+                                       <div class="layui-form-item">
+                                           <label class="layui-form-label">用户昵称</label>
+                                           <div class="layui-input-inline">
+                                               <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                                           </div>
+                                       </div>
+                                       <div class="layui-form-item">
+                                           <label class="layui-form-label">职称</label>
+                                           <div class="layui-input-inline">
+                                               <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                                           </div>
+                                       </div>
+                                       <div class="layui-form-item">
+                                           <label class="layui-form-label">电话</label>
+                                           <div class="layui-input-inline">
+                                               <input type="text" name="username" lay-verify="required|phone" placeholder="请输入" autocomplete="off" class="layui-input">
+                                           </div>
+                                       </div>
+                                       <div class="layui-form-item">
+                                           <label class="layui-form-label">邮箱</label>
+                                           <div class="layui-input-inline">
+                                               <input type="text" name="username" lay-verify="required|email" placeholder="请输入" autocomplete="off" class="layui-input">
+                                           </div>
+                                       </div>
+                                       <div class="layui-form-item">
+                                           <div class="layui-input-block">
+                                               <button class="layui-btn" lay-submit lay-filter="*">立即提交</button>
+                                               <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                           </div>
+                                       </div>
+                                   </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="../../../static/layui/layui.js" charset="utf-8"></script>
 </html>
