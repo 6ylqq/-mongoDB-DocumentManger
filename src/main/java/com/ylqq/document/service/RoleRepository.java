@@ -4,8 +4,8 @@ import com.ylqq.document.pojo.Function;
 import com.ylqq.document.pojo.Role;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ylqq
@@ -16,5 +16,5 @@ public interface RoleRepository extends MongoRepository<Role, Integer> {
      * @param functions 指定功能
      * @return
      * */
-    List<Role> findByFunctionsContains(List<Function> functions);
+    List<Role> findByFunctionsContains(Optional<Function> functions);
 }
