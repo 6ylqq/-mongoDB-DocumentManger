@@ -29,11 +29,8 @@ public class DocumentServiceImpl implements DocumentService {
      */
     @Override
     public int insertSelective(Document record) {
-        if (mongoTemplate.insert(record, "document") != null) {
-            return 1;
-        } else {
-            return 0;
-        }
+        mongoTemplate.insert(record, "document");
+        return 1;
     }
 
     /**
@@ -55,13 +52,9 @@ public class DocumentServiceImpl implements DocumentService {
                 .set("instid", record.getInstId())
                 .set("instutution", record.getInstitution())
                 .set("documentstatus", record.getArticleStatus())
-                .set("auditmessage", record.getAuditMessages())
                 .set("receivers", record.getReceivers());
-        if (mongoTemplate.updateFirst(query, update, "document") != null) {
-            return 1;
-        } else {
-            return 0;
-        }
+        mongoTemplate.updateFirst(query, update, "document");
+        return 1;
     }
 
     /**
@@ -207,11 +200,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public Integer deleteById(Integer documentid) {
         Query query = Query.query(Criteria.where("documentid").is(documentid));
-        if (mongoTemplate.remove(query, "ducoment") != null) {
-            return 1;
-        } else {
-            return 0;
-        }
+        mongoTemplate.remove(query, "ducoment");
+        return 1;
     }
 
     /**
@@ -224,9 +214,9 @@ public class DocumentServiceImpl implements DocumentService {
     public Long validateTitle(String title) {
         Query query = Query.query(Criteria.where("title").is(title));
         if (mongoTemplate.findOne(query, Document.class, "document") == null) {
-            return Long.valueOf(0);
+            return 0L;
         } else {
-            return Long.valueOf(1);
+            return 1L;
         }
     }
 }

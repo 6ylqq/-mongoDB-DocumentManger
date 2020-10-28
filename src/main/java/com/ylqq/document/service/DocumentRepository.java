@@ -32,4 +32,5 @@ public interface DocumentRepository extends MongoRepository<Document, Integer> {
      * @return 公文数
      * */
     Integer countByAuditorId(Integer auditorId);
+
 }
