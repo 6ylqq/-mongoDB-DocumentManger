@@ -1,7 +1,7 @@
 package com.ylqq.document.controller;
 
+import com.ylqq.document.pojo.AuditMessage;
 import com.ylqq.document.service.AuditMessageRepository;
-import com.ylqq.document.util.Layui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,4 +21,16 @@ public class AuditMessageController {
         model.addAttribute("auditList",auditMessageRepository.findByDocumentIdOrderByAuditTime(docId));
         return "doc/docDetail";
     }
+
+    @RequestMapping("/addAudit/{documentId}")
+    public String addAudit(@PathVariable Integer documentId, Model model, AuditMessage auditMessage){
+        auditMessage.setDocumentId(documentId);
+        if (auditMessageRepository.existsById(auditMessage.getAuditId())){
+            model.addAttribute("msg","审核信息id重复！");
+        }else {
+            auditMessageRepository.insert(auditMessage);
+        }
+        return "doc/docDetail";
+    }
+
 }
