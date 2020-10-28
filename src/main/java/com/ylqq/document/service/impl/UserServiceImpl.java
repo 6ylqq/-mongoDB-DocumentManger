@@ -90,13 +90,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public boolean updateById(User user) {
-        //机构id和角色id不能用户自己修改
+        //一部分属性不能用户自己修改
         Update update = new Update()
                 .set("username", user.getUserName())
                 .set("job", user.getJob())
                 .set("phone", user.getPhone())
-                .set("email", user.getEmail())
-                .set("userStatus", user.getUserStatus());
+                .set("email", user.getEmail());
         Query query = Query.query(Criteria.where("userid").is(user.getUserid()));
         mongoTemplate.updateFirst(query, update, "user");
         return true;

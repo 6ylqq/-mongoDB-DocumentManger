@@ -1,7 +1,9 @@
 package com.ylqq.document.controller;
 
+import com.ylqq.document.pojo.Document;
 import com.ylqq.document.pojo.User;
-import com.ylqq.document.service.*;
+import com.ylqq.document.service.DocumentRepository;
+import com.ylqq.document.service.UserRepository;
 import com.ylqq.document.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -9,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.DigestUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,20 +33,25 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
+    private DocumentRepository documentRepository;
+
+    @Autowired
     private HttpSession session;
 
     @RequestMapping("/home")
-    public String home(){
+    public String home() {
         return "user/home";
     }
 
     @RequestMapping("/toModifyUser")
-    public String totoModifyUser(){
-        return "modifyMyself";
+    public String totoModifyUser() {
+        return "/user/home";
     }
 
     @RequestMapping("/toRegister")
-    public String toRegister(){return "register";}
+    public String toRegister() {
+        return "register";
+    }
 
     /**
      * 注册新用户
@@ -51,30 +59,41 @@ public class UserController {
     @RequestMapping("/addUser")
     public String addUser(User user, ModelAndView modelAndView) {
         try {
-            if (!userRepository.existsById(user.getUserid()) && userRepository.findByLoginName(user.getLoginName())==null) {
+            if (!userRepository.existsById(user.getUserid()) && userRepository.findByLoginName(user.getLoginName()) == null) {
                 userRepository.insert(user);
                 return "login";
             } else {
-                modelAndView.addObject("error","用户id或者loginName已存在！");
-                return "/main/resources/templates/addUser.html";
+                modelAndView.addObject("error", "用户id或者loginName已存在！");
+                return "login";
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            return "/main/resources/templates/addUser.html";
+            return "login";
         }
     }
 
     /**
      * 修改个人资料
      */
-    @RequestMapping("/modifyUser")
-    public String modifyUser(User user) {
+    @RequestMapping("/modifyUser/{userid}")
+    public String modifyUser(User user, @PathVariable Integer userid) {
+        user.setUserid(userid);
         try {
             userService.updateById(user);
+            for (Document document : documentRepository.findAll()) {
+                for (User documentReceiver : document.getReceivers()) {
+                    if (documentReceiver.getUserid().equals(userid)) {
+                        documentReceiver.setEmail(user.getEmail());
+                        documentReceiver.setJob(user.getJob());
+                        documentReceiver.setPhone(user.getPhone());
+                        documentReceiver.setUserName(user.getUserName());
+                    }
+                }
+            }
             return "user/home";
         } catch (Exception exception) {
             exception.printStackTrace();
-            return "modifyMyself";
+            return "/user/home";
         }
     }
 
