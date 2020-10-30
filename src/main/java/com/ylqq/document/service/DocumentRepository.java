@@ -14,7 +14,7 @@ public interface DocumentRepository extends MongoRepository<Document, Integer> {
      *
      * @param writerId 撰稿人id
      * @return 返回公文列表
-     * */
+     */
     List<Document> findDocumentsByWriterIdOrderByPublishTime(Integer writerId);
 
     /**
@@ -22,7 +22,7 @@ public interface DocumentRepository extends MongoRepository<Document, Integer> {
      *
      * @param auditorId 审稿人id
      * @return 返回的公文
-     * */
+     */
     List<Document> findDocumentsByAuditorIdOrderByPublishTime(Integer auditorId);
 
     /**
@@ -30,7 +30,15 @@ public interface DocumentRepository extends MongoRepository<Document, Integer> {
      *
      * @param auditorId 审核人id
      * @return 公文数
-     * */
+     */
     Integer countByAuditorId(Integer auditorId);
+
+    /**
+     * 我写的公文数量
+     *
+     * @param writerId 撰写公文人的id
+     * @return 公文数
+     */
+    Integer countByWriterId(Integer writerId);
 
 }

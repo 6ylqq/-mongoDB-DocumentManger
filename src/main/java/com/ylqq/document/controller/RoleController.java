@@ -18,7 +18,6 @@ import java.util.*;
  * @author ylqq
  */
 @Controller
-@RequestMapping("/role")
 public class RoleController {
     /**
      * 角色Service
@@ -32,7 +31,7 @@ public class RoleController {
     @Autowired
     private FunctionRepository functionRepository;
 
-    @RequestMapping
+    @RequestMapping("/toAllRole")
     public String toAllRole(){
         return "/main/resources/templates/sysManager/role/roleList.html";
     }

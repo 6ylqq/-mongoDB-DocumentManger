@@ -31,7 +31,7 @@ public class FunctionController {
     @Autowired
     private RoleServiceImpl roleService;
 
-    @RequestMapping
+    @RequestMapping("toAllFunc")
     public String toAllFunc(){
         return "/main/resources/templates/sysManager/function/funcList.html";
     }

@@ -8,6 +8,7 @@ import com.ylqq.document.service.impl.DocumentServiceImpl;
 import com.ylqq.document.util.Layui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,6 +21,9 @@ import java.util.Date;
  */
 @Controller
 public class DocumentController {
+    @Autowired
+    private HttpSession session;
+
     @Autowired
     private DocumentRepository documentRepository;
 
@@ -34,6 +38,20 @@ public class DocumentController {
         return "doc/addArticle";
     }
 
+    @RequestMapping("todocReceive")
+    public String todocReceive(){
+        return "doc/docReceive";
+    }
+
+    @RequestMapping("todocAuditOfMe")
+    public String todocOfMe(){
+        return "doc/docAuditOfMe";
+    }
+
+    @RequestMapping("todocWriteByMe")
+    public String todocWriteByMe(){
+        return "doc/docWriteByMe";
+    }
 
     @PostMapping("addDoc")
     public String addDocument(Document document, HttpSession httpSession, ModelAndView modelAndView) {
@@ -70,7 +88,7 @@ public class DocumentController {
     @RequestMapping("deleteDoc")
     public String deleteDocument(Integer docId) {
         documentRepository.deleteById(docId);
-        return "/doc/docList";
+        return "docAuditOfMe";
     }
 
     @RequestMapping("allDoc")
@@ -81,15 +99,15 @@ public class DocumentController {
     @RequestMapping("updateDoc")
     public String updateDoc(Document document) {
         documentService.updateByPrimaryKeySelective(document);
-        return "doc/docList";
+        return "docAuditOfMe";
     }
 
-    @RequestMapping("toUpdateDoc")
-    public String toUpdateDoc() {
-        return "docAudit";
+    @RequestMapping("toUpdateDoc/{docId}")
+    public String toUpdateDoc(@PathVariable Integer docId) {
+        return "/doc/docModify"+docId;
     }
 
-    @RequestMapping("docOfMe")
+    @RequestMapping("docAuditOfMe")
     public Layui docOfMe(HttpSession session){
        User user= (User) session.getAttribute("user");
        if (user==null){
@@ -97,6 +115,26 @@ public class DocumentController {
        }else {
            return Layui.data("",documentRepository.countByAuditorId(user.getUserid()),documentRepository.findDocumentsByAuditorIdOrderByPublishTime(user.getUserid()));
        }
+    }
+
+    @RequestMapping("docWriteByMe")
+    public Layui docWriteByMe(){
+        User user= (User) session.getAttribute("user");
+        if (user==null){
+            return Layui.data("用户未登录或登录信息失效",0,null);
+        }else {
+            return Layui.data("",documentRepository.countByWriterId(user.getUserid()),documentRepository.findDocumentsByWriterIdOrderByPublishTime(user.getUserid()));
+        }
+    }
+
+    @RequestMapping("docReceive")
+    public Layui docReceive(){
+        User user= (User) session.getAttribute("user");
+        if (user==null){
+            return Layui.data("用户未登录或登录信息失效",0,null);
+        }else {
+            return Layui.data("", Math.toIntExact(documentService.selectMyDealCount(user.getUserid())),documentService.selectMyReceiveList(user.getUserid()));
+        }
     }
 
 }

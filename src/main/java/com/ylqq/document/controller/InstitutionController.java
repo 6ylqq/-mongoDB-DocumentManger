@@ -17,9 +17,9 @@ public class InstitutionController {
     @Autowired
     private InstitutionRepository institutionRepository;
 
-    @RequestMapping("toAllInst")
+    @RequestMapping("/toAllInst")
     public String toAllInst(){
-        return "instList.html";
+        return "sysManager/inst/instList";
     }
 
     @RequestMapping("allInst")

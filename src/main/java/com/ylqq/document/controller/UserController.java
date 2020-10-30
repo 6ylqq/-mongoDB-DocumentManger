@@ -5,6 +5,7 @@ import com.ylqq.document.pojo.User;
 import com.ylqq.document.service.DocumentRepository;
 import com.ylqq.document.service.UserRepository;
 import com.ylqq.document.service.impl.UserServiceImpl;
+import com.ylqq.document.util.Layui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -51,6 +52,11 @@ public class UserController {
     @RequestMapping("/toRegister")
     public String toRegister() {
         return "register";
+    }
+
+    @RequestMapping("/toAllUser")
+    public String toAllUser() {
+        return "sysManager/user/userList";
     }
 
     /**
@@ -115,5 +121,15 @@ public class UserController {
             }
         }
         return "redirect:toLogin";
+    }
+
+    @RequestMapping("allUser")
+    public Layui allUser(){
+        User user= (User) session.getAttribute("user");
+        if (user==null){
+            return Layui.data("用户未登录或登录信息失效",0,null);
+        }else {
+            return Layui.data("", Math.toIntExact(userRepository.count()),userRepository.findAll());
+        }
     }
 }
