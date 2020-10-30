@@ -13,16 +13,16 @@
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;">
+                <a href="javascript:">
                     <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
                     贤心
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">基本资料</a></dd>
-                    <dd><a href="">修改资料</a></dd>
+                    <dd><a href="/home">基本资料</a></dd>
+                    <dd><a href="/home">修改资料</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="">退了</a></li>
+            <li class="layui-nav-item"><a href="/logout">退了</a></li>
         </ul>
     </div>
 
@@ -33,23 +33,25 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:">公文管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/allDoc" target="container">我的公文列表</a></dd>
+                        <dd><a href="/todocWriteByMe" target="container">我的公文</a></dd>
                         <dd><a href="/toAddDoc" target="container">公文撰稿</a></dd>
-                        <dd><a href="/home" target="container">公文审核</a></dd>
+                        <dd><a href="/todocAuditOfMe" target="container">我的审核</a></dd>
+                        <dd><a href="/todocReceive" target="container">公文接收</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:">个人资料</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/home" target="container">个人资料</a></dd>
+                        <dd><a href="/home" target="container">个人资料与修改</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:">系统管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/allDoc" target="container">角色管理</a></dd>
-                        <dd><a href="/toAddDoc" target="container">功能管理</a></dd>
-                        <dd><a href="/home" target="container">用户管理</a></dd>
+                        <dd><a href="/toAllRole" target="container">角色管理</a></dd>
+                        <dd><a href="/toAllFunc" target="container">功能管理</a></dd>
+                        <dd><a href="/toAllUser" target="container">用户管理</a></dd>
+                        <dd><a href="/toAllInst" target="container">机构管理</a></dd>
                     </dl>
                 </li>
             </ul>

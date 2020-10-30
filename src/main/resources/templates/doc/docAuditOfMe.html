@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>我的公文列表</title>
+    <title>需要我审核的公文列表</title>
     <link rel="stylesheet" href="../../static/layui/css/layui.css" media="all">
 </head>
 <body>
@@ -22,7 +22,7 @@
         table.render({
             elem: '#demo'
             ,height: 312
-            ,url: 'docOfMe' //数据接口
+            ,url: 'docAuditOfMe' //数据接口
             ,page: true //开启分页
             ,cols: [[ //表头
                 {field: 'documentId', title: '公文编号', width: 160, sort: true, fixed: 'left'}
