@@ -76,6 +76,7 @@ public class DocumentController {
                 modelAndView.addObject("noInst_error","无此机构！");
                 return "doc/addArticle";
             }
+            /*设置公文状态为审核中*/
             document.setArticleStatus(0);
             /*
              * 记得要在表格中增加接收者*/
