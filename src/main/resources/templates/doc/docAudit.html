@@ -17,21 +17,21 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">审核编号</label>
                 <div class="layui-input-block">
-                    <input autocomplete="off" class="layui-input" name="auditId" type="text" value="">
+                    <input autocomplete="off" class="layui-input" name="auditId" type="text" value="" lay-verify="required">
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">审核意见</label>
                 <div class="layui-input-block">
-                    <textarea class="layui-textarea" name="auditAdvice" placeholder="请输入内容"></textarea>
+                    <textarea class="layui-textarea" name="auditAdvice" placeholder="请输入内容" lay-verify="required"></textarea>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">审核结果</label>
-                <div class="layui-input-block">
+                <div class="layui-input-block" lay-verify="required">
                     <select name="auditResult" lay-filter="aihao">
                         <option value="1">审核通过</option>
-                        <option value="2" selected="">审核驳回</option>
+                        <option value="2">审核驳回</option>
                     </select>
                 </div>
             </div>
