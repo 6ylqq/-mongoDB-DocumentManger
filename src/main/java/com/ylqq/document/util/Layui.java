@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * @author ylqq
  */
-public class Layui extends HashMap<String, Object> {
+public class Layui extends HashMap<String, Object>{
     public static Layui data(String msg,Integer count, List<?> data) {
         Layui r = new Layui();
         r.put("code", 0);

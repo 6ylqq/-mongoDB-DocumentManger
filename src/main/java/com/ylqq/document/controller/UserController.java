@@ -11,10 +11,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
@@ -41,7 +41,11 @@ public class UserController {
 
     @RequestMapping("/home")
     public String home() {
-        return "user/home";
+        if (session.getAttribute("user") == null) {
+            return "redirect:toLogin";
+        } else {
+            return "user/home";
+        }
     }
 
     @RequestMapping("/toModifyUser")
@@ -56,20 +60,24 @@ public class UserController {
 
     @RequestMapping("/toAllUser")
     public String toAllUser() {
-        return "sysManager/user/userList";
+        if (session.getAttribute("user") == null) {
+            return "redirect:toLogin";
+        } else {
+            return "sysManager/user/userList";
+        }
     }
 
     /**
      * 注册新用户
      */
     @RequestMapping("/addUser")
-    public String addUser(User user, ModelAndView modelAndView) {
+    public String addUser(User user, Model model) {
         try {
             if (!userRepository.existsById(user.getUserid()) && userRepository.findByLoginName(user.getLoginName()) == null) {
                 userRepository.insert(user);
                 return "login";
             } else {
-                modelAndView.addObject("error", "用户id或者loginName已存在！");
+                model.addAttribute("error", "用户id或者loginName已存在！");
                 return "login";
             }
         } catch (Exception exception) {
@@ -124,12 +132,12 @@ public class UserController {
     }
 
     @RequestMapping("allUser")
-    public Layui allUser(){
-        User user= (User) session.getAttribute("user");
-        if (user==null){
-            return Layui.data("用户未登录或登录信息失效",0,null);
-        }else {
-            return Layui.data("", Math.toIntExact(userRepository.count()),userRepository.findAll());
+    public Layui allUser() {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return Layui.data("用户未登录或登录信息失效", 0, null);
+        } else {
+            return Layui.data("", Math.toIntExact(userRepository.count()), userRepository.findAll());
         }
     }
 }

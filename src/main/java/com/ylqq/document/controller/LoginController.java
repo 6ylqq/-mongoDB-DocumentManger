@@ -7,15 +7,12 @@ import com.ylqq.document.service.UserRepository;
 import com.ylqq.document.service.impl.DocumentServiceImpl;
 import com.ylqq.document.service.impl.FunctionServiceImpl;
 import com.ylqq.document.service.impl.RoleServiceImpl;
-import com.ylqq.document.service.impl.UserServiceImpl;
+import com.ylqq.document.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.DigestUtils;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -35,17 +32,17 @@ public class LoginController {
     @Autowired
     private FunctionServiceImpl functionService;
 
-    @GetMapping("/toLogin")
+    @RequestMapping({"/","/toLogin"})
     public String toLogin(){
         return "login";
     }
 
-    @GetMapping("/register")
+    @RequestMapping("/register")
     public String toRegister(){
         return "register";
     }
 
-    @GetMapping({"/","/index"})
+    @RequestMapping("/index")
     public String index(){
         return "index";
     }
@@ -73,21 +70,21 @@ public class LoginController {
     /**
      * 用户登陆
      *
-     * @param modelAndView       保存结果集
      * @param session   存取用户信息
      * @param loginName 提交的登录名
      * @param password  提交的密码
+     * @param model       保存结果集
      * @return
      */
     @RequestMapping("login")
-    public String userLogin(HttpSession session,String loginName, String password, ModelAndView modelAndView) {
+    public String userLogin(HttpSession session,String loginName, String password, Model model) {
         //1.首先检查登录名、密码和验证码用户是否都填写了，如果有一样没填写就直接打回
 
         if (!StringUtils.hasText(loginName) || !StringUtils.hasText(password)) {
 
             //1.1 告诉用户登陆失败，这三个字段都是必填项
-            modelAndView.addObject("msg", "登录名、密码都是必填项！");
-            modelAndView.addObject("result", false);
+            model.addAttribute("msg", "登录名、密码都是必填项！");
+            model.addAttribute("result", false);
 
             //1.2 直接跳回登录界面
             return "index";
@@ -96,18 +93,16 @@ public class LoginController {
         //检查用户输入的账号是否正确
 
         //去数据库查询用户名和密码
-        //先来加密一下
-        String md5pass = DigestUtils.md5DigestAsHex(password.getBytes());
+        String md5pass=MD5Util.getMD5(password);
         User user=userRepository.findByLoginName(loginName);
-
         //检查能不能找到
         if (user!=null&&user.getPassword().equals(md5pass)) {
             session.setAttribute("user", user);
-            return "redirect:/toWelcome";
+            return "redirect:/toIndex";
         } else {
-            modelAndView.addObject("mas", "登录名或密码错误！");
-            modelAndView.addObject("result", false);
-            return "login";
+            model.addAttribute("mas", "登录名或密码错误！");
+            model.addAttribute("result", false);
+            return "redirect:/toLogin";
         }
     }
 

@@ -12,8 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -21,6 +21,9 @@ import java.util.List;
  */
 @Controller
 public class FunctionController {
+
+    @Autowired
+    private HttpSession session;
 
     @Autowired
     private FunctionRepository functionRepository;
@@ -32,21 +35,25 @@ public class FunctionController {
     private RoleServiceImpl roleService;
 
     @RequestMapping("toAllFunc")
-    public String toAllFunc(){
-        return "/main/resources/templates/sysManager/function/funcList.html";
+    public String toAllFunc() {
+        if (session.getAttribute("user") == null) {
+            return "redirect:toLogin";
+        } else {
+            return "/main/resources/templates/sysManager/function/funcList.html";
+        }
     }
 
     @RequestMapping("allFunc")
     public Layui allFunc() {
-        return Layui.data("", (int) functionRepository.count(),functionRepository.findAll());
+        return Layui.data("", (int) functionRepository.count(), functionRepository.findAll());
     }
 
     @RequestMapping("addFunction")
-    public String addFunction(Function function, ModelAndView modelAndView) {
+    public String addFunction(Function function, Model model) {
         if (!functionRepository.existsById(function.getFunId())) {
             functionRepository.insert(function);
         } else {
-            modelAndView.addObject("msg","添加失败");
+            model.addAttribute("msg", "添加失败");
         }
         return "/main/resources/templates/sysManager/function/funcList.html";
     }
@@ -56,21 +63,21 @@ public class FunctionController {
         if (functionRepository.existsById(function.getFunId())) {
             functionRepository.delete(function);
         } else {
-            model.addAttribute("error","删除失败");
+            model.addAttribute("error", "删除失败");
         }
         return "/main/resources/templates/sysManager/function/funcList.html";
     }
 
     @RequestMapping("/modifyFunc/{funId}")
     @Synchronized
-    public String modifyFunc(String funName, Integer funStatus, @PathVariable Integer funId,Model model){
-        if (functionRepository.existsById(funId)){
-            List<Role> roles=roleRepository.findByFunctionsContains(functionRepository.findById(funId));
+    public String modifyFunc(String funName, Integer funStatus, @PathVariable Integer funId, Model model) {
+        if (functionRepository.existsById(funId)) {
+            List<Role> roles = roleRepository.findByFunctionsContains(functionRepository.findById(funId));
             for (Role role : roles) {
                 //遍历每个角色的每个func，并替换role的内容，然后重新存入到数据库
                 //方法虽傻，但管用
                 for (Function roleFunction : role.getFunctions()) {
-                    if (roleFunction.getFunId().equals(funId)){
+                    if (roleFunction.getFunId().equals(funId)) {
                         roleFunction.setFunName(funName);
                         roleFunction.setFunStatus(funStatus);
                     }
@@ -78,9 +85,9 @@ public class FunctionController {
                 roleService.updateByPrimaryKeySelective(role);
             }
             functionRepository.deleteById(funId);
-            functionRepository.insert(new Function(funId,funName,funStatus));
-        }else {
-            model.addAttribute("msg","无此权限");
+            functionRepository.insert(new Function(funId, funName, funStatus));
+        } else {
+            model.addAttribute("msg", "无此权限");
         }
         return "sysManager/function/funcList";
     }

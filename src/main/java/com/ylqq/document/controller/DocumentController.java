@@ -8,10 +8,11 @@ import com.ylqq.document.service.impl.DocumentServiceImpl;
 import com.ylqq.document.util.Layui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
@@ -34,38 +35,54 @@ public class DocumentController {
     private DocumentServiceImpl documentService;
 
     @RequestMapping("toAddDoc")
-    public String toAddDoc(){
-        return "doc/addArticle";
+    public String toAddDoc() {
+        if (session.getAttribute("user") == null) {
+            return "redirect:toLogin";
+        } else {
+            return "doc/addArticle";
+        }
     }
 
     @RequestMapping("todocReceive")
-    public String todocReceive(){
-        return "doc/docReceive";
+    public String todocReceive() {
+        if (session.getAttribute("user") == null) {
+            return "redirect:toLogin";
+        } else {
+            return "doc/docReceive";
+        }
     }
 
     @RequestMapping("todocAuditOfMe")
-    public String todocOfMe(){
-        return "doc/docAuditOfMe";
+    public String todocOfMe() {
+        if (session.getAttribute("user") == null) {
+            return "redirect:toLogin";
+        } else {
+            return "doc/docAuditOfMe";
+        }
     }
 
     @RequestMapping("todocWriteByMe")
-    public String todocWriteByMe(){
-        return "doc/docWriteByMe";
+    public String todocWriteByMe() {
+        if (session.getAttribute("user") == null) {
+            return "redirect:toLogin";
+        } else {
+            return "doc/docWriteByMe";
+        }
     }
 
     @PostMapping("addDoc")
-    public String addDocument(Document document, HttpSession httpSession, ModelAndView modelAndView) {
+    public String addDocument(Document document, HttpSession httpSession, Model model) {
         //先判断编号是否可用
+        //先取到user,表格不能填完所有doc数据
+        User user = (User) httpSession.getAttribute("user");
+        if (user == null) {
+            model.addAttribute("msg", "请先登陆系统！");
+            return "redirect:/toLogin";
+        }
         if (documentRepository.existsById(document.getDocumentId())) {
-            modelAndView.addObject("repeat_error","编号重复");
+            model.addAttribute("repeat_error", "编号重复");
             return "doc/addArticle";
         } else {
-            //先取到user,表格不能填完所有doc数据
-            User user = (User) httpSession.getAttribute("user");
-            if (user==null){
-                modelAndView.addObject("msg","请先登陆系统！");
-                return "/login";
-            }
             document.setPublishTime(new Date());
             document.setWriterId(user.getUserid());
             document.setCopywriter(user);
@@ -73,7 +90,7 @@ public class DocumentController {
             if (institutionRepository.findById(user.getInstId()).isPresent()) {
                 document.setInstitution(institutionRepository.findById(user.getInstId()).get());
             } else {
-                modelAndView.addObject("noInst_error","无此机构！");
+                model.addAttribute("noInst_error", "无此机构！");
                 return "doc/addArticle";
             }
             /*设置公文状态为审核中*/
@@ -94,47 +111,48 @@ public class DocumentController {
 
     @RequestMapping("allDoc")
     public Layui findAllDoc() {
-        return Layui.data("",(int) documentRepository.count(), documentRepository.findAll());
+        return Layui.data("", (int) documentRepository.count(), documentRepository.findAll());
     }
 
     @RequestMapping("updateDoc")
     public String updateDoc(Document document) {
         documentService.updateByPrimaryKeySelective(document);
-        return "docAuditOfMe";
+        return "doc/docAuditOfMe";
     }
 
     @RequestMapping("toUpdateDoc/{docId}")
     public String toUpdateDoc(@PathVariable Integer docId) {
-        return "/doc/docModify"+docId;
+        return "/doc/docModify" + docId;
     }
 
     @RequestMapping("docAuditOfMe")
-    public Layui docOfMe(HttpSession session){
-       User user= (User) session.getAttribute("user");
-       if (user==null){
-           return Layui.data("用户未登录或登录信息失效",0,null);
-       }else {
-           return Layui.data("",documentRepository.countByAuditorId(user.getUserid()),documentRepository.findDocumentsByAuditorIdOrderByPublishTime(user.getUserid()));
-       }
+    public Layui docOfMe(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return Layui.data("用户未登录或登录信息失效", 0, null);
+        } else {
+            return Layui.data("", documentRepository.countByAuditorId(user.getUserid()), documentRepository.findDocumentsByAuditorIdOrderByPublishTime(user.getUserid()));
+        }
     }
 
     @RequestMapping("docWriteByMe")
-    public Layui docWriteByMe(){
-        User user= (User) session.getAttribute("user");
-        if (user==null){
-            return Layui.data("用户未登录或登录信息失效",0,null);
-        }else {
-            return Layui.data("",documentRepository.countByWriterId(user.getUserid()),documentRepository.findDocumentsByWriterIdOrderByPublishTime(user.getUserid()));
+    @ResponseBody
+    public Layui docWriteByMe() {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return Layui.data("用户未登录或登录信息失效", 0, null);
+        } else {
+            return Layui.data("", documentRepository.countByWriterId(user.getUserid()), documentRepository.findDocumentsByWriterIdOrderByPublishTime(user.getUserid()));
         }
     }
 
     @RequestMapping("docReceive")
-    public Layui docReceive(){
-        User user= (User) session.getAttribute("user");
-        if (user==null){
-            return Layui.data("用户未登录或登录信息失效",0,null);
-        }else {
-            return Layui.data("", Math.toIntExact(documentService.selectMyDealCount(user.getUserid())),documentService.selectMyReceiveList(user.getUserid()));
+    public Layui docReceive() {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return Layui.data("用户未登录或登录信息失效", 0, null);
+        } else {
+            return Layui.data("", Math.toIntExact(documentService.selectMyDealCount(user.getUserid())), documentService.selectMyReceiveList(user.getUserid()));
         }
     }
 

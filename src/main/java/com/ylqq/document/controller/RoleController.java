@@ -19,6 +19,10 @@ import java.util.*;
  */
 @Controller
 public class RoleController {
+
+    @Autowired
+    private HttpSession session;
+
     /**
      * 角色Service
      */
@@ -32,8 +36,12 @@ public class RoleController {
     private FunctionRepository functionRepository;
 
     @RequestMapping("/toAllRole")
-    public String toAllRole(){
-        return "/main/resources/templates/sysManager/role/roleList.html";
+    public String toAllRole() {
+        if (session.getAttribute("user") == null) {
+            return "redirect:toLogin";
+        } else {
+            return "/main/resources/templates/sysManager/role/roleList.html";
+        }
     }
 
     /**
@@ -70,7 +78,7 @@ public class RoleController {
      * @return
      */
     @RequestMapping("/toRoleRight")
-    public String toRoleRight(Map<String, Object> map, HttpSession session) {
+    public String toRoleRight(Map<String, Object> map) {
         User user = (User) session.getAttribute("user");
         if (roleRepository.findById(user.getRoleId()).isPresent()) {
             ArrayList<Function> functions = new ArrayList<>(roleRepository.findById(user.getRoleId()).get().getFunctions());
