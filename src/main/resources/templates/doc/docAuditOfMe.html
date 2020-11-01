@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <title>需要我审核的公文列表</title>
@@ -24,7 +24,8 @@
             ,height: 312
             ,url: 'docAuditOfMe' //数据接口
             ,page: true //开启分页
-            ,cols: [[ //表头
+            ,cols: [
+                [ //表头
                 {field: 'documentId', title: '公文编号', width: 160, sort: true, fixed: 'left'}
                 , {field: 'title', title: '公文标题', width: 160}
                 , {field: 'publishTime', title: '发布时间', width: 160, sort: true}
@@ -32,8 +33,9 @@
                 , {field: 'auditor', title: '审稿人姓名', width: 177}
                 , {field: 'institution', title: '发布机构', width: 160, sort: true}
                 , {field: 'articleStatus', title: '公文状态', width: 160, sort: true}
-                ,,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
-            ]]
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+            ]
+            ]
         });
 
         //点击按钮出发的事件
