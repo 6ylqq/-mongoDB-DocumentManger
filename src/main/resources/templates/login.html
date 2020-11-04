@@ -46,8 +46,8 @@
         let form = layui.form;
         form.verify({
             loginName: function (value) {
-                if (value.length < 5) {
-                    return '用户名至少要5个字符';
+                if (value.length < 3) {
+                    return '用户名至少要3个字符';
                 }
             }
             , password: [

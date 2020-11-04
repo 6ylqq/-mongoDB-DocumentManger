@@ -16,29 +16,55 @@
                             注册用户
                         </div>
                         <div class="layui-card-body">
-                            <form class="layui-form" action="/modifyUser/">
+                            <form class="layui-form" action="/addUser">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">用户编号</label>
+                                    <div class="layui-input-inline">
+                                        <label>
+                                            <input autocomplete="off" class="layui-input" lay-verify="required" name="userid" placeholder="请输入登录名"
+                                                   type="text">
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">登陆名</label>
+                                    <div class="layui-input-inline">
+                                        <label>
+                                            <input autocomplete="off" class="layui-input" lay-verify="loginName|required" name="loginName" placeholder="请输入登录名"
+                                                   type="text">
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">密码</label>
+                                    <div class="layui-input-inline">
+                                        <input autocomplete="off" class="layui-input" lay-verify="password|required" name="password" placeholder="请输入密码" type="password" >
+                                    </div>
+                                </div>
+
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">用户昵称</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                                        <input type="text" name="userName" lay-verify="required"  placeholder="请输入" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">职称</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" name="username" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                                        <input type="text" name="job" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">电话</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" name="username" lay-verify="required|phone" placeholder="请输入" autocomplete="off" class="layui-input">
+                                        <input type="text" name="phone" lay-verify="required|phone" placeholder="请输入" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">邮箱</label>
                                     <div class="layui-input-inline">
-                                        <input type="text" name="username" lay-verify="required|email" placeholder="请输入" autocomplete="off" class="layui-input">
+                                        <input type="text" name="email" lay-verify="required|email" placeholder="请输入" autocomplete="off" class="layui-input">
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
