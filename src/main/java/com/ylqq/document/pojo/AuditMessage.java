@@ -2,6 +2,7 @@ package com.ylqq.document.pojo;
 
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -28,6 +29,7 @@ public class AuditMessage implements Serializable {
      * 审核意见id
      * 主键
      */
+    @MongoId
     private Integer auditId;
 
     /**

@@ -1,6 +1,7 @@
 package com.ylqq.document.pojo;
 
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.Date;
 import java.util.List;
@@ -26,6 +27,7 @@ public class Document {
      * 公文id
      * 将标题和撰稿人作复合哈希后存入
      */
+    @MongoId
     private Integer documentId;
 
 

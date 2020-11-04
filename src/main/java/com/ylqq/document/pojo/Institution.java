@@ -2,6 +2,7 @@ package com.ylqq.document.pojo;
 
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.io.Serializable;
 
@@ -24,6 +25,7 @@ public class Institution implements Serializable {
     /**
      * 机构id
      */
+    @MongoId
     private Integer instId;
 
     /**

@@ -2,6 +2,7 @@ package com.ylqq.document.pojo;
 
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.io.Serializable;
 
@@ -19,6 +20,7 @@ public class Function implements Serializable {
     /**
      * 功能id
      */
+    @MongoId
     private Integer funId;
 
     /**
