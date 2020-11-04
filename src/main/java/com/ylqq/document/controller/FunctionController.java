@@ -39,7 +39,7 @@ public class FunctionController {
         if (session.getAttribute("user") == null) {
             return "redirect:toLogin";
         } else {
-            return "/main/resources/templates/sysManager/function/funcList.html";
+            return "sysManager/function/funcList";
         }
     }
 
@@ -55,7 +55,7 @@ public class FunctionController {
         } else {
             model.addAttribute("msg", "添加失败");
         }
-        return "/main/resources/templates/sysManager/function/funcList.html";
+        return "forward:toAllFunc";
     }
 
     @RequestMapping("removeFunction")
@@ -65,7 +65,7 @@ public class FunctionController {
         } else {
             model.addAttribute("error", "删除失败");
         }
-        return "/main/resources/templates/sysManager/function/funcList.html";
+        return "sysManager/function/funcList";
     }
 
     @RequestMapping("/modifyFunc/{funId}")

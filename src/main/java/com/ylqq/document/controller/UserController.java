@@ -6,6 +6,7 @@ import com.ylqq.document.service.DocumentRepository;
 import com.ylqq.document.service.UserRepository;
 import com.ylqq.document.service.impl.UserServiceImpl;
 import com.ylqq.document.util.Layui;
+import com.ylqq.document.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -63,7 +64,7 @@ public class UserController {
         if (session.getAttribute("user") == null) {
             return "redirect:toLogin";
         } else {
-            return "sysManager/user/userList";
+            return "user/userList";
         }
     }
 
@@ -72,6 +73,11 @@ public class UserController {
      */
     @RequestMapping("/addUser")
     public String addUser(User user, Model model) {
+        user.setInstId(0);
+        user.setRoleId(0);
+        user.setUserStatus(0);
+        String md5= MD5Util.getMD5(user.getPassword());
+        user.setPassword(md5);
         try {
             if (!userRepository.existsById(user.getUserid()) && userRepository.findByLoginName(user.getLoginName()) == null) {
                 userRepository.insert(user);

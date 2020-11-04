@@ -1,7 +1,5 @@
 package com.ylqq.document.controller;
 
-import com.ylqq.document.pojo.Function;
-import com.ylqq.document.pojo.Role;
 import com.ylqq.document.pojo.User;
 import com.ylqq.document.service.UserRepository;
 import com.ylqq.document.service.impl.DocumentServiceImpl;
@@ -15,7 +13,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -108,7 +105,7 @@ public class LoginController {
 
     @RequestMapping("/toIndex")
     public String toIndex(Map<String, Object> map, HttpSession session) {
-        //1.从Session中加载出用户的信息
+        /*//1.从Session中加载出用户的信息
         User user = (User) session.getAttribute("user");
 
         //2.通过用户信息找到用户的角色信息
@@ -116,7 +113,7 @@ public class LoginController {
 
         //3.通过角色信息查出角色下面的功能
         List<Function> functions = functionService.selectByKeyRoleId(role.getRoleId());
-        map.put("functionList", functions);
+        map.put("functionList", functions);*/
 
         return "index";
     }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.util.*;
 
 /**
@@ -40,7 +39,7 @@ public class RoleController {
         if (session.getAttribute("user") == null) {
             return "redirect:toLogin";
         } else {
-            return "/main/resources/templates/sysManager/role/roleList.html";
+            return "sysManager/role/roleList";
         }
     }
 
@@ -69,7 +68,7 @@ public class RoleController {
                 map.put("msg", "修改角色[" + role.get().getRoleName() + "]的权限信息失败！");
             }
         }
-        return "/main/resources/templates/sysManager/role/roleList.html";
+        return "sysManager/role/roleList";
     }
 
     /**
@@ -99,7 +98,7 @@ public class RoleController {
         Optional<Role> role = roleRepository.findById(roleid);
         role.ifPresent(value -> map.put("role", value));
 
-        return "role/rolemodify";
+        return "sysManager/role/setFuns";
     }
 
     /**
@@ -109,7 +108,7 @@ public class RoleController {
      */
     @RequestMapping("/toAdd")
     public String toAdd() {
-        return "role/roleadd";
+        return "sysManager/role/roleadd";
     }
 
     /**
@@ -118,8 +117,8 @@ public class RoleController {
      * @return
      */
     @RequestMapping("/addRole")
-    public String addRole(@Valid Role role) {
+    public String addRole(Role role) {
         roleRepository.insert(role);
-        return "/main/resources/templates/sysManager/role/roleList.html";
+        return "sysManager/role/roleList";
     }
 }

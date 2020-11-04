@@ -42,11 +42,9 @@ public class InstitutionController {
         //记得查重id
         if (institutionRepository.findById(institution.getInstId()).isEmpty()) {
             institutionRepository.insert(institution);
-            return "forward:/institution/institutions";
         } else {
             model.addAttribute("error","id重复");
-            return "id重复！";
         }
+        return "forward:toAllInst";
     }
-
 }
