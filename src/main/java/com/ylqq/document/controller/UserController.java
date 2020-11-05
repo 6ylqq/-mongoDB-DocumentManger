@@ -64,7 +64,7 @@ public class UserController {
         if (session.getAttribute("user") == null) {
             return "redirect:toLogin";
         } else {
-            return "user/userList";
+            return "sysManager/user/userList";
         }
     }
 
@@ -144,6 +144,18 @@ public class UserController {
             return Layui.data("用户未登录或登录信息失效", 0, null);
         } else {
             return Layui.data("", Math.toIntExact(userRepository.count()), userRepository.findAll());
+        }
+    }
+
+    @RequestMapping("deleteUser")
+    public String deleteUser(@PathVariable Integer userid){
+        User user=(User)session.getAttribute("user");
+        if (user!=null){
+            userRepository.deleteById(userid);
+            //TODO 前端收到信号后刷新页面，硬删除用户
+            return "location.replace(location.href)";
+        }else {
+            return "redirect:toLogin";
         }
     }
 }
