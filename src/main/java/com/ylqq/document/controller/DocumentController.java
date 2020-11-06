@@ -6,6 +6,9 @@ import com.ylqq.document.service.DocumentRepository;
 import com.ylqq.document.service.InstitutionRepository;
 import com.ylqq.document.service.impl.DocumentServiceImpl;
 import com.ylqq.document.util.Layui;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +24,7 @@ import java.util.Date;
  * @author ylqq
  */
 @Controller
+@Api(value = "公文Document相关的控制器")
 public class DocumentController {
     @Autowired
     private HttpSession session;
@@ -71,10 +75,11 @@ public class DocumentController {
     }
 
     @PostMapping("addDoc")
-    public String addDocument(Document document, HttpSession httpSession, Model model) {
+    @ApiOperation("添加公文")
+    public String addDocument(Document document,Model model) {
         //先判断编号是否可用
         //先取到user,表格不能填完所有doc数据
-        User user = (User) httpSession.getAttribute("user");
+        User user = (User) session.getAttribute("user");
         if (user == null) {
             model.addAttribute("msg", "请先登陆系统！");
             return "redirect:/toLogin";
@@ -103,12 +108,15 @@ public class DocumentController {
         }
     }
 
+    @ApiOperation("通过公文id删除公文")
     @RequestMapping("deleteDoc")
-    public String deleteDocument(Integer docId) {
+    @ApiImplicitParam(paramType = "path",dataType = "Integer",name = "docId",value = "公文编号",required = true)
+    public String deleteDocument(@PathVariable Integer docId) {
         documentRepository.deleteById(docId);
-        return "docAuditOfMe";
+        return "doc/docAuditOfMe";
     }
 
+    @ApiOperation("查询全部公文")
     @RequestMapping("allDoc")
     public Layui findAllDoc() {
         return Layui.data("", (int) documentRepository.count(), documentRepository.findAll());
@@ -120,13 +128,16 @@ public class DocumentController {
         return "doc/docAuditOfMe";
     }
 
+    @ApiOperation("通过公文id去更新公文")
+    @ApiImplicitParam(paramType = "path",dataType = "Integer",name = "docId",value = "公文编号",required = true)
     @RequestMapping("toUpdateDoc/{docId}")
     public String toUpdateDoc(@PathVariable Integer docId) {
         return "/doc/docModify" + docId;
     }
 
     @RequestMapping("docAuditOfMe")
-    public Layui docOfMe(HttpSession session) {
+    @ApiOperation("查询需要我审核的公文")
+    public Layui docOfMe() {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return Layui.data("用户未登录或登录信息失效", 0, null);

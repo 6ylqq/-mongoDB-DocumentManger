@@ -1,5 +1,7 @@
 package com.ylqq.document.pojo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -16,31 +18,24 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 @Document("institution")
+@ApiModel("机构")
 public class Institution implements Serializable {
     /**
      * 序列化id
      */
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 机构id
-     */
     @MongoId
+    @ApiModelProperty("机构id")
     private Integer instId;
 
-    /**
-     * 机构名称
-     */
+    @ApiModelProperty("机构名称")
     private String instName;
 
-    /**
-     * 机构地址
-     */
+    @ApiModelProperty("机构地址")
     private String instAddress;
 
-    /**
-     * 机构状态
-     */
+    @ApiModelProperty("机构状态")
     private String instStatus;
 
 }

@@ -3,8 +3,6 @@ package com.ylqq.document.controller;
 import com.ylqq.document.pojo.User;
 import com.ylqq.document.service.UserRepository;
 import com.ylqq.document.service.impl.DocumentServiceImpl;
-import com.ylqq.document.service.impl.FunctionServiceImpl;
-import com.ylqq.document.service.impl.RoleServiceImpl;
 import com.ylqq.document.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,12 +20,10 @@ import java.util.Map;
 public class LoginController {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private RoleServiceImpl roleService;
+
     @Autowired
     private DocumentServiceImpl documentService;
-    @Autowired
-    private FunctionServiceImpl functionService;
+
 
     @RequestMapping({"/","/toLogin"})
     public String toLogin(){
@@ -104,17 +100,7 @@ public class LoginController {
     }
 
     @RequestMapping("/toIndex")
-    public String toIndex(Map<String, Object> map, HttpSession session) {
-        /*//1.从Session中加载出用户的信息
-        User user = (User) session.getAttribute("user");
-
-        //2.通过用户信息找到用户的角色信息
-        Role role = roleService.selectByPrimaryKey(user.getRoleId());
-
-        //3.通过角色信息查出角色下面的功能
-        List<Function> functions = functionService.selectByKeyRoleId(role.getRoleId());
-        map.put("functionList", functions);*/
-
+    public String toIndex() {
         return "index";
     }
 

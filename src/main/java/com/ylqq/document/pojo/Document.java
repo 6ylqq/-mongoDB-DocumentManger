@@ -1,5 +1,7 @@
 package com.ylqq.document.pojo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -17,78 +19,53 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 @org.springframework.data.mongodb.core.mapping.Document("document")
+@ApiModel(value = "公文")
 public class Document {
     /**
      * 序列化id
      */
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 公文id
-     * 将标题和撰稿人作复合哈希后存入
-     */
     @MongoId
+    @ApiModelProperty(value = "公文id")
     private Integer documentId;
 
-
-    /**
-     * 公文标题
-     */
+    @ApiModelProperty("公文标题")
     private String title;
 
-    /**
-     * 公文
-     */
+    @ApiModelProperty("公文")
     private String document;
 
-    /**
-     * 发布时间
-     */
+    @ApiModelProperty("发布时间")
     private Date publishTime;
 
-    /**
-     * 撰稿人id
-     */
+    @ApiModelProperty("撰稿人id")
     private Integer writerId;
 
-    /**
-     * 存放查询出来的撰稿人信息
-     */
+    @ApiModelProperty("存放查询出来的撰稿人信息")
     private User copywriter;
 
-    /**
-     * 审稿人id
-     */
+    @ApiModelProperty("审稿人id")
     private Integer auditorId;
 
-    /**
-     * 存放查询出来的审稿人信息
-     */
+    @ApiModelProperty("存放查询出来的审稿人信息")
     private User auditor;
 
-    /**
-     * 发布机构id
-     */
+    @ApiModelProperty("发布机构id")
     private Integer instId;
 
-    /**
-     * 存放级联查询出来的发布机构信息
-     */
+    @ApiModelProperty("存放级联查询出来的发布机构信息")
     private Institution institution;
 
-    /**
-     * 公文状态：
-     * 0 审核中
-     * 1 审核通过
-     * 2 审核驳回
-     * 3 公文发布
-     * 4 公文删除
-     */
+    @ApiModelProperty(value = "公文状态",
+            notes = "0 审核中\n" +
+            "1 审核通过\n" +
+            "2 审核驳回\n" +
+            "3 公文发布\n" +
+            "4 公文删除")
     private Integer articleStatus;
 
-    /**
-     * 接收人
-     */
+    @ApiModelProperty("接收人")
     private List<User> receivers;
 
 }

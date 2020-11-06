@@ -1,5 +1,7 @@
 package com.ylqq.document.pojo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -16,20 +18,15 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 @Document("function")
+@ApiModel(value = "权限")
 public class Function implements Serializable {
-    /**
-     * 功能id
-     */
     @MongoId
+    @ApiModelProperty("权限id")
     private Integer funId;
 
-    /**
-     * 功能名称
-     */
+    @ApiModelProperty("功能名称")
     private String funName;
 
-    /**
-     * 功能状态，0禁用，1可用
-     */
+    @ApiModelProperty(value = "功能状态",notes = "0禁用，1可用")
     private Integer funStatus;
 }
