@@ -16,7 +16,7 @@
                             注册用户
                         </div>
                         <div class="layui-card-body">
-                            <form class="layui-form" action="/addUser">
+                            <form class="layui-form" action="/addUser" lay-filter="example">
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">用户编号</label>
                                     <div class="layui-input-inline">
@@ -50,12 +50,6 @@
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
-                                    <label class="layui-form-label">职称</label>
-                                    <div class="layui-input-inline">
-                                        <input type="text" name="job" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-                                    </div>
-                                </div>
-                                <div class="layui-form-item">
                                     <label class="layui-form-label">电话</label>
                                     <div class="layui-input-inline">
                                         <input type="text" name="phone" lay-verify="required|phone" placeholder="请输入" autocomplete="off" class="layui-input">
@@ -65,6 +59,22 @@
                                     <label class="layui-form-label">邮箱</label>
                                     <div class="layui-input-inline">
                                         <input type="text" name="email" lay-verify="required|email" placeholder="请输入" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">用户所属机构</label>
+                                    <div class="layui-input-inline">
+                                        <select id="inst">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">用户角色</label>
+                                    <div class="layui-input-inline">
+                                        <select id="roles">
+                                            <option></option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
@@ -83,4 +93,35 @@
 </div>
 </body>
 <script src="../static/layui/layui.js" charset="utf-8"></script>
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+        var $ = layui.jquery;
+
+        $.ajax({
+            url:"allInst",
+            method:"GET",
+            success:function (LayInst) {
+                var insts=LayInst['data'];
+                for (let i = 0; i < insts.length; i++) {
+                    $("#inst").append('<option type="checkbox" value='+insts[i].instId+'>'+insts[i].instName+'</option>');
+                }
+            }
+        });
+
+        $.ajax({
+            url:"allRoles",
+            method:"GET",
+            success:function (LayRoles) {
+                var roles=LayRoles['data'];
+                for (let i = 0; i < roles.length; i++) {
+                    $("#roles").append('<option type="checkbox" value='+roles[i].roleId+'>'+roles[i].roleName+'</option>');
+                }
+
+            }
+        });
+
+        form.render();
+    });
+</script>
 </html>

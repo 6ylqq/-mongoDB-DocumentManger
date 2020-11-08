@@ -29,53 +29,20 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">接收人</label>
                 <div class="layui-tab">
-                    <ul class="layui-tab-title">
-                        <li class="layui-this">审核部门</li>
-                        <li>划水部门</li>
-                        <li>吃喝部门</li>
-                        <li>废物部门</li>
-                        <li>装B部门</li>
+                    <ul class="layui-tab-title" id="insts">
+                        <li class="layui-this"></li>
                     </ul>
-                    <div class="layui-tab-content">
-                        <div class="layui-tab-item layui-show">
-                            <div class="layui-input-block">
-                                <input type="checkbox" name="like[write]" title="写作">
-                                <input type="checkbox" name="like[read]" title="阅读" checked="">
-                                <input type="checkbox" name="like[game]" title="游戏">
-                            </div>
-                        </div>
-                        <div class="layui-tab-item">内容2</div>
-                        <div class="layui-tab-item">内容3</div>
-                        <div class="layui-tab-item">内容4</div>
-                        <div class="layui-tab-item">内容5</div>
+                    <div class="layui-tab-content" id="instUsers">
                     </div>
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">审核人</label>
                 <div class="layui-tab">
-                    <ul class="layui-tab-title">
-                        <li >审核部门</li>
-                        <li class="layui-this">划水部门</li>
-                        <li>吃喝部门</li>
-                        <li>废物部门</li>
-                        <li>装B部门</li>
+                    <ul class="layui-tab-title" id="auditInst">
+                        <li class="layui-this"></li>
                     </ul>
-                    <div class="layui-tab-content">
-                        <div class="layui-tab-item layui-show">
-                            <div class="layui-input-block">
-                                <select name="interest" lay-filter="aihao">
-                                    <option value=""></option>
-                                    <option value="0">张三</option>
-                                    <option value="1" selected="">李四</option>
-                                    <option value="2">王五</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="layui-tab-item">内容2</div>
-                        <div class="layui-tab-item">内容3</div>
-                        <div class="layui-tab-item">内容4</div>
-                        <div class="layui-tab-item">内容5</div>
+                    <div class="layui-tab-content" id="users">
                     </div>
                 </div>
             </div>
@@ -109,11 +76,63 @@
     layui.use('element', function(){
         var $ = layui.jquery
             ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+        element.init(function () {
+            //初始化标签
+            $("#insts").html('');
+            $("#instUsers").html('');
+            $("#users").html('');
+            $("#auditInst").html('');
 
+            var fun1=$.ajax({url:"allInst" , method:'GET'}),
+                fun2=$.ajax({url:"instUser", method:'GET'});
+
+            //调用when方法，吧异步请求方法转为链式调用，并且能做到并行请求
+            $.when(fun1,fun2).then(function (layData,users) {
+                var instData=layData['data'],
+                recUsers='',
+                auditUser = '';
+                for (var i = 0; i < instData.length; i++) {
+                    $("#insts").append('<li class="layui-this"'
+                        + ' value='+instData[i].instId
+                        + ' id=instId'+'>'
+                        +instData[i].instName
+                        +'</li>');
+
+                    recUsers+='<div class="layui-tab-item layui-show">';
+                    recUsers+='<div class="layui-input-block">';
+                    for (var j = 0; j < users.length; j++) {
+                        recUsers+='<input type="checkbox" title='+users[i].userName+'>';
+                    }
+                    recUsers+='</div>';
+                    recUsers+='</div>';
+
+                    $("#instUsers").append(recUsers);
+                }
+                for (var k = 0; k < instData.length; i++) {
+                    $("#auditInst").append('<li class="layui-this"'
+                        + ' value=' + instData[i].instId
+                        + ' id=instId' + '>'
+                        + instData[i].instName
+                        + '</li>');
+                    auditUser+='<div class="layui-tab-item layui-show">';
+                    auditUser+='<div class="layui-input-block">';
+                    auditUser+='<select>';
+                    for (let i = 0; i < users.length; i++) {
+                        auditUser+='<option type="checkbox" value='+users[i].userid+'>'+users[i].userName+'</option>'
+                    }
+                    auditUser+='</select>';
+                    auditUser+='</div>';
+                    auditUser+='</div>'
+
+                    $("#users").append(auditUser);
+                }
+            },function(){
+                console.log('error')
+            })
+        });
         $('.site-demo-active').on('click', function(){
             var othis = $(this), type = othis.data('type');
             active[type] ? active[type].call(this, othis) : '';
         });
-
     });
 </script>
