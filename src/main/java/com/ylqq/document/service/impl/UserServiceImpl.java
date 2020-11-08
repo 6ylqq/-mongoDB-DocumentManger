@@ -93,7 +93,6 @@ public class UserServiceImpl implements UserService {
         //一部分属性不能用户自己修改
         Update update = new Update()
                 .set("username", user.getUserName())
-                .set("job", user.getJob())
                 .set("phone", user.getPhone())
                 .set("email", user.getEmail());
         Query query = Query.query(Criteria.where("userid").is(user.getUserid()));

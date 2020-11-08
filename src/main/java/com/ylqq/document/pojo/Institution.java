@@ -20,11 +20,6 @@ import java.io.Serializable;
 @Document("institution")
 @ApiModel("机构")
 public class Institution implements Serializable {
-    /**
-     * 序列化id
-     */
-    private static final long serialVersionUID = 1L;
-
     @MongoId
     @ApiModelProperty("机构id")
     private Integer instId;

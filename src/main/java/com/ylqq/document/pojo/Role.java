@@ -21,7 +21,6 @@ import java.util.List;
 @Document("role")
 @ApiModel("角色")
 public class Role implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     @MongoId
     @ApiModelProperty("角色id")

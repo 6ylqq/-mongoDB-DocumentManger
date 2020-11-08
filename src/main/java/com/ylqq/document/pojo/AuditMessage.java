@@ -23,11 +23,6 @@ import java.util.Date;
 @Document("auditMessage")
 @ApiModel(value = "审核意见")
 public class AuditMessage implements Serializable {
-    /**
-     * 序列化id
-     */
-    public static final long serialVersionUID = 1L;
-
     @MongoId
     @ApiModelProperty("审核意见id")
     private Integer auditId;

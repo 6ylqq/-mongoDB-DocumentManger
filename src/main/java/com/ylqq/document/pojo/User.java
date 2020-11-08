@@ -20,10 +20,6 @@ import java.io.Serializable;
 @Document("user")
 @ApiModel("用户")
 public class User implements Serializable {
-    /**
-     * 序列化id
-     */
-    public static final long serialVersionUID = 1L;
     @MongoId
     @ApiModelProperty("用户id")
     private Integer userid;
@@ -36,9 +32,6 @@ public class User implements Serializable {
 
     @ApiModelProperty("用户名称")
     private String userName;
-
-    @ApiModelProperty("用户职称")
-    private String job;
 
     @ApiModelProperty("用户电话")
     private String phone;

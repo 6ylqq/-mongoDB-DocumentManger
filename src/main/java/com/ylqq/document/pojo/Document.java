@@ -21,11 +21,6 @@ import java.util.List;
 @org.springframework.data.mongodb.core.mapping.Document("document")
 @ApiModel(value = "公文")
 public class Document {
-    /**
-     * 序列化id
-     */
-    private static final long serialVersionUID = 1L;
-
     @MongoId
     @ApiModelProperty(value = "公文id")
     private Integer documentId;
