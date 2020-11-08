@@ -104,7 +104,6 @@ public class UserController {
                 for (User documentReceiver : document.getReceivers()) {
                     if (documentReceiver.getUserid().equals(userid)) {
                         documentReceiver.setEmail(user.getEmail());
-                        documentReceiver.setJob(user.getJob());
                         documentReceiver.setPhone(user.getPhone());
                         documentReceiver.setUserName(user.getUserName());
                     }

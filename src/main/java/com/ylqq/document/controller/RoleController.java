@@ -6,6 +6,7 @@ import com.ylqq.document.pojo.User;
 import com.ylqq.document.service.FunctionRepository;
 import com.ylqq.document.service.RoleRepository;
 import com.ylqq.document.service.impl.RoleServiceImpl;
+import com.ylqq.document.util.Layui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +42,11 @@ public class RoleController {
         } else {
             return "sysManager/role/roleList";
         }
+    }
+
+    @RequestMapping("allRoles")
+    public Layui allRoles(){
+        return Layui.data("", (int) roleRepository.count(),roleRepository.findAll());
     }
 
     /**
