@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
 
@@ -20,7 +20,7 @@ import java.io.Serializable;
 @Document("institution")
 @ApiModel("机构")
 public class Institution implements Serializable {
-    @MongoId
+    @Field
     @ApiModelProperty("机构id")
     private Integer instId;
 
