@@ -64,16 +64,14 @@
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">用户所属机构</label>
                                     <div class="layui-input-inline">
-                                        <select id="inst">
-                                            <option></option>
+                                        <select id="inst" name="instId">
                                         </select>
                                     </div>
                                 </div>
                                 <div class="layui-form-item">
                                     <label class="layui-form-label">用户角色</label>
                                     <div class="layui-input-inline">
-                                        <select id="roles">
-                                            <option></option>
+                                        <select id="roles" name="roleId">
                                         </select>
                                     </div>
                                 </div>
@@ -104,8 +102,9 @@
             success:function (LayInst) {
                 var insts=LayInst['data'];
                 for (let i = 0; i < insts.length; i++) {
-                    $("#inst").append('<option type="checkbox" value='+insts[i].instId+'>'+insts[i].instName+'</option>');
+                    $("#inst").append('<option  value='+insts[i].instId+'>'+insts[i].instName+'</option>');
                 }
+                form.render('select');
             }
         });
 
@@ -115,13 +114,11 @@
             success:function (LayRoles) {
                 var roles=LayRoles['data'];
                 for (let i = 0; i < roles.length; i++) {
-                    $("#roles").append('<option type="checkbox" value='+roles[i].roleId+'>'+roles[i].roleName+'</option>');
+                    $("#roles").append('<option  value='+roles[i].roleId+'>'+roles[i].roleName+'</option>');
                 }
-
+                form.render('select');
             }
         });
-
-        form.render();
     });
 </script>
 </html>
