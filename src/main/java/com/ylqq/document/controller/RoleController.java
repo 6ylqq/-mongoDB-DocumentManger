@@ -10,6 +10,7 @@ import com.ylqq.document.util.Layui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -45,6 +46,7 @@ public class RoleController {
     }
 
     @RequestMapping("allRoles")
+    @ResponseBody
     public Layui allRoles(){
         return Layui.data("", (int) roleRepository.count(),roleRepository.findAll());
     }
@@ -127,4 +129,5 @@ public class RoleController {
         roleRepository.insert(role);
         return "sysManager/role/roleList";
     }
+
 }

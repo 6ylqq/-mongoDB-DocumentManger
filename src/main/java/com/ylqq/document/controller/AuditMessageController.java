@@ -40,5 +40,4 @@ public class AuditMessageController {
         }
         return "doc/docDetail";
     }
-
 }

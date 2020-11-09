@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
@@ -137,6 +138,7 @@ public class UserController {
     }
 
     @RequestMapping("allUser")
+    @ResponseBody
     public Layui allUser() {
         User user = (User) session.getAttribute("user");
         if (user == null) {

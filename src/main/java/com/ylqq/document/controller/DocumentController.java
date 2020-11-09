@@ -118,6 +118,7 @@ public class DocumentController {
 
     @ApiOperation("查询全部公文")
     @RequestMapping("allDoc")
+    @ResponseBody
     public Layui findAllDoc() {
         return Layui.data("", (int) documentRepository.count(), documentRepository.findAll());
     }
@@ -137,6 +138,7 @@ public class DocumentController {
 
     @RequestMapping("docAuditOfMe")
     @ApiOperation("查询需要我审核的公文")
+    @ResponseBody
     public Layui docOfMe() {
         User user = (User) session.getAttribute("user");
         if (user == null) {
@@ -158,6 +160,7 @@ public class DocumentController {
     }
 
     @RequestMapping("docReceive")
+    @ResponseBody
     public Layui docReceive() {
         User user = (User) session.getAttribute("user");
         if (user == null) {
