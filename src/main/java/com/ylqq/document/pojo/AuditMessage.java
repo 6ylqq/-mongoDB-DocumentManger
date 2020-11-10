@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,7 +23,7 @@ import java.util.Date;
 @Document("auditMessage")
 @ApiModel(value = "审核意见")
 public class AuditMessage implements Serializable {
-    @MongoId
+    @Field
     @ApiModelProperty("审核意见id")
     private Integer auditId;
 

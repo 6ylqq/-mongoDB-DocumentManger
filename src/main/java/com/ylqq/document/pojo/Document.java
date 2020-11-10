@@ -3,7 +3,7 @@ package com.ylqq.document.pojo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
-import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
 @org.springframework.data.mongodb.core.mapping.Document("document")
 @ApiModel(value = "公文")
 public class Document {
-    @MongoId
+    @Field
     @ApiModelProperty(value = "公文id")
     private Integer documentId;
 
