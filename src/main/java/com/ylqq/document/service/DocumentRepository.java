@@ -4,6 +4,7 @@ import com.ylqq.document.pojo.Document;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ylqq
@@ -16,6 +17,14 @@ public interface DocumentRepository extends MongoRepository<Document, Integer> {
      * @return 返回公文列表
      */
     List<Document> findDocumentsByWriterIdOrderByPublishTime(Integer writerId);
+
+    /**
+     * 通过docid查找是否存在目标公文
+     *
+     * @param documentId 公文id
+     * @return
+     * */
+    boolean existsByDocumentId(Integer documentId);
 
     /**
      * 查审稿人需要审核的公文
@@ -40,5 +49,22 @@ public interface DocumentRepository extends MongoRepository<Document, Integer> {
      * @return 公文数
      */
     Integer countByWriterId(Integer writerId);
+
+    /**
+     * 通过docid找公文
+     *
+     * @param documentId 公文id
+     * @return 返回的公文
+     * */
+    Optional<Document> findByDocumentId(Integer documentId);
+
+
+    /**
+     * 通过docId删除公文
+     *
+     * @param documentId docId
+     * */
+    void deleteByDocumentId(Integer documentId);
+
 
 }

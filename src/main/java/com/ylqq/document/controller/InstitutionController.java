@@ -48,7 +48,7 @@ public class InstitutionController {
     @RequestMapping("addInst")
     public String addInst(Institution institution, Model model) {
         //记得查重id
-        if (institutionRepository.findById(institution.getInstId()).isEmpty()) {
+        if (institutionRepository.findByInstId(institution.getInstId()).isEmpty()) {
             institutionRepository.insert(institution);
         } else {
             model.addAttribute("error","id重复");

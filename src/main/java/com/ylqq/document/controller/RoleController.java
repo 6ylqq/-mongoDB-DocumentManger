@@ -63,8 +63,9 @@ public class RoleController {
     public String updateRoleRight(Map<String, Object> map, Integer roleid, Integer[] funids) {
 
         //查出角色信息
-        Optional<Role> role = roleRepository.findById(roleid);
-        List<Function> functions = (List<Function>) functionRepository.findAllById(Arrays.asList(funids));
+        Optional<Role> role = roleRepository.findByRoleId(roleid);
+        //TODO 待测验该函数是否生效，不生效只能自己写个循环查了
+        List<Function> functions = (List<Function>) functionRepository.findAllByFunId(Arrays.asList(funids));
 
         //修改权限列表
         map.put("result", roleService.updateRoleright(roleid, functions));
@@ -87,8 +88,8 @@ public class RoleController {
     @RequestMapping("/toRoleRight")
     public String toRoleRight(Map<String, Object> map) {
         User user = (User) session.getAttribute("user");
-        if (roleRepository.findById(user.getRoleId()).isPresent()) {
-            ArrayList<Function> functions = new ArrayList<>(roleRepository.findById(user.getRoleId()).get().getFunctions());
+        if (roleRepository.findByRoleId(user.getRoleId()).isPresent()) {
+            ArrayList<Function> functions = new ArrayList<>(roleRepository.findByRoleId(user.getRoleId()).get().getFunctions());
             map.put("functions", functions);
         }
         return "forward:/home";
@@ -103,7 +104,7 @@ public class RoleController {
     @RequestMapping("/toModify")
     public String toModify(Map<String, Object> map, Integer roleid) {
 
-        Optional<Role> role = roleRepository.findById(roleid);
+        Optional<Role> role = roleRepository.findByRoleId(roleid);
         role.ifPresent(value -> map.put("role", value));
 
         return "sysManager/role/setFuns";

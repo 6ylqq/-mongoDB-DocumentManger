@@ -16,4 +16,12 @@ public interface AuditMessageRepository extends MongoRepository<AuditMessage, In
      * @return 返回审批历史
      * */
      List<AuditMessage> findByDocumentIdOrderByAuditTime(Integer documentId);
+
+     /**
+      * 审核信息id是否存在
+      *
+      * @param auditId auditId
+      * @return
+      * */
+     boolean existsByAuditId(Integer auditId);
 }

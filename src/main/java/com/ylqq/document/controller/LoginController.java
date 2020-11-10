@@ -93,7 +93,7 @@ public class LoginController {
             session.setAttribute("user", user);
             return "redirect:/toIndex";
         } else {
-            model.addAttribute("mas", "登录名或密码错误！");
+            model.addAttribute("msg", "登录名或密码错误！");
             model.addAttribute("result", false);
             return "redirect:/toLogin";
         }

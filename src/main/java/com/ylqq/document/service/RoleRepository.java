@@ -24,4 +24,13 @@ public interface RoleRepository extends MongoRepository<Role, Integer> {
      * @param roleId 角色id
      * */
     void deleteRoleByRoleId(Integer roleId);
+
+
+    /**
+     * 通过roleid找role
+     *
+     * @param roleId  roleid
+     * @return
+     * */
+    Optional<Role> findByRoleId(Integer roleId);
 }

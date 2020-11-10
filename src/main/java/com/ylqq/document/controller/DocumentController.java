@@ -84,7 +84,7 @@ public class DocumentController {
             model.addAttribute("msg", "请先登陆系统！");
             return "redirect:/toLogin";
         }
-        if (documentRepository.existsById(document.getDocumentId())) {
+        if (documentRepository.existsByDocumentId(document.getDocumentId())) {
             model.addAttribute("repeat_error", "编号重复");
             return "doc/addArticle";
         } else {
@@ -92,16 +92,17 @@ public class DocumentController {
             document.setWriterId(user.getUserid());
             document.setCopywriter(user);
             document.setInstId(user.getInstId());
-            if (institutionRepository.findById(user.getInstId()).isPresent()) {
-                document.setInstitution(institutionRepository.findById(user.getInstId()).get());
+            if (institutionRepository.findByInstId(user.getInstId()).isPresent()) {
+                document.setInstitution(institutionRepository.findByInstId(user.getInstId()).get());
             } else {
                 model.addAttribute("noInst_error", "无此机构！");
                 return "doc/addArticle";
             }
             /*设置公文状态为审核中*/
             document.setArticleStatus(0);
-            /*
-             * 记得要在表格中增加接收者*/
+            //TODO 记得要在表格中增加接收者
+
+
 
             documentRepository.insert(document);
             return "forward:/allDoc";
@@ -112,7 +113,7 @@ public class DocumentController {
     @RequestMapping("deleteDoc")
     @ApiImplicitParam(paramType = "path",dataType = "Integer",name = "docId",value = "公文编号",required = true)
     public String deleteDocument(@PathVariable Integer docId) {
-        documentRepository.deleteById(docId);
+        documentRepository.deleteByDocumentId(docId);
         return "doc/docAuditOfMe";
     }
 

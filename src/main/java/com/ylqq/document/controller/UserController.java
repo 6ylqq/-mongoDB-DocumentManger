@@ -74,13 +74,11 @@ public class UserController {
      */
     @RequestMapping("/addUser")
     public String addUser(User user, Model model) {
-        user.setInstId(0);
-        user.setRoleId(0);
         user.setUserStatus(0);
         String md5= MD5Util.getMD5(user.getPassword());
         user.setPassword(md5);
         try {
-            if (!userRepository.existsById(user.getUserid()) && userRepository.findByLoginName(user.getLoginName()) == null) {
+            if (!userRepository.existsByUserid(user.getUserid()) && userRepository.findByLoginName(user.getLoginName()) == null) {
                 userRepository.insert(user);
                 return "login";
             } else {
@@ -124,7 +122,7 @@ public class UserController {
     public String modifyPassword(String newPassword, @org.jetbrains.annotations.NotNull String oldPassword) {
         User sessionUser = (User) session.getAttribute("user");
         //从数据库中取出用户信息,注意，取出来的密码是加密后的
-        Optional<User> user = userRepository.findById(sessionUser.getUserid());
+        Optional<User> user = userRepository.findByUserid(sessionUser.getUserid());
         String md5pass = DigestUtils.md5DigestAsHex(oldPassword.getBytes());
         //如果两者加密后相等，即输入的密码正确
         if (user.isPresent()) {
@@ -152,7 +150,7 @@ public class UserController {
     public String deleteUser(@PathVariable Integer userid){
         User user=(User)session.getAttribute("user");
         if (user!=null){
-            userRepository.deleteById(userid);
+            userRepository.deleteByUserid(userid);
             //TODO 前端收到信号后刷新页面，硬删除用户
             return "location.replace(location.href)";
         }else {

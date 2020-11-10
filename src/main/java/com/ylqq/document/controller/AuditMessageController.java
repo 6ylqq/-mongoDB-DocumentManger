@@ -33,7 +33,7 @@ public class AuditMessageController {
     @RequestMapping(value = "/addAudit/{documentId}",method = RequestMethod.POST)
     public String addAudit(@PathVariable Integer documentId, Model model, AuditMessage auditMessage){
         auditMessage.setDocumentId(documentId);
-        if (auditMessageRepository.existsById(auditMessage.getAuditId())){
+        if (auditMessageRepository.existsByAuditId(auditMessage.getAuditId())){
             model.addAttribute("msg","审核信息id重复！");
         }else {
             auditMessageRepository.insert(auditMessage);

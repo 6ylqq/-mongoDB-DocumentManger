@@ -4,11 +4,29 @@ import com.ylqq.document.pojo.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ylqq
  */
 public interface UserRepository extends MongoRepository<User, Integer> {
+
+    /**
+     * 通过id找user
+     *
+     * @param userid userid
+     * @return
+     * */
+    Optional<User> findByUserid(Integer userid);
+
+
+    /**
+     * 通过id删除用户
+     *
+     * @param userid 用户id
+     * */
+    void deleteByUserid(Integer userid);
+
     /**
      * 通过loginName查用户
      *
@@ -16,6 +34,14 @@ public interface UserRepository extends MongoRepository<User, Integer> {
      * @return
      */
     User findByLoginName(String LoginName);
+
+    /**
+     * 通过userid查找对象
+     *
+     * @param userid 用户id
+     * @return
+     * */
+    Boolean existsByUserid(Integer userid);
 
     /**
      * 找相同机构下的员工

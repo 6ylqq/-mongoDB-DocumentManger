@@ -52,7 +52,7 @@ public class FunctionController {
 
     @RequestMapping("addFunction")
     public String addFunction(Function function, Model model) {
-        if (!functionRepository.existsById(function.getFunId())) {
+        if (!functionRepository.existsByFunId(function.getFunId())) {
             functionRepository.insert(function);
         } else {
             model.addAttribute("msg", "添加失败");
@@ -62,7 +62,7 @@ public class FunctionController {
 
     @RequestMapping("removeFunction")
     public String removeFunc(Function function, Model model) {
-        if (functionRepository.existsById(function.getFunId())) {
+        if (functionRepository.existsByFunId(function.getFunId())) {
             functionRepository.delete(function);
         } else {
             model.addAttribute("error", "删除失败");
@@ -73,8 +73,8 @@ public class FunctionController {
     @RequestMapping("/modifyFunc/{funId}")
     @Synchronized
     public String modifyFunc(String funName, Integer funStatus, @PathVariable Integer funId, Model model) {
-        if (functionRepository.existsById(funId)) {
-            List<Role> roles = roleRepository.findByFunctionsContains(functionRepository.findById(funId));
+        if (functionRepository.existsByFunId(funId)) {
+            List<Role> roles = roleRepository.findByFunctionsContains(functionRepository.findByFunId(funId));
             for (Role role : roles) {
                 //遍历每个角色的每个func，并替换role的内容，然后重新存入到数据库
                 //方法虽傻，但管用
@@ -86,7 +86,7 @@ public class FunctionController {
                 }
                 roleService.updateByPrimaryKeySelective(role);
             }
-            functionRepository.deleteById(funId);
+            functionRepository.deleteByFunId(funId);
             functionRepository.insert(new Function(funId, funName, funStatus));
         } else {
             model.addAttribute("msg", "无此权限");
