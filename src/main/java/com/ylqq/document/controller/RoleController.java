@@ -36,9 +36,11 @@ public class RoleController {
     @Autowired
     private FunctionRepository functionRepository;
 
+    private static final String USER="user";
+
     @RequestMapping("/toAllRole")
     public String toAllRole() {
-        if (session.getAttribute("user") == null) {
+        if (session.getAttribute(USER) == null) {
             return "redirect:toLogin";
         } else {
             return "sysManager/role/roleList";

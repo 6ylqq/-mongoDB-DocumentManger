@@ -41,9 +41,11 @@ public class UserController {
     @Autowired
     private HttpSession session;
 
+    private static final String USER="user";
+
     @RequestMapping("/home")
     public String home() {
-        if (session.getAttribute("user") == null) {
+        if (session.getAttribute(USER) == null) {
             return "redirect:toLogin";
         } else {
             return "user/home";
@@ -80,11 +82,10 @@ public class UserController {
         try {
             if (!userRepository.existsByUserid(user.getUserid()) && userRepository.findByLoginName(user.getLoginName()) == null) {
                 userRepository.insert(user);
-                return "login";
             } else {
                 model.addAttribute("error", "用户id或者loginName已存在！");
-                return "login";
             }
+            return "login";
         } catch (Exception exception) {
             exception.printStackTrace();
             return "login";
@@ -146,7 +147,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping("deleteUser")
+    @RequestMapping("deleteUser/{userid}")
     public String deleteUser(@PathVariable Integer userid){
         User user=(User)session.getAttribute("user");
         if (user!=null){

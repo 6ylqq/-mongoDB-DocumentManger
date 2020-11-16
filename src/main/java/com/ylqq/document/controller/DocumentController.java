@@ -38,9 +38,11 @@ public class DocumentController {
     @Autowired
     private DocumentServiceImpl documentService;
 
+    private static final String USER="user";
+
     @RequestMapping("toAddDoc")
     public String toAddDoc() {
-        if (session.getAttribute("user") == null) {
+        if (session.getAttribute(USER) == null) {
             return "redirect:toLogin";
         } else {
             return "doc/addArticle";
@@ -49,7 +51,7 @@ public class DocumentController {
 
     @RequestMapping("todocReceive")
     public String todocReceive() {
-        if (session.getAttribute("user") == null) {
+        if (session.getAttribute(USER) == null) {
             return "redirect:toLogin";
         } else {
             return "doc/docReceive";
@@ -58,7 +60,7 @@ public class DocumentController {
 
     @RequestMapping("todocAuditOfMe")
     public String todocOfMe() {
-        if (session.getAttribute("user") == null) {
+        if (session.getAttribute(USER) == null) {
             return "redirect:toLogin";
         } else {
             return "doc/docAuditOfMe";
@@ -67,7 +69,7 @@ public class DocumentController {
 
     @RequestMapping("todocWriteByMe")
     public String todocWriteByMe() {
-        if (session.getAttribute("user") == null) {
+        if (session.getAttribute(USER) == null) {
             return "redirect:toLogin";
         } else {
             return "doc/docWriteByMe";
@@ -110,7 +112,7 @@ public class DocumentController {
     }
 
     @ApiOperation("通过公文id删除公文")
-    @RequestMapping("deleteDoc")
+    @RequestMapping("deleteDoc/{docId}")
     @ApiImplicitParam(paramType = "path",dataType = "Integer",name = "docId",value = "公文编号",required = true)
     public String deleteDocument(@PathVariable Integer docId) {
         documentRepository.deleteByDocumentId(docId);

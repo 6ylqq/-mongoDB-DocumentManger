@@ -35,9 +35,11 @@ public class FunctionController {
     @Autowired
     private RoleServiceImpl roleService;
 
+    private static final String USER="user";
+
     @RequestMapping("toAllFunc")
     public String toAllFunc() {
-        if (session.getAttribute("user") == null) {
+        if (session.getAttribute(USER) == null) {
             return "redirect:toLogin";
         } else {
             return "sysManager/function/funcList";

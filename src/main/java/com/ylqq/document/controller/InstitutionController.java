@@ -8,6 +8,7 @@ import com.ylqq.document.util.Layui;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -30,9 +31,11 @@ public class InstitutionController {
     @Autowired
     private UserRepository userRepository;
 
+    private static final String USER="user";
+
     @RequestMapping("/toAllInst")
     public String toAllInst(){
-        if (session.getAttribute("user") == null) {
+        if (session.getAttribute(USER) == null) {
             return "redirect:toLogin";
         } else {
             return "sysManager/inst/instList";
@@ -56,8 +59,9 @@ public class InstitutionController {
         return "forward:toAllInst";
     }
 
-    @RequestMapping("instUser")
-    public List<User> instUser(Integer inst){
+    @RequestMapping("instUser/{inst}")
+    @ResponseBody
+    public List<User> instUser(@PathVariable Integer inst){
         return userRepository.findByInstIdOrderByUserid(inst);
     }
 }
