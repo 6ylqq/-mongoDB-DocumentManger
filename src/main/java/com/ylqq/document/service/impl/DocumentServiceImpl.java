@@ -18,8 +18,11 @@ import java.util.List;
 @Service
 public class DocumentServiceImpl implements DocumentService {
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
+    private final MongoTemplate mongoTemplate;
+
+    public DocumentServiceImpl(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
     /**
      * 插入一条公文信息（公文撰稿时调用）

@@ -5,7 +5,6 @@ import com.ylqq.document.service.AuditMessageRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 @Api(value = "AuditMessageController——审核信息相关的控制器")
 public class AuditMessageController {
-    @Autowired
-    private AuditMessageRepository auditMessageRepository;
+    private final AuditMessageRepository auditMessageRepository;
+
+    public AuditMessageController(AuditMessageRepository auditMessageRepository) {
+        this.auditMessageRepository = auditMessageRepository;
+    }
 
     @ApiOperation(value = "根据公文id获取到公文的审核历史列表")
     @ApiImplicitParam(paramType = "path",name = "docId",value = "公文编号",required = true,dataType = "Integer")

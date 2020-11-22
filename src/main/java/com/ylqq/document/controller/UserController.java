@@ -7,7 +7,6 @@ import com.ylqq.document.service.UserRepository;
 import com.ylqq.document.service.impl.UserServiceImpl;
 import com.ylqq.document.util.Layui;
 import com.ylqq.document.util.MD5Util;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -29,19 +28,22 @@ public class UserController {
     /**
      * 用户Service
      */
-    @Autowired
-    private UserServiceImpl userService;
+    private final UserServiceImpl userService;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private DocumentRepository documentRepository;
+    private final DocumentRepository documentRepository;
 
-    @Autowired
-    private HttpSession session;
+    private final HttpSession session;
 
     private static final String USER="user";
+
+    public UserController(UserServiceImpl userService, UserRepository userRepository, DocumentRepository documentRepository, HttpSession session) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.documentRepository = documentRepository;
+        this.session = session;
+    }
 
     @RequestMapping("/home")
     public String home() {

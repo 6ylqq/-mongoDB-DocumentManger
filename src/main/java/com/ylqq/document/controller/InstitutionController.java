@@ -5,7 +5,6 @@ import com.ylqq.document.pojo.User;
 import com.ylqq.document.service.InstitutionRepository;
 import com.ylqq.document.service.UserRepository;
 import com.ylqq.document.util.Layui;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,16 +21,19 @@ import java.util.List;
 @Controller
 public class InstitutionController {
 
-    @Autowired
-    private HttpSession session;
+    private final HttpSession session;
 
-    @Autowired
-    private InstitutionRepository institutionRepository;
+    private final InstitutionRepository institutionRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     private static final String USER="user";
+
+    public InstitutionController(HttpSession session, InstitutionRepository institutionRepository, UserRepository userRepository) {
+        this.session = session;
+        this.institutionRepository = institutionRepository;
+        this.userRepository = userRepository;
+    }
 
     @RequestMapping("/toAllInst")
     public String toAllInst(){

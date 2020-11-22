@@ -7,7 +7,6 @@ import com.ylqq.document.service.RoleRepository;
 import com.ylqq.document.service.impl.RoleServiceImpl;
 import com.ylqq.document.util.Layui;
 import lombok.Synchronized;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,19 +22,22 @@ import java.util.List;
 @Controller
 public class FunctionController {
 
-    @Autowired
-    private HttpSession session;
+    private final HttpSession session;
 
-    @Autowired
-    private FunctionRepository functionRepository;
+    private final FunctionRepository functionRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private RoleServiceImpl roleService;
+    private final RoleServiceImpl roleService;
 
     private static final String USER="user";
+
+    public FunctionController(HttpSession session, FunctionRepository functionRepository, RoleRepository roleRepository, RoleServiceImpl roleService) {
+        this.session = session;
+        this.functionRepository = functionRepository;
+        this.roleRepository = roleRepository;
+        this.roleService = roleService;
+    }
 
     @RequestMapping("toAllFunc")
     public String toAllFunc() {

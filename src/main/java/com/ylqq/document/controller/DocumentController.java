@@ -9,7 +9,6 @@ import com.ylqq.document.util.Layui;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,19 +25,22 @@ import java.util.Date;
 @Controller
 @Api(value = "公文Document相关的控制器")
 public class DocumentController {
-    @Autowired
-    private HttpSession session;
+    private final HttpSession session;
 
-    @Autowired
-    private DocumentRepository documentRepository;
+    private final DocumentRepository documentRepository;
 
-    @Autowired
-    private InstitutionRepository institutionRepository;
+    private final InstitutionRepository institutionRepository;
 
-    @Autowired
-    private DocumentServiceImpl documentService;
+    private final DocumentServiceImpl documentService;
 
     private static final String USER="user";
+
+    public DocumentController(HttpSession session, DocumentRepository documentRepository, InstitutionRepository institutionRepository, DocumentServiceImpl documentService) {
+        this.session = session;
+        this.documentRepository = documentRepository;
+        this.institutionRepository = institutionRepository;
+        this.documentService = documentService;
+    }
 
     @RequestMapping("toAddDoc")
     public String toAddDoc() {

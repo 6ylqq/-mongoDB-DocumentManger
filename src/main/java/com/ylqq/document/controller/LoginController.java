@@ -18,11 +18,14 @@ import java.util.Map;
  */
 @Controller
 public class LoginController {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private DocumentServiceImpl documentService;
+    private final DocumentServiceImpl documentService;
+
+    public LoginController(UserRepository userRepository, DocumentServiceImpl documentService) {
+        this.userRepository = userRepository;
+        this.documentService = documentService;
+    }
 
 
     @RequestMapping({"/","/toLogin"})
