@@ -13,7 +13,7 @@
         <blockquote class="layui-elem-quote layui-text">
             <span>增加公文</span>
         </blockquote>
-        <form action="/addDoc" class="layui-form col-lg-5 " method="post">
+        <form action="/addDoc" class="layui-form col-lg-5" method="post">
             <div class="layui-form-item">
                 <label class="layui-form-label">公文编号</label>
                 <div class="layui-input-block">
@@ -43,7 +43,7 @@
                 <label class="layui-form-label">审核人</label>
                 <div class="layui-tab">
                     <ul class="layui-tab-title" id="auditInst">
-                        <li class="layui-this"></li>
+
                     </ul>
                     <div class="layui-tab-content" id="users">
 
@@ -69,54 +69,59 @@
 </body>
 <script src="../../static/layui/layui.js" type="text/javascript"></script>
 <script>
-
-    layui.use('element', function () {
-        var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
-        var fun1 = $.ajax({url: "allInst", method: 'GET'}),
-            fun2 = $.ajax({url: "instUser", method: 'GET'});
-        //调用when方法，吧异步请求方法转为链式调用，并且能做到并行请求
-        $.when(fun1, fun2).then(function (layData, users) {
-            console.log(layData.toString());
-            console.log(users.toString());
-            var instData = layData['data'],
-                recUsers = '',
-                auditUser = '';
-            //TODO 不明原因无法显示还在排查
-            for (var i = 0; i < instData.length; i++) {
-                $("#insts").append('<li class="layui-this"'
-                    + ' value=' + instData[i].instId + '>'
-                    + instData[i].instName
-                    + '</li>');
-                recUsers += '<div class="layui-tab-item layui-show">';
-                recUsers += '<div class="layui-input-block">';
-                for (var j = 0; j < users.length; j++) {
-                    recUsers += '<input type="checkbox" title=' + users[i].userName + '>';
-                }
-                recUsers += '</div>';
-                recUsers += '</div>';
-                $("#instUsers").append(recUsers);
-            }
-            for (var k = 0; k < instData.length; i++) {
-                $("#auditInst").append('<li class="layui-this"'
-                    + ' value=' + instData[i].instId + '>'
-                    + instData[i].instName
-                    + '</li>');
-                auditUser += '<div class="layui-tab-item layui-show">';
-                auditUser += '<div class="layui-input-block">';
-                auditUser += '<select name=auditorId>';
-                for (let i = 0; i < users.length; i++) {
-                    auditUser += '<option type="checkbox" value=' + users[i].userid + '>' + users[i].userName + '</option>'
-                }
-                auditUser += '</select>';
-                auditUser += '</div>';
-                auditUser += '</div>'
-                $("#users").append(auditUser);
-            }
-        })
-        element.render();
-    });
-    layui.use('form', function () {
+    layui.use(['form', 'element'], function () {
+        const $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
         var form = layui.form;
-        form.render();
+        //嵌套ajax处理
+        $.ajax({
+            url: "allInst",
+            method: 'GET',
+            success: function (data) {
+                let instData = data['data'], auditUser = '', recUsers = '';
+                for (let i = 0; i < instData.length; i++) {
+
+                    $("#insts").append('<li class="layui-this"'
+                        + ' value=' + instData[i].instId + '>'
+                        + instData[i].instName
+                        + '</li>');
+                    $("#auditInst").append('<li class="layui-this"'
+                        + ' value=' + instData[i].instId + '>'
+                        + instData[i].instName
+                        + '</li>');
+                    $.ajax({
+                        //使用拼接向后端传入参数
+                        url: "instUser/" + instData[i].instId,
+                        method: 'GET',
+                        success: function (users) {
+                            let userData = users['data'];
+                            auditUser += '<div class="layui-tab-item layui-show">';
+                            auditUser += '<div class="layui-input-block">';
+                            auditUser += '<select name=auditorId lay-verify="required">';
+
+                            recUsers += '<div class="layui-tab-item layui-show">';
+                            recUsers += '<div class="layui-input-block">';
+
+                            for (let i = 0; i < userData.length; i++) {
+                                recUsers += '<input type="checkbox" title=' + '"' + userData[i].userName + '"' + '>';
+                                auditUser += '<option value=' + '"' + userData[i].userid + '"' + '>' + userData[i].userName + '</option>';
+                            }
+                            recUsers += '</div>';
+                            recUsers += '</div>';
+                            $("#instUsers").append(recUsers);
+
+                            auditUser += '</select>';
+                            auditUser += '</div>';
+                            auditUser += '</div>';
+                            $("#users").append(auditUser);
+
+                            form.render();
+                            element.render();
+                        }
+                    });
+                }
+            }
+        });
+
     });
+
 </script>

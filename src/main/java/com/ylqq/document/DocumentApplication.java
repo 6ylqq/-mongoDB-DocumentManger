@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 
+/**
+ * @author ylqq
+ */
 @EnableTransactionManagement
 @SpringBootApplication
 @EnableOpenApi

@@ -25,6 +25,7 @@ import java.util.Optional;
  */
 @Controller
 public class UserController {
+
     /**
      * 用户Service
      */
@@ -66,7 +67,7 @@ public class UserController {
 
     @RequestMapping("/toAllUser")
     public String toAllUser() {
-        if (session.getAttribute("user") == null) {
+        if (session.getAttribute(USER) == null) {
             return "redirect:toLogin";
         } else {
             return "sysManager/user/userList";

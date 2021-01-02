@@ -1,7 +1,6 @@
 package com.ylqq.document.controller;
 
 import com.ylqq.document.pojo.Institution;
-import com.ylqq.document.pojo.User;
 import com.ylqq.document.service.InstitutionRepository;
 import com.ylqq.document.service.UserRepository;
 import com.ylqq.document.util.Layui;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 
 /**
@@ -21,13 +19,10 @@ import java.util.List;
 @Controller
 public class InstitutionController {
 
+    private static final String USER = "user";
     private final HttpSession session;
-
     private final InstitutionRepository institutionRepository;
-
     private final UserRepository userRepository;
-
-    private static final String USER="user";
 
     public InstitutionController(HttpSession session, InstitutionRepository institutionRepository, UserRepository userRepository) {
         this.session = session;
@@ -36,7 +31,7 @@ public class InstitutionController {
     }
 
     @RequestMapping("/toAllInst")
-    public String toAllInst(){
+    public String toAllInst() {
         if (session.getAttribute(USER) == null) {
             return "redirect:toLogin";
         } else {
@@ -47,7 +42,7 @@ public class InstitutionController {
     @RequestMapping("allInst")
     @ResponseBody
     public Layui allInst() {
-        return Layui.data("", (int) institutionRepository.count(),institutionRepository.findAll());
+        return Layui.data("", (int) institutionRepository.count(), institutionRepository.findAll());
     }
 
     @RequestMapping("addInst")
@@ -56,14 +51,15 @@ public class InstitutionController {
         if (institutionRepository.findByInstId(institution.getInstId()).isEmpty()) {
             institutionRepository.insert(institution);
         } else {
-            model.addAttribute("error","id重复");
+            model.addAttribute("error", "id重复");
         }
         return "forward:toAllInst";
     }
 
     @RequestMapping("instUser/{inst}")
     @ResponseBody
-    public List<User> instUser(@PathVariable Integer inst){
-        return userRepository.findByInstIdOrderByUserid(inst);
+    public Layui instUser(@PathVariable Integer inst) {
+        System.out.println(userRepository.findAllByInstIdOrderByUserid(inst).toString());
+        return Layui.data("", userRepository.countAllByInstId(inst), userRepository.findAllByInstIdOrderByUserid(inst));
     }
 }

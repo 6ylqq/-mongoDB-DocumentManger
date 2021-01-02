@@ -62,5 +62,4 @@ public class Document {
 
     @ApiModelProperty("接收人")
     private List<User> receivers;
-
 }

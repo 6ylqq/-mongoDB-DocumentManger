@@ -4,7 +4,6 @@ import com.ylqq.document.pojo.User;
 import com.ylqq.document.service.UserRepository;
 import com.ylqq.document.service.impl.DocumentServiceImpl;
 import com.ylqq.document.util.MD5Util;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -26,7 +25,6 @@ public class LoginController {
         this.userRepository = userRepository;
         this.documentService = documentService;
     }
-
 
     @RequestMapping({"/","/toLogin"})
     public String toLogin(){

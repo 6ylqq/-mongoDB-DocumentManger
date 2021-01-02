@@ -49,5 +49,13 @@ public interface UserRepository extends MongoRepository<User, Integer> {
      * @param instId 员工所处的机构id
      * @return
      * */
-    List<User> findByInstIdOrderByUserid(Integer instId);
+    List<User> findAllByInstIdOrderByUserid(Integer instId);
+
+    /**
+     * 返回相同机构下的员工数量
+     *
+     * @param instId 机构id
+     * @return
+     * */
+    Integer countAllByInstId(Integer instId);
 }
