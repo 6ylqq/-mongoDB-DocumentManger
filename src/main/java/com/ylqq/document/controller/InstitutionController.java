@@ -59,7 +59,6 @@ public class InstitutionController {
     @RequestMapping("instUser/{inst}")
     @ResponseBody
     public Layui instUser(@PathVariable Integer inst) {
-        System.out.println(userRepository.findAllByInstIdOrderByUserid(inst).toString());
         return Layui.data("", userRepository.countAllByInstId(inst), userRepository.findAllByInstIdOrderByUserid(inst));
     }
 }

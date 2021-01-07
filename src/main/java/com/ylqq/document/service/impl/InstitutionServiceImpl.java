@@ -29,11 +29,8 @@ public class InstitutionServiceImpl implements InstitutionService {
      */
     @Override
     public int insertSelective(Institution record) {
-        if (mongoTemplate.insert(record, "institution") == null) {
-            return 0;
-        } else {
-            return 1;
-        }
+        mongoTemplate.insert(record, "institution");
+        return 1;
     }
 
     /**
@@ -87,6 +84,7 @@ public class InstitutionServiceImpl implements InstitutionService {
                 if (users.get(i).getInstId().equals(o.getInstId())) {
                     break;
                 } else if (i == users.size() - 1) {
+                    assert false;
                     result.add(o);
                 }
             }
@@ -109,6 +107,7 @@ public class InstitutionServiceImpl implements InstitutionService {
             for (User p : users) {
                 /*重复问题?*/
                 if (p.getInstId().equals(o.getInstId())) {
+                    assert false;
                     result.add(o);
                     break;
                 }
@@ -130,13 +129,10 @@ public class InstitutionServiceImpl implements InstitutionService {
         Update update1 = Update.update("instname", record.getInstName());
         Update update2 = Update.update("instaddress", record.getInstAddress());
         Update update3 = Update.update("inststatus", record.getInstStatus());
-        if (mongoTemplate.updateFirst(query, update1, "institution") != null ||
-                mongoTemplate.updateFirst(query, update2, "instution") != null ||
-                mongoTemplate.updateFirst(query, update3, "instution") != null) {
-            return 1;
-        } else {
-            return 0;
+        if (mongoTemplate.updateFirst(query, update1, "institution") == null && mongoTemplate.updateFirst(query, update2, "instution") == null) {
+            mongoTemplate.updateFirst(query, update3, "instution");
         }
+        return 1;
     }
 
     /**
@@ -148,11 +144,7 @@ public class InstitutionServiceImpl implements InstitutionService {
     @Override
     public long isInstitutionHasUser(Integer instid) {
         Query query = Query.query(Criteria.where("instid").is(instid));
-        if (mongoTemplate.find(query, User.class, "user") == null) {
-            return 0;
-        } else {
-            return 1;
-        }
-
+        mongoTemplate.find(query, User.class, "user");
+        return 1;
     }
 }

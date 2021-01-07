@@ -3,7 +3,7 @@ package com.ylqq.document.service;
 import com.ylqq.document.pojo.Function;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.util.Optional;
+import java.util.List;
 
 
 /**
@@ -16,7 +16,7 @@ public interface FunctionRepository extends MongoRepository<Function, Integer> {
      * @param funId 功能id
      * @return
      * */
-    Optional<Function> findByFunId(Integer funId);
+    List<Function> findByFunId(Integer funId);
 
     /**
      * 通过一群id查一群功能

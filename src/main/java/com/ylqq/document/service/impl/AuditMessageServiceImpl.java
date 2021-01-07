@@ -23,10 +23,7 @@ public class AuditMessageServiceImpl implements AuditMessageService {
      */
     @Override
     public int insertSelective(AuditMessage record) {
-        if (mongoTemplate.insert(record, "auditmessgae") != null) {
-            return 1;
-        } else {
-            return 0;
-        }
+        mongoTemplate.insert(record, "auditmessgae");
+        return 1;
     }
 }

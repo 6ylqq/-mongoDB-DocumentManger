@@ -29,7 +29,7 @@ public class Document {
     private String title;
 
     @ApiModelProperty("公文")
-    private String document;
+    private String content;
 
     @ApiModelProperty("发布时间")
     private Date publishTime;
@@ -37,20 +37,11 @@ public class Document {
     @ApiModelProperty("撰稿人id")
     private Integer writerId;
 
-    @ApiModelProperty("存放查询出来的撰稿人信息")
-    private User copywriter;
-
     @ApiModelProperty("审稿人id")
     private Integer auditorId;
 
-    @ApiModelProperty("存放查询出来的审稿人信息")
-    private User auditor;
-
     @ApiModelProperty("发布机构id")
     private Integer instId;
-
-    @ApiModelProperty("存放级联查询出来的发布机构信息")
-    private Institution institution;
 
     @ApiModelProperty(value = "公文状态",
             notes = "0 审核中\n" +
@@ -61,5 +52,5 @@ public class Document {
     private Integer articleStatus;
 
     @ApiModelProperty("接收人")
-    private List<User> receivers;
+    private List<Integer> receiverIds;
 }

@@ -104,13 +104,13 @@ public class UserController {
         try {
             userService.updateById(user);
             for (Document document : documentRepository.findAll()) {
-                for (User documentReceiver : document.getReceivers()) {
-                    if (documentReceiver.getUserid().equals(userid)) {
-                        documentReceiver.setEmail(user.getEmail());
-                        documentReceiver.setPhone(user.getPhone());
-                        documentReceiver.setUserName(user.getUserName());
-                    }
-                }
+//                for (User documentReceiver : document.getReceivers()) {
+//                    if (documentReceiver.getUserid().equals(userid)) {
+//                        documentReceiver.setEmail(user.getEmail());
+//                        documentReceiver.setPhone(user.getPhone());
+//                        documentReceiver.setUserName(user.getUserName());
+//                    }
+//                }
             }
             return "user/home";
         } catch (Exception exception) {

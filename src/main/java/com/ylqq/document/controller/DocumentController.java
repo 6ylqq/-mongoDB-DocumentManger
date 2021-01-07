@@ -78,9 +78,12 @@ public class DocumentController {
         }
     }
 
-    @PostMapping("addDoc")
+    @PostMapping("/addDoc")
     @ApiOperation("添加公文")
     public String addDocument(Document document,Model model) {
+
+        System.out.println(document);
+
         //先判断编号是否可用
         //先取到user,表格不能填完所有doc数据
         User user = (User) session.getAttribute("user");
@@ -94,11 +97,8 @@ public class DocumentController {
         } else {
             document.setPublishTime(new Date());
             document.setWriterId(user.getUserid());
-            document.setCopywriter(user);
             document.setInstId(user.getInstId());
-            if (institutionRepository.findByInstId(user.getInstId()).isPresent()) {
-                document.setInstitution(institutionRepository.findByInstId(user.getInstId()).get());
-            } else {
+            if (institutionRepository.findByInstId(user.getInstId()).isEmpty()) {
                 model.addAttribute("noInst_error", "无此机构！");
                 return "doc/addArticle";
             }

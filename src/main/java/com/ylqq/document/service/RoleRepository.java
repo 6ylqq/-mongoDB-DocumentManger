@@ -16,7 +16,7 @@ public interface RoleRepository extends MongoRepository<Role, Integer> {
      * @param functions 指定功能
      * @return
      * */
-    List<Role> findByFunctionsContains(Optional<Function> functions);
+    List<Role> findByFunctionsContains(List<Function> functions);
 
     /**
      * 根据roleid删除角色

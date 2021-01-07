@@ -53,8 +53,10 @@
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">公文内容</label>
                 <div class="layui-input-block">
-                    <textarea class="layui-textarea" name="document" placeholder="请输入内容"
-                              lay-verify="required"></textarea>
+                    <label>
+<textarea class="layui-textarea" name="content" placeholder="请输入内容"
+          lay-verify="required"></textarea>
+                    </label>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -96,14 +98,22 @@
                             let userData = users['data'];
                             auditUser += '<div class="layui-tab-item layui-show">';
                             auditUser += '<div class="layui-input-block">';
-                            auditUser += '<select name=auditorId lay-verify="required">';
+                            auditUser += '<select name="auditorId" lay-verify="required">';
 
                             recUsers += '<div class="layui-tab-item layui-show">';
                             recUsers += '<div class="layui-input-block">';
 
                             for (let i = 0; i < userData.length; i++) {
-                                recUsers += '<input type="checkbox" title=' + '"' + userData[i].userName + '"' + '>';
-                                auditUser += '<option value=' + '"' + userData[i].userid + '"' + '>' + userData[i].userName + '</option>';
+                                recUsers += '<input type="checkbox" ' +
+                                    'name="receiverIds" ' +
+                                    'title=' +
+                                    '"' +
+                                    userData[i].userName +
+                                    '"' +
+                                    'value='+
+                                    userData[i].userid+
+                                    '>';
+                                auditUser += '<option value='  + userData[i].userid  + '>' + userData[i].userName + '</option>';
                             }
                             recUsers += '</div>';
                             recUsers += '</div>';

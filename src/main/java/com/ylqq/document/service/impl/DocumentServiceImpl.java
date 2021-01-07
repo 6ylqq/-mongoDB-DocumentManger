@@ -1,9 +1,7 @@
 package com.ylqq.document.service.impl;
 
 import com.ylqq.document.pojo.Document;
-import com.ylqq.document.pojo.User;
 import com.ylqq.document.service.DocumentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -46,16 +44,7 @@ public class DocumentServiceImpl implements DocumentService {
     public int updateByPrimaryKeySelective(Document record) {
         Query query = Query.query(Criteria.where("ducid").is(record.getDocumentId()));
         Update update = new Update()
-                .set("title", record.getTitle())
-                .set("publishtime", record.getPublishTime())
-                .set("writerId", record.getWriterId())
-                .set("copywriter", record.getCopywriter())
-                .set("auditorid", record.getAuditorId())
-                .set("auditor", record.getAuditor())
-                .set("instid", record.getInstId())
-                .set("instutution", record.getInstitution())
-                .set("documentstatus", record.getArticleStatus())
-                .set("receivers", record.getReceivers());
+                .set("title", record.getTitle());
         mongoTemplate.updateFirst(query, update, "document");
         return 1;
     }
@@ -72,25 +61,16 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     /**
-     * 查收件人是我的公文信息
+     * 查与我有关的信息
      *
-     * @param userid 我的id
+     * @param userid
      * @return
      */
     @Override
     public List<Document> selectMyReceiveList(Integer userid) {
-        List<Document> documents = mongoTemplate.findAll(Document.class, "document");
-        List<Document> result = null;
-        for (Document p : documents) {
-            for (User o : p.getReceivers()) {
-                if (o.getUserid().equals(userid)) {
-                    result.add(p);
-                    break;
-                }
-            }
-        }
-        return result;
+        return null;
     }
+
 
     /**
      * 查询审核结果中正在审核的公文
@@ -116,6 +96,7 @@ public class DocumentServiceImpl implements DocumentService {
         List<Document> result = null;
         for (Document p : documents) {
             if (p.getAuditorId().equals(userid) || p.getWriterId().equals(userid)) {
+                assert result != null;
                 result.add(p);
                 break;
             }
@@ -181,17 +162,7 @@ public class DocumentServiceImpl implements DocumentService {
      */
     @Override
     public Long selectMyCountReceiver(Integer userId) {
-        List<Document> documents = mongoTemplate.findAll(Document.class, "document");
-        long i = 0;
-        for (Document p : documents) {
-            for (User o : p.getReceivers()) {
-                if (o.getUserid().equals(userId)) {
-                    ++i;
-                    break;
-                }
-            }
-        }
-        return i;
+        return (long)0;
     }
 
     /**
