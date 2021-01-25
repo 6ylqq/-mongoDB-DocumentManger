@@ -81,9 +81,6 @@ public class DocumentController {
     @PostMapping("/addDoc")
     @ApiOperation("添加公文")
     public String addDocument(Document document,Model model) {
-
-        System.out.println(document);
-
         //先判断编号是否可用
         //先取到user,表格不能填完所有doc数据
         User user = (User) session.getAttribute("user");
@@ -104,12 +101,8 @@ public class DocumentController {
             }
             /*设置公文状态为审核中*/
             document.setArticleStatus(0);
-            //TODO 记得要在表格中增加接收者
-
-
-
             documentRepository.insert(document);
-            return "forward:/allDoc";
+            return "forward:todocWriteByMe";
         }
     }
 

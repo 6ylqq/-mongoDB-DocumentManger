@@ -32,7 +32,7 @@ public class AuditMessageController {
     }
 
     @ApiImplicitParam(paramType = "path",name = "documentId",value = "公文id",required = true,dataType = "Integer")
-    @RequestMapping(value = "/addAudit/{documentId}",method = RequestMethod.POST)
+    @RequestMapping(value = "/addAudit/{documentId}")
     public String addAudit(@PathVariable Integer documentId, Model model, AuditMessage auditMessage){
         auditMessage.setDocumentId(documentId);
         if (auditMessageRepository.existsByAuditId(auditMessage.getAuditId())){

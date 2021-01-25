@@ -11,13 +11,14 @@
 
 <script src="../../static/layui/layui.js"></script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-xs" lay-event="edit" href="/toUpdateDoc/">修改</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="detail" href="/getDetail/">详情</a>
+    <button class="layui-btn layui-btn-sm" lay-event="detail">详情</button>
+    <button class="layui-btn layui-btn-sm" lay-event="change">修改</button>
 </script>
 <script>
-    layui.use('table', function(){
-        var table = layui.table;
 
+    layui.use('table', function(){
+        const $ = layui.jquery;
+        var table = layui.table;
         //第一个实例
         table.render({
             elem: '#demo'
@@ -37,6 +38,8 @@
             ]
             ]
         });
+
+        //TODO 取到当行的公文id
 
         //点击按钮出发的事件
         table.on('tool(test)', function(obj){
