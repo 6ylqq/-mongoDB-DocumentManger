@@ -66,5 +66,4 @@ public interface DocumentRepository extends MongoRepository<Document, Integer> {
      * */
     void deleteByDocumentId(Integer documentId);
 
-
 }

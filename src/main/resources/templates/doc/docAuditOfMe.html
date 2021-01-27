@@ -17,11 +17,11 @@
 <script>
     layui.use('table', function(){
         var table = layui.table;
-
+        var $=layui.jquery;
         table.render({
             elem: '#demo'
             ,height: 312
-            ,url: 'docAuditOfMe' //数据接口
+            ,url: 'docAuditOfMe'//数据接口
             ,page: true //开启分页
             ,cols: [
                 [ //表头
@@ -40,8 +40,6 @@
 
         //点击按钮出发的事件
         table.on('tool(test)', function(obj){
-            var data = obj.data;
-            //console.log(obj)
             if(obj.event === 'del'){
                 layer.confirm('真的删除行么', function(index){
                     obj.del();
@@ -49,8 +47,8 @@
                 });
             } else if(obj.event === 'edit'){
                 //跳转到审核页面
-                console.log(obj.data);
-                window.location.href='/addAudit/'+obj.data.documentId;
+                //window.location.href='/addAudit/'+obj.data.documentId;
+                window.location.href='/toDocAudit/'+obj.data.documentId;
             }
         });
     });
