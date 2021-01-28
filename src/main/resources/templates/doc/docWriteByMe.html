@@ -11,48 +11,44 @@
 
 <script src="../../static/layui/layui.js"></script>
 <script type="text/html" id="barDemo">
-    <button class="layui-btn layui-btn-sm" lay-event="detail">详情</button>
+    <button class="layui-btn layui-btn-sm" lay-event="detail">审核详情</button>
     <button class="layui-btn layui-btn-sm" lay-event="change">修改</button>
 </script>
 <script>
 
-    layui.use('table', function(){
-        const $ = layui.jquery;
-        var table = layui.table;
+    layui.use('table', function () {
+        const table = layui.table;
         //第一个实例
         table.render({
             elem: '#demo'
-            ,height: 312
-            ,url: 'docWriteByMe' //数据接口
-            ,page: true //开启分页
-            ,cols: [
+            , height: 312
+            , url: 'docWriteByMe' //数据接口
+            , page: true //开启分页
+            , cols: [
                 [ //表头
-                {field: 'documentId', title: '公文编号', width: 160, sort: true, fixed: 'left'}
-                , {field: 'title', title: '公文标题', width: 160}
-                , {field: 'publishTime', title: '发布时间', width: 160, sort: true}
-                , {field: 'copywriter', title: '撰稿人姓名', width: 160}
-                , {field: 'auditor', title: '审稿人姓名', width: 177}
-                , {field: 'institution', title: '发布机构', width: 160, sort: true}
-                , {field: 'articleStatus', title: '公文状态', width: 160, sort: true}
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
-            ]
+                    {field: 'documentId', title: '公文编号', width: 160, sort: true, fixed: 'left'}
+                    , {field: 'title', title: '公文标题', width: 160}
+                    , {field: 'publishTime', title: '发布时间', width: 160, sort: true}
+                    , {field: 'copywriter', title: '撰稿人姓名', width: 160}
+                    , {field: 'auditor', title: '审稿人姓名', width: 177}
+                    , {field: 'institution', title: '发布机构', width: 160, sort: true}
+                    , {field: 'articleStatus', title: '公文状态', width: 160, sort: true}
+                    , {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 150}
+                ]
             ]
         });
 
-        //TODO 取到当行的公文id
-
         //点击按钮出发的事件
-        table.on('tool(test)', function(obj){
-            var data = obj.data;
-            //console.log(obj)
-            if(obj.event === 'detail'){
-                layer.msg('ID：'+ data.documentId + ' 的查看操作');
-            } else if(obj.event === 'edit'){
+        table.on('tool(test)', function (obj) {
+            if (obj.event === 'detail') {
+                window.location.href = '/getDetail/' + obj.data.documentId
+
+            } else if (obj.event === 'edit') {
                 //跳转到编辑页面
                 layer.prompt({
                     formType: 2
-                    ,value: data.email
-                }, function(value, index){
+                    , value: data.email
+                }, function (value, index) {
                     obj.update({
                         email: value
                     });

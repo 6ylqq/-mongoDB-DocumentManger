@@ -11,7 +11,8 @@
 
 <script src="../../static/layui/layui.js"></script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-danger layui-btn-xs" href="/getDetail/">详情</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-filter="detail">详情</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-filter="read">已阅</a>
 </script>
 <script>
     layui.use('table', function(){
@@ -28,6 +29,7 @@
                 {field: 'documentId', title: '公文编号', width: 160, sort: true, fixed: 'left'}
                 , {field: 'title', title: '公文标题', width: 160}
                 , {field: 'publishTime', title: '发布时间', width: 160, sort: true}
+                //TODO单独去做id查姓名的返回
                 , {field: 'copywriter', title: '撰稿人姓名', width: 160}
                 , {field: 'auditor', title: '审稿人姓名', width: 177}
                 , {field: 'institution', title: '发布机构', width: 160, sort: true}
@@ -39,24 +41,9 @@
 
         //点击按钮出发的事件
         table.on('tool(test)', function(obj){
-            var data = obj.data;
-            //console.log(obj)
-            if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
-                    obj.del();
-                    layer.close(index);
-                });
-            } else if(obj.event === 'edit'){
-                //跳转到编辑页面
-                layer.prompt({
-                    formType: 2
-                    ,value: data.email
-                }, function(value, index){
-                    obj.update({
-                        email: value
-                    });
-                    layer.close(index);
-                });
+            const data = obj.data;
+            if(obj.event === 'detail'){
+
             }
         });
     });

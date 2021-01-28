@@ -66,4 +66,19 @@ public interface DocumentRepository extends MongoRepository<Document, Integer> {
      * */
     void deleteByDocumentId(Integer documentId);
 
+    /**
+     * 查询接收人包括我的公文的数量
+     *
+     * @param receiverIds 我的id
+     * @return
+     * */
+    Integer countAllByReceiverIdsContainsOrderByPublishTime(List<Integer> receiverIds);
+
+    /**
+     * 查询接收人包含我的公文
+     *
+     * @param receiverIds 我的id
+     * @return
+     * */
+    List<Document> findAllByReceiverIdsContainsOrderByPublishTime(List<Integer> receiverIds);
 }

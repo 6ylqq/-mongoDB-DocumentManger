@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author ylqq
@@ -161,11 +163,11 @@ public class DocumentController {
     @ResponseBody
     public Layui docReceive() {
         User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return Layui.data("用户未登录或登录信息失效", 0, null);
-        } else {
-            return Layui.data("", Math.toIntExact(documentService.selectMyDealCount(user.getUserid())), documentService.selectMyReceiveList(user.getUserid()));
-        }
+        List<Integer> myRecList=new ArrayList<>();
+        myRecList.add(user.getUserid());
+        return Layui.data("",
+                documentRepository.countAllByReceiverIdsContainsOrderByPublishTime(myRecList),
+                documentRepository.findAllByReceiverIdsContainsOrderByPublishTime(myRecList));
     }
 
 }
