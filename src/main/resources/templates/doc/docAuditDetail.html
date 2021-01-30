@@ -58,9 +58,22 @@
 <script src="../../static/layui/layui.js" charset="utf-8"></script>
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script>
+layui.use('element',function () {
     const $ = layui.jquery;
-    let docTitle='[[$docTitle]]';
-    $("docTitle").append(docTitle);
+    const audit_data=[[${auditList}]];
+    console.log(audit_data)
+    for (let i = 0; i < audit_data.length; i++) {
+        $('#auditMessages').append('<li class="layui-timeline-item">' +
+            '        <i class="layui-icon layui-timeline-axis"></i>' +
+            '        <div class="layui-timeline-content layui-text">' +
+            '            <h3 class="layui-timeline-title">'+audit_data[i].auditTime+'</h3>' +
+            '            <p>' +
+            audit_data[i].auditAdvice+
+            '            </p>' +
+            '        </div>' +
+            '    </li>')
+    }
+})
 </script>
 </body>
 </html>

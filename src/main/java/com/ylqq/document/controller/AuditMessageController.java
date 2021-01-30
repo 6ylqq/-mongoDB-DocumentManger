@@ -46,14 +46,13 @@ public class AuditMessageController {
 
     @ApiOperation(value = "根据公文id获取到公文的审核历史列表")
     @ApiImplicitParam(paramType = "path",name = "docId",value = "公文编号",required = true,dataType = "Integer")
-    @RequestMapping(value = "/getDetail/{docId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/getAuditDetail/{docId}",method = RequestMethod.GET)
     public String getDetail(Model model,@PathVariable Integer docId){
-        model.addAttribute("docTitle",documentRepository.findByDocumentId(docId).get().getTitle());
         model.addAttribute("auditList",auditMessageRepository.findByDocumentIdOrderByAuditTime(docId));
-        return "doc/docDetail";
+        return "docAuditDetail";
     }
 
-    @ApiOperation(value = "添加公文信息")
+    @ApiOperation(value = "添加公文审核信息")
     @ApiImplicitParam(paramType = "path",name = "documentId",value = "公文id",required = true,dataType = "Integer")
     @RequestMapping(value = "/addAudit")
     public String addAudit(Model model, AuditMessage auditMessage){
@@ -62,6 +61,6 @@ public class AuditMessageController {
         }else {
             auditMessageRepository.insert(auditMessage);
         }
-        return "doc/docDetail";
+        return "docAuditDetail";
     }
 }
