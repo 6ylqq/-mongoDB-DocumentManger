@@ -26,18 +26,14 @@ import java.util.Optional;
 @Controller
 public class UserController {
 
+    private static final String USER = "user";
     /**
      * 用户Service
      */
     private final UserServiceImpl userService;
-
     private final UserRepository userRepository;
-
     private final DocumentRepository documentRepository;
-
     private final HttpSession session;
-
-    private static final String USER="user";
 
     public UserController(UserServiceImpl userService, UserRepository userRepository, DocumentRepository documentRepository, HttpSession session) {
         this.userService = userService;
@@ -80,7 +76,7 @@ public class UserController {
     @RequestMapping("/addUser")
     public String addUser(User user, Model model) {
         user.setUserStatus(0);
-        String md5= MD5Util.getMD5(user.getPassword());
+        String md5 = MD5Util.getMD5(user.getPassword());
         user.setPassword(md5);
         try {
             if (!userRepository.existsByUserid(user.getUserid()) && userRepository.findByLoginName(user.getLoginName()) == null) {
@@ -151,14 +147,23 @@ public class UserController {
     }
 
     @RequestMapping("deleteUser/{userid}")
-    public String deleteUser(@PathVariable Integer userid){
-        User user=(User)session.getAttribute("user");
-        if (user!=null){
+    public String deleteUser(@PathVariable Integer userid) {
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
             userRepository.deleteByUserid(userid);
             //TODO 前端收到信号后刷新页面，硬删除用户
             return "location.replace(location.href)";
-        }else {
+        } else {
             return "redirect:toLogin";
         }
+    }
+
+    @RequestMapping("findUser/{userId}")
+    @ResponseBody
+    public User findUser(@PathVariable Integer userId) {
+        if (userRepository.findByUserid(userId).isPresent()) {
+            return userRepository.findByUserid(userId).get();
+        }
+        return null;
     }
 }

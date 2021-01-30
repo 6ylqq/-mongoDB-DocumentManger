@@ -170,4 +170,14 @@ public class DocumentController {
                 documentRepository.findAllByReceiverIdsContainsOrderByPublishTime(myRecList));
     }
 
+    @ApiOperation("通过id查询公文详情")
+    @RequestMapping("/getDocDetail/{docId}")
+    public String getDocDetail(@PathVariable Integer docId,Model model){
+        model.addAttribute(
+                "doc",
+                documentRepository.findByDocumentId(docId)
+        );
+        return "doc/docContentDetail";
+    }
+
 }
